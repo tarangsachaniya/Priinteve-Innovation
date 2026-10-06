@@ -1,0 +1,11 @@
+(()=>{const d=document,h=d.querySelector('.hdr');
+const on=()=>h&&h.classList.toggle('scrolled',scrollY>8);on();addEventListener('scroll',on,{passive:true});
+const b=d.querySelector('.burger'),n=d.querySelector('.nav');
+b&&b.addEventListener('click',()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);d.body.style.overflow=o?'hidden':''});
+d.querySelectorAll('.dd>button').forEach(x=>x.addEventListener('click',()=>{const o=x.parentElement.classList.toggle('open');x.setAttribute('aria-expanded',o)}));
+d.addEventListener('keydown',e=>{if(e.key==='Escape')d.querySelectorAll('.dd.open').forEach(x=>x.classList.remove('open'))});
+d.addEventListener('click',e=>{if(!e.target.closest('.dd'))d.querySelectorAll('.dd.open').forEach(x=>x.classList.remove('open'))});
+const io='IntersectionObserver'in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12}):null;
+d.querySelectorAll('.rv').forEach((el,i)=>{el.style.setProperty('--d',(i%4)*.07+'s');io?io.observe(el):el.classList.add('in')});
+d.querySelectorAll('form[data-form]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();f.querySelector('.ok').style.display='block';f.reset()}));
+})();
