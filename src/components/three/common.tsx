@@ -37,13 +37,13 @@ export function Rig({ children, still, spin = 0.12, tilt = 0.22 }: { children: R
   );
 }
 
-export function Lights({ color = "#fff3e6" }: { color?: string }) {
+export function Lights({ color = "#faf3e0" }: { color?: string }) {
   return (
     <>
       <ambientLight intensity={0.55} />
       <pointLight position={[4, 3, 5]} intensity={40} color={color} />
-      <pointLight position={[-5, -2, 3]} intensity={26} color="#c2481f" />
-      <pointLight position={[0, 4, -4]} intensity={18} color="#ffd9b8" />
+      <pointLight position={[-5, -2, 3]} intensity={30} color="#6b8e3d" />
+      <pointLight position={[0, 4, -4]} intensity={20} color="#9dbd6a" />
     </>
   );
 }
@@ -53,7 +53,7 @@ export function Slab({
   size,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
-  color = "#fff3e6",
+  color = "#d4e4b0",
   fill = 0.1,
   edge = 0.75,
   emissive = 0,
@@ -80,7 +80,7 @@ export function Slab({
   );
 }
 
-export function Particles({ count, spread = 7, color = "#1d1a17", seed = 7 }: { count: number; spread?: number; color?: string; seed?: number }) {
+export function Particles({ count, spread = 7, color = "#9dbd6a", seed = 7 }: { count: number; spread?: number; color?: string; seed?: number }) {
   const geo = useMemo(() => {
     const r = rng(seed);
     const p = new Float32Array(count * 3);
@@ -101,7 +101,7 @@ export function Particles({ count, spread = 7, color = "#1d1a17", seed = 7 }: { 
 }
 
 /** Line segments between index pairs of `points`. */
-export function Links({ points, pairs, color = "#1d1a17", opacity = 0.45 }: { points: THREE.Vector3[]; pairs: [number, number][]; color?: string; opacity?: number }) {
+export function Links({ points, pairs, color = "#9dbd6a", opacity = 0.45 }: { points: THREE.Vector3[]; pairs: [number, number][]; color?: string; opacity?: number }) {
   const geo = useMemo(() => {
     const v: number[] = [];
     for (const [a, b] of pairs) v.push(points[a].x, points[a].y, points[a].z, points[b].x, points[b].y, points[b].z);

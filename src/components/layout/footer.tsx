@@ -1,17 +1,20 @@
-import { Mail, Phone } from "lucide-react";
+import { ArrowUpRight, Mail, Phone } from "lucide-react";
 import Link from "next/link";
 import { nav } from "@/content/navigation";
 import { site } from "@/content/site";
 import { Logo } from "./logo";
 
-function Col({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+type FooterLink = { label: string; href: string };
+
+/** One footer link list. `title` is a small-caps heading; all headings share one baseline across columns. */
+function Col({ title, label, links, className }: { title: string; label?: string; links: FooterLink[]; className?: string }) {
   return (
-    <nav aria-label={title}>
-      <h2 className="label mb-6 font-sans text-muted">{title}</h2>
+    <nav aria-label={label ?? title} className={className}>
+      <h2 className="label mb-5 font-sans text-muted">{title}</h2>
       <ul className="space-y-3">
         {links.map((l) => (
           <li key={l.href}>
-            <Link href={l.href} className="link-u text-[1.05rem]">
+            <Link href={l.href} className="link-u text-[0.95rem] leading-snug">
               {l.label}
             </Link>
           </li>
@@ -21,50 +24,69 @@ function Col({ title, links }: { title: string; links: { label: string; href: st
   );
 }
 
+const SERVICE_LINKS: FooterLink[] = nav.serviceMenu.filter((m) => !m.children).map(({ label, href }) => ({ label, href }));
+const AI_LINKS: FooterLink[] = nav.serviceMenu.find((m) => m.children)?.children ?? [];
+const COMPANY_LINKS: FooterLink[] = [{ label: "Our Work", href: "/work" }, ...nav.company];
+
 export function Footer() {
   return (
     <footer data-tone="dark" className="relative overflow-hidden bg-bg pt-24 text-fg">
       <div className="container-x">
-        <p className="max-w-4xl font-serif text-[clamp(2.4rem,6vw,5rem)] leading-[1.02]" style={{ fontVariationSettings: '"SOFT" 60' }}>
+        <p className="max-w-4xl font-display text-[clamp(2rem,4.6vw,3.6rem)] font-semibold leading-[1.05]">
           Print any thing, <span className="em">anywhere,</span> on demand.
         </p>
 
-        <div className="mt-20 grid gap-14 border-t border-line pt-14 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
-          <div>
-            <Logo full />
-            <ul className="mt-8 space-y-3 text-[1.02rem]">
+        <div className="mt-16 grid gap-x-10 gap-y-12 border-t border-line pt-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
+          <div className="sm:col-span-2 lg:col-span-1">
+            {/* logo sits on the same line as the column headings; the lists below start level across all columns */}
+            <div className="mb-5 flex h-[1.15rem] items-center">
+              <Logo full />
+            </div>
+            <ul className="space-y-3 text-[0.95rem] leading-snug">
               <li>
                 <a href={site.phoneHref} className="link-u inline-flex items-center gap-3">
-                  <Phone aria-hidden="true" className="size-4 text-accent" />
+                  <Phone aria-hidden="true" className="size-4 shrink-0 text-accent" />
                   {site.phone}
                 </a>
               </li>
               <li>
                 <a href={`mailto:${site.email}`} className="link-u inline-flex items-center gap-3">
-                  <Mail aria-hidden="true" className="size-4 text-accent" />
+                  <Mail aria-hidden="true" className="size-4 shrink-0 text-accent" />
                   {site.email}
                 </a>
               </li>
               <li>
-                <a href={site.cardsUrl} rel="noopener" className="link-u text-muted hover:text-fg">
-                  Nectcard sign-in · cards.priinteve.com
+                <a href={site.cardsUrl} rel="noopener" className="link-u inline-flex items-center gap-3 text-muted hover:text-fg">
+                  <ArrowUpRight aria-hidden="true" className="size-4 shrink-0 text-accent" />
+                  Nectcard sign-in
                 </a>
               </li>
             </ul>
           </div>
+
           <Col title="Products" links={nav.products} />
-          <Col title="Services and Our Work" links={[...nav.services, { label: "Our Work", href: "/work" }]} />
-          <Col title="Company" links={[...nav.company, ...nav.legal]} />
+          <Col title="Web & Digital" label="Services: Web and Digital" links={SERVICE_LINKS} />
+          <Col title="AI & Automation" label="Services: AI and Automation" links={AI_LINKS} />
+          <Col title="Company" links={COMPANY_LINKS} />
         </div>
 
-        <div className="label mt-16 flex flex-col justify-between gap-3 border-t border-line pt-6 text-muted sm:flex-row">
+        <div className="mt-14 flex flex-col justify-between gap-4 border-t border-line pt-6 text-[0.8rem] text-muted sm:flex-row sm:items-center">
           <span>
             © {site.year} {site.name} (India)
           </span>
-          <span>priinteve.com</span>
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            {nav.legal.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="link-u hover:text-fg">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+            <li>priinteve.com</li>
+          </ul>
         </div>
       </div>
-      <p aria-hidden="true" className="pointer-events-none mt-6 select-none whitespace-nowrap text-center font-serif text-[clamp(4rem,19vw,17rem)] italic leading-[0.8] text-fg/[0.06]" style={{ fontVariationSettings: '"SOFT" 100' }}>
+      <p aria-hidden="true" className="pointer-events-none mt-6 select-none whitespace-nowrap text-center font-display text-[clamp(4rem,19vw,17rem)] font-bold leading-[0.8] text-fg/[0.04]">
         Priinteve
       </p>
     </footer>

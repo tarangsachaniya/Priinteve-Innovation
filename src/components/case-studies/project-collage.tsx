@@ -15,7 +15,7 @@ export function ProjectCollage({ projects }: { projects: Project[] }) {
         const l = LAYOUT[i];
         return (
           <div key={p.slug} className={`absolute ${l.cls}`}>
-            <ProjectArt project={p} arch={l.arch} className={`${l.ratio} w-full shadow-[0_30px_60px_-30px_rgb(29_26_23/0.5)]`} />
+            <ProjectArt project={p} className={`${l.ratio} w-full shadow-[0_30px_60px_-30px_rgb(0_0_0/0.8)]`} />
           </div>
         );
       })}

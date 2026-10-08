@@ -22,10 +22,10 @@ export default function AboutPage() {
             <Eyebrow index="01" className="mb-7">
               Our story
             </Eyebrow>
-            <Heading className="text-[clamp(2.5rem,5.4vw,4.6rem)]">Our story</Heading>
+            <Heading className="text-[clamp(2rem,4.4vw,3.5rem)]">Our story</Heading>
           </div>
           <Reveal delay={0.1}>
-            <p className="font-serif text-3xl leading-snug md:text-4xl">{about.story[1]}</p>
+            <p className="font-display text-2xl font-medium leading-snug md:text-3xl">{about.story[1]}</p>
           </Reveal>
         </div>
       </Section>
@@ -36,7 +36,7 @@ export default function AboutPage() {
             <Eyebrow index="02" className="mb-7">
               Our mission
             </Eyebrow>
-            <p className="font-serif text-3xl leading-snug md:text-[2.5rem]">{about.mission}</p>
+            <p className="font-display text-2xl font-medium leading-snug md:text-3xl">{about.mission}</p>
           </Reveal>
           <Reveal delay={0.1}>
             <Eyebrow index="03" className="mb-7">

@@ -22,11 +22,11 @@ export function ComingSoonDock() {
     <aside
       aria-label="Coming soon"
       data-tone="dark"
-      className="fixed bottom-5 right-5 z-40 hidden items-center gap-4 rounded-full bg-bg py-2 pl-6 pr-2 text-fg shadow-[0_18px_50px_-18px_rgb(29_26_23/0.6)] lg:flex"
+      className="fixed bottom-5 right-5 z-40 hidden items-center gap-4 rounded-full bg-bg py-2 pl-6 pr-2 text-fg shadow-[0_18px_50px_-18px_rgb(107_142_61/0.55)] lg:flex"
     >
       <span>
         <span className="label block text-muted">Coming soon</span>
-        <span className="font-serif text-lg leading-tight">Priinteve Printing</span>
+        <span className="font-display text-lg leading-tight">Priinteve Printing</span>
       </span>
       <Link href="/products/priinteve-printing#waitlist" className="group flex items-center gap-2 rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent">
         Join the waitlist

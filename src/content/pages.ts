@@ -4,11 +4,11 @@ export const home = {
   seo: {
     title: "Priinteve Innovations | Print, Restaurant & Salon Software",
     description:
-      "Priinteve builds Xerox Buddy, Vantadot, Salony and Nectcard, plus websites and custom software for Indian businesses. See what we make and get started.",
+      "Priinteve builds Xerox Buddy, Vantadot, Salony and Nectcard, plus websites, custom software, bots and AI automation for businesses. See what we make.",
     keywords: "priinteve innovations, business software India, print restaurant salon software",
   },
   h1: "Software that helps Indian businesses print, serve and grow",
-  lead: "Priinteve Innovations is an India-based product company. We build ready-to-use tools for print shops, restaurants, salons and professionals, and we design and develop websites and software for businesses like yours.",
+  lead: "Priinteve Innovations is an India-based product company. We build ready-to-use tools for print shops, restaurants, salons and professionals, and we build websites, custom software, bots and AI automation for businesses like yours.",
   productsHeading: "Five products. One problem solved well by each.",
   howHeading: "Scan or tap. Use it. Manage it from one dashboard.",
   how: [
@@ -21,9 +21,12 @@ export const home = {
     { icon: "utensils", label: "Restaurant and cafe owners", href: "/products/vantadot", cta: "Explore Vantadot", text: "Restaurants and food businesses that want faster table service and takeaway" },
     { icon: "scissors", label: "Salon, barber and spa owners", href: "/products/salony", cta: "Explore Salony", text: "Salons, barbershops and spas that want a simple way to take appointments" },
     { icon: "card", label: "Professionals, shops, teams", href: "/products/nectcard", cta: "Explore Nectcard", text: "Shops, studios and professionals who want a modern digital identity" },
+    { icon: "bot", label: "Businesses ready to automate", href: "/services#ai-automation", cta: "Explore AI & Automation", text: "Teams that answer the same customer questions and repeat the same tasks every day" },
     { icon: "factory", label: "Businesses needing a website", href: "/services", cta: "Explore our services", text: "Manufacturers, wholesalers, marketing companies and e-commerce brands that need a strong website" },
   ] as { icon: IconName; label: string; href: string; cta: string; text: string }[],
   webHeading: "The team that runs our platforms builds yours",
+  solutionsHeading: "Solutions we build for your business",
+  solutionsLead: "Beyond our own products, we build digital systems for other businesses: websites, online stores, custom applications, NFC and QR, and bots and automation that take over repetitive work.",
   web: "We design and develop fast, modern websites, online stores and custom web applications. Recent projects include a digital marketing company website, a plywood wholesaler's trade catalogue, a premium cashew online store and an industrial machinery manufacturer's website.",
   why: [
     { icon: "puzzle", title: "Built by product people", text: "We run our own platforms, so we know what works in real businesses." },
@@ -78,13 +81,13 @@ export const productsPage = {
 
 export const servicesPage = {
   seo: {
-    title: "Web Design & Development Services | Priinteve Innovations",
+    title: "Web, NFC & AI Automation Services | Priinteve Innovations",
     description:
-      "Priinteve designs and builds fast websites, e-commerce stores and custom web apps for Indian businesses. See our services and recent client work.",
-    keywords: "web development company India, website design services, custom software development India",
+      "Priinteve designs and builds websites, e-commerce stores, custom web apps, NFC and QR solutions, WhatsApp and Telegram bots, AI agents and business automation.",
+    keywords: "web development company India, website design services, custom software development India, WhatsApp bot, AI agents, business automation",
   },
-  h1: "Websites and software built by the team behind our own products",
-  lead: "We run our own platforms, so we build with real business in mind. From a one-page site to a multi-user platform, we design and develop it for you.",
+  h1: "Web, digital and AI solutions from one product team",
+  lead: "We build digital systems that automate repetitive business processes. From a one-page site to a multi-user platform, and from NFC and QR to WhatsApp bots and AI agents, we design and develop it for you, on the same technology we run our own products on.",
   included: {
     title: "Payments, email and notifications",
     text: "Secure online payments, transactional email and push notifications built in.",
@@ -126,6 +129,7 @@ export const faqPage = {
     { q: "Do my customers need to download an app?", a: "No. Xerox Buddy, Vantadot, Salony and Nectcard all open in the phone browser after a scan or tap." },
     { q: "Which product is right for me?", a: "Print or stationery shop: Xerox Buddy. Restaurant: Vantadot. Salon, barbershop or spa: Salony. Business card: Nectcard. Bulk branded print: Priinteve Printing." },
     { q: "Do you build websites for other businesses?", a: "Yes. We design and develop websites, e-commerce stores and custom web applications." },
+    { q: "Do you build bots and AI automation?", a: "Yes. We build WhatsApp bots, Telegram bots, AI agents, business automation and custom AI integrations. We agree the scope of each build with you first." },
     { q: "Can I pay in rupees?", a: "Yes. Payments run through Razorpay." },
     { q: "How do I get started?", a: "Call +91 96620 70751 or write to contact@priinteve.com." },
   ] satisfies FaqItem[],
@@ -158,7 +162,7 @@ export const blogPage = {
     { cluster: "Salons", linkLabel: "Salony", href: "/products/salony", ideas: ["How online booking helps salons and barbershops", "Running a salon appointment book without phone calls"] },
     { cluster: "Digital cards", linkLabel: "Nectcard", href: "/products/nectcard", ideas: ["NFC business card vs paper visiting card", "How to share your digital visiting card on WhatsApp", "NFC vs QR for business cards"] },
     { cluster: "Print", linkLabel: "Priinteve Printing", href: "/products/priinteve-printing", ideas: ["How to prepare a design for printing", "Ordering printed material in bulk for a small business"] },
-    { cluster: "Web", linkLabel: "Services and Our Work", href: "/services", ideas: ["What a manufacturer's website needs to win trade buyers", "Mobile-first e-commerce basics for Indian brands", "Why your business needs a fast website"] },
+    { cluster: "Web and automation", linkLabel: "Services and Our Work", href: "/services", ideas: ["What a manufacturer's website needs to win trade buyers", "Mobile-first e-commerce basics for Indian brands", "Why your business needs a fast website"] },
   ],
 };
 

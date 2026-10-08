@@ -38,6 +38,8 @@ export const ENQUIRY_INTERESTS = [
   "Priinteve Printing",
   "A website",
   "A custom web application",
+  "WhatsApp or Telegram bots",
+  "AI agents or business automation",
   "Something else",
 ] as const;
 

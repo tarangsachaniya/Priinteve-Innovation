@@ -12,7 +12,6 @@ export default function FaqPage() {
     <>
       <JsonLd data={[faqLd(faqPage.items), breadcrumbLd([{ name: "FAQ", href: "/faq" }])]} />
       <PageHero
-        tint="#e5dcf6"
         trail={[{ name: "FAQ" }]}
         h1={faqPage.h1}
         em="questions"

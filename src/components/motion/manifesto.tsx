@@ -7,7 +7,7 @@ import { Eyebrow } from "../ui/primitives";
 
 const VARS = ["--m-bg0", "--m-bg1", "--m-fg0", "--m-fg1", "--m-ac0", "--m-ac1", "--m-mu0", "--m-mu1"] as const;
 // fallbacks used for the very first (pre-hydration) frame
-const FALLBACK = { "--m-bg0": "#f5f2f9", "--m-bg1": "#1b1325", "--m-fg0": "#1b1325", "--m-fg1": "#f5f0fc", "--m-ac0": "#6d28d9", "--m-ac1": "#c4a4ff", "--m-mu0": "#675d75", "--m-mu1": "#a99fba" };
+const FALLBACK = { "--m-bg0": "#faf8f2", "--m-bg1": "#050409", "--m-fg0": "#faf8f2", "--m-fg1": "#faf8f2", "--m-ac0": "#9dbd6a", "--m-ac1": "#d4e4b0", "--m-mu0": "#6b6459", "--m-mu1": "#6b6459" };
 
 function Word({ word, i, n, progress, accent }: { word: string; i: number; n: number; progress: MotionValue<number>; accent: boolean }) {
   const start = 0.12 + (i / n) * 0.62;
@@ -20,7 +20,7 @@ function Word({ word, i, n, progress, accent }: { word: string; i: number; n: nu
 }
 
 /**
- * Scroll-scrubbed statement: the page eases into the deep ink colour as it enters and the words light
+ * Scroll-scrubbed statement: the page eases into the deepest tone as it enters and the words light
  * up one by one. Colours follow the active theme. Static dark panel for reduced-motion users.
  */
 export function Manifesto({ eyebrow, text, accents, index }: { eyebrow: string; text: string; accents: string[]; index?: string }) {
@@ -43,7 +43,7 @@ export function Manifesto({ eyebrow, text, accents, index }: { eyebrow: string; 
           <Eyebrow index={index} className="mb-10">
             {eyebrow}
           </Eyebrow>
-          <p className="font-serif text-[clamp(2.2rem,5vw,4.4rem)] leading-[1.08]">{text}</p>
+          <p className="font-display text-[clamp(1.8rem,3.8vw,3.2rem)] font-medium leading-[1.12]">{text}</p>
         </div>
       </section>
     );
@@ -56,7 +56,7 @@ export function Manifesto({ eyebrow, text, accents, index }: { eyebrow: string; 
             <Eyebrow index={index} className="mb-10">
               {eyebrow}
             </Eyebrow>
-            <p className="font-serif text-[clamp(2.2rem,5vw,4.4rem)] leading-[1.08] tracking-tight" aria-label={text}>
+            <p className="font-display text-[clamp(1.8rem,3.8vw,3.2rem)] font-medium leading-[1.12] tracking-tight" aria-label={text}>
               <span aria-hidden="true">
                 {words.map((w, i) => (
                   <Word key={`${w}-${i}`} word={w} i={i} n={words.length} progress={scrollYProgress} accent={isAccent(w)} />

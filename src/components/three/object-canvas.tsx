@@ -14,7 +14,12 @@ export type ObjectVariant =
   | "layers" // Websites: stacked interface layers
   | "orbit" // E-commerce: products orbiting a storefront
   | "network" // Custom apps: connected system
-  | "rings"; // NFC & QR: tap waves
+  | "rings" // NFC & QR: tap waves
+  | "chat" // WhatsApp bots: conversation bubbles
+  | "relay" // Telegram bots: a message fanning out to channels
+  | "agent" // AI agents: a core reasoning over connected tools
+  | "flow" // Business automation: steps linked in a pipeline
+  | "plug"; // AI integrations: a module docking into an app
 
 type P = { color: string; still?: boolean };
 
@@ -212,9 +217,143 @@ function Rings({ color, still }: P) {
   );
 }
 
-const VARIANTS = { sheets: Sheets, tables: Tables, slots: Slots, card: NfcCard, boxes: Boxes, layers: Layers, orbit: Orbit, network: Network, rings: Rings };
+function Chat({ color, still }: P) {
+  const dots = useRef<(THREE.Mesh | null)[]>([]);
+  useFrame((s) => {
+    if (still) return;
+    dots.current.forEach((m, i) => m && (m.position.y = -0.62 + Math.max(0, Math.sin(s.clock.elapsedTime * 3 - i * 0.7)) * 0.1));
+  });
+  const msgs: { x: number; y: number; w: number; mine?: boolean }[] = [
+    { x: -0.5, y: 1.0, w: 1.7 },
+    { x: 0.55, y: 0.35, w: 1.5, mine: true },
+    { x: -0.45, y: -0.3, w: 1.9 },
+  ];
+  return (
+    <group rotation={[-0.15, -0.45, 0]}>
+      {msgs.map((m, i) => (
+        <Slab key={i} size={[m.w, 0.5, 0.08]} position={[m.x, m.y, i * 0.12]} color={m.mine ? "#ffffff" : color} fill={m.mine ? 0.3 : 0.14} edge={m.mine ? 1 : 0.7} emissive={m.mine ? 0.4 : 0.15} />
+      ))}
+      <group position={[-0.95, -0.62, 0.36]}>
+        {[0, 1, 2].map((i) => (
+          <mesh key={i} position={[i * 0.24, -0.62, 0]} ref={(m) => void (dots.current[i] = m)}>
+            <sphereGeometry args={[0.07, 14, 14]} />
+            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1} />
+          </mesh>
+        ))}
+      </group>
+    </group>
+  );
+}
 
-export default function ObjectCanvas({ variant, color = "#1d1a17", lite, still, active }: SceneProps & { variant: ObjectVariant; active: boolean }) {
+function Relay({ color, still }: P) {
+  const pk = useRef<(THREE.Mesh | null)[]>([]);
+  const targets: [number, number, number][] = [[1.7, 1.0, 0], [1.9, -0.1, 0.2], [1.6, -1.1, -0.1]];
+  useFrame((s) => {
+    if (still) return;
+    pk.current.forEach((m, i) => {
+      if (!m) return;
+      const t = (s.clock.elapsedTime * 0.5 + i / 3) % 1;
+      const [tx, ty, tz] = targets[i];
+      m.position.set(-1.4 + (tx + 1.4) * t, ty * t, tz * t);
+      m.scale.setScalar(1 - t * 0.4);
+    });
+  });
+  return (
+    <group rotation={[0.15, -0.35, 0]}>
+      <Slab size={[0.9, 0.9, 0.1]} position={[-1.4, 0, 0]} color={color} fill={0.3} edge={1} emissive={0.5} />
+      {targets.map((t, i) => (
+        <group key={i}>
+          <Slab size={[0.7, 0.5, 0.08]} position={t} color={color} fill={0.12} edge={0.8} />
+          <mesh ref={(m) => void (pk.current[i] = m)}>
+            <octahedronGeometry args={[0.11, 0]} />
+            <meshStandardMaterial color="#ffffff" emissive={color} emissiveIntensity={1} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
+const AGENT_TOOLS: [number, number, number][] = [[-1.9, 0.9, 0], [1.9, 0.8, 0.2], [0, -1.7, 0.1]];
+
+function Agent({ color, still }: P) {
+  const ring = useRef<THREE.Mesh>(null);
+  useFrame((_, dt) => {
+    if (!still && ring.current) ring.current.rotation.z += dt * 0.6;
+  });
+  const pts = useMemo(() => [new THREE.Vector3(0, 0, 0), ...AGENT_TOOLS.map((t) => new THREE.Vector3(...t))], []);
+  return (
+    <group rotation={[0.2, -0.3, 0]}>
+      <mesh>
+        <icosahedronGeometry args={[0.55, 1]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.8} roughness={0.25} metalness={0.5} wireframe />
+      </mesh>
+      <mesh>
+        <octahedronGeometry args={[0.28, 0]} />
+        <meshStandardMaterial color="#ffffff" emissive={color} emissiveIntensity={1.2} />
+      </mesh>
+      <mesh ref={ring} rotation={[1.2, 0, 0]}>
+        <torusGeometry args={[1, 0.01, 8, 96]} />
+        <meshBasicMaterial color={color} transparent opacity={0.7} />
+      </mesh>
+      <Links points={pts} pairs={[[0, 1], [0, 2], [0, 3]]} color={color} opacity={0.6} />
+      {AGENT_TOOLS.map((t, i) => (
+        <Slab key={i} size={[0.75, 0.55, 0.08]} position={t} color={color} fill={0.14} edge={0.85} emissive={0.2} />
+      ))}
+    </group>
+  );
+}
+
+function Flow({ color, still }: P) {
+  const pulse = useRef<THREE.Mesh>(null);
+  useFrame((s) => {
+    if (still || !pulse.current) return;
+    pulse.current.position.x = -2.25 + ((s.clock.elapsedTime * 0.55) % 1) * 4.5;
+  });
+  return (
+    <group rotation={[-0.35, -0.3, 0]}>
+      {[0, 1, 2, 3].map((i) => (
+        <group key={i} position={[-2.25 + i * 1.5, (i % 2) * 0.35 - 0.17, 0]}>
+          <Slab size={[0.85, 0.85, 0.12]} color={color} fill={i === 3 ? 0.3 : 0.12} edge={i === 3 ? 1 : 0.75} emissive={i === 3 ? 0.5 : 0.1} />
+        </group>
+      ))}
+      <mesh>
+        <boxGeometry args={[4.5, 0.012, 0.012]} />
+        <meshBasicMaterial color={color} transparent opacity={0.5} />
+      </mesh>
+      <mesh ref={pulse}>
+        <sphereGeometry args={[0.1, 16, 16]} />
+        <meshStandardMaterial color="#ffffff" emissive={color} emissiveIntensity={1.4} />
+      </mesh>
+    </group>
+  );
+}
+
+function Plug({ color, still }: P) {
+  const mod = useRef<THREE.Group>(null);
+  useFrame((s) => {
+    if (still || !mod.current) return;
+    mod.current.position.x = 1.45 + Math.max(0, Math.sin(s.clock.elapsedTime * 0.9)) * 0.7;
+  });
+  return (
+    <group rotation={[-0.2, -0.45, 0]}>
+      <Slab size={[2.6, 1.8, 0.08]} position={[-0.7, 0, 0]} color={color} fill={0.12} edge={0.85} />
+      <Slab size={[2.6, 0.22, 0.1]} position={[-0.7, 0.8, 0.02]} color={color} fill={0.35} />
+      <Slab size={[0.6, 0.6, 0.1]} position={[0.58, 0, 0.02]} color={color} fill={0.4} edge={1} emissive={0.4} />
+      <group ref={mod} position={[1.45, 0, 0.02]}>
+        <Slab size={[0.9, 0.9, 0.14]} color="#ffffff" fill={0.3} edge={1} emissive={0.6} />
+        <mesh position={[-0.55, 0, 0]}>
+          <boxGeometry args={[0.2, 0.28, 0.08]} />
+          <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.9} />
+        </mesh>
+      </group>
+    </group>
+  );
+}
+
+const VARIANTS = { sheets: Sheets, tables: Tables, slots: Slots, card: NfcCard, boxes: Boxes, layers: Layers, orbit: Orbit, network: Network, rings: Rings, chat: Chat, relay: Relay, agent: Agent, flow: Flow, plug: Plug };
+
+export default function ObjectCanvas({ variant, color = "#9dbd6a", lite, still, active }: SceneProps & { variant: ObjectVariant; active: boolean }) {
   const Cmp = VARIANTS[variant];
   return (
     <Canvas
@@ -225,7 +364,7 @@ export default function ObjectCanvas({ variant, color = "#1d1a17", lite, still, 
       aria-hidden="true"
     >
       <Lights />
-      <Rig still={still} spin={variant === "orbit" || variant === "network" ? 0.15 : 0.05} tilt={0.28}>
+      <Rig still={still} spin={variant === "orbit" || variant === "network" || variant === "agent" ? 0.15 : 0.05} tilt={0.28}>
         <Cmp color={color} still={still} />
       </Rig>
       <Particles count={lite ? 40 : 110} spread={7} color={color} seed={3} />

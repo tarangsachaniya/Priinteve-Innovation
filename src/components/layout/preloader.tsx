@@ -82,7 +82,7 @@ export function Preloader() {
 
       <motion.div className="absolute inset-0 grid place-items-center px-6" animate={{ opacity: exit ? 0 : 1 }} transition={{ duration: 0.35 }}>
         <div className="w-full max-w-xl text-center">
-          <p aria-hidden="true" className="font-serif text-[clamp(3.4rem,13vw,7.5rem)] leading-none tracking-tight" style={{ fontVariationSettings: '"SOFT" 100' }}>
+          <p aria-hidden="true" className="font-display text-[clamp(2.8rem,10vw,5.5rem)] font-semibold leading-none tracking-tight">
             {WORD.split("").map((ch, i) => (
               <span key={i} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
                 <motion.span className="inline-block" initial={{ y: "110%" }} animate={{ y: 0 }} transition={{ delay: 0.1 + i * 0.07, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>

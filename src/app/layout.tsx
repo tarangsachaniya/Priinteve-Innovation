@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Hanken_Grotesk } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import { ComingSoonDock } from "@/components/layout/coming-soon-dock";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
@@ -8,8 +8,8 @@ import { SmoothScroll } from "@/components/motion/lenis";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const fraunces = Fraunces({ subsets: ["latin"], axes: ["opsz", "SOFT"], style: ["normal", "italic"], variable: "--font-fraunces", display: "swap" });
-const hanken = Hanken_Grotesk({ subsets: ["latin"], variable: "--font-hanken", display: "swap" });
+const grotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-grotesk", display: "swap" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -21,8 +21,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f2f9" },
-    { media: "(prefers-color-scheme: dark)", color: "#130e1b" },
+    { media: "(prefers-color-scheme: light)", color: "#faf8f2" },
+    { media: "(prefers-color-scheme: dark)", color: "#faf8f2" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -30,11 +30,11 @@ export const viewport: Viewport = {
 
 // Runs before first paint so the saved (or OS) theme is applied without a flash.
 const THEME_SCRIPT =
-  "(function(){try{var t=localStorage.getItem('priinteve-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='light'}})()";
+  "(function(){try{var t=localStorage.getItem('priinteve-theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='light'}})()";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" data-theme="light" suppressHydrationWarning className={`${fraunces.variable} ${hanken.variable}`}>
+    <html lang="en-IN" data-theme="light" suppressHydrationWarning className={`${grotesk.variable} ${inter.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>

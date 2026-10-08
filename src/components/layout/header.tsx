@@ -1,12 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ArrowUpRight, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronDown, Menu as MenuIcon, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { products } from "@/content/products";
-import { services } from "@/content/services";
 import { nav, type NavLink } from "@/content/navigation";
 import { site } from "@/content/site";
 import { cn, type Tone } from "@/lib/utils";
@@ -17,12 +16,13 @@ type Menu = "products" | "services";
 
 const MOBILE_GROUPS: { title: string; links: NavLink[] }[] = [
   { title: "Products", links: nav.products },
-  { title: "Services", links: nav.services },
-  { title: "Explore", links: [...nav.main, { label: "FAQ", href: "/faq" }, { label: "Contact", href: "/contact" }] },
+  { title: "Services", links: nav.serviceMenu.map(({ label, href }) => ({ label, href })) },
+  { title: "AI & Automation", links: nav.serviceMenu.find((m) => m.children)?.children ?? [] },
+  { title: "Explore", links: [...nav.main, { label: "Contact", href: "/contact" }] },
 ];
 
 /**
- * Editorial header: serif wordmark, quiet links, a Contact pill. Products and Services open a mega panel
+ * Product header: wordmark, quiet links, a Contact pill. Products and Services open a mega panel
  * with short descriptions. The bar takes the tone of whatever section is beneath it and tucks away on
  * scroll down. Below `lg` a full-height sheet carries the same links.
  */
@@ -34,7 +34,7 @@ export function Header() {
   const [tone, setTone] = useState<Tone>("light");
   const [hidden, setHidden] = useState(false);
   const [solid, setSolid] = useState(false);
-  const barRef = useRef<HTMLElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const lastY = useRef(0);
@@ -129,59 +129,84 @@ export function Header() {
   }, [sheet]);
 
   const is = (p: string) => pathname === p || pathname.startsWith(`${p}/`);
-  const link = (active: boolean) => cn("link-u relative py-2 text-[0.98rem] font-medium", active ? "text-fg" : "text-fg/70 hover:text-fg");
+  const [hover, setHover] = useState<string | null>(null);
+  const items: { key: string; label: string; href?: string; menu?: Menu }[] = [
+    { key: "products", label: "Products", menu: "products" },
+    { key: "services", label: "Services", menu: "services" },
+    ...nav.main.map((l) => ({ key: l.href, label: l.label, href: l.href })),
+  ];
 
   const panelTone = menu ? "light" : tone;
-  const items = menu === "products" ? products.map((p) => ({ href: `/products/${p.slug}`, name: p.name, text: p.card, note: p.status === "Live" ? null : p.status })) : services.map((s) => ({ href: `/services/${s.slug}`, name: s.name, text: s.card, note: null }));
+  const productItems = products.map((p) => ({ href: `/products/${p.slug}`, name: p.name, text: p.card, note: p.status === "Live" ? null : p.status }));
 
   return (
     <>
-      <header
-        ref={barRef}
-        data-tone={menu ? "light" : tone}
-        onMouseLeave={() => setMenu(null)}
-        className={cn("fixed inset-x-0 top-0 z-[60] text-fg transition-all duration-500 ease-out-expo", hidden && !menu && !sheet && "-translate-y-full", (solid || menu) && "border-b border-line bg-bg/90 backdrop-blur-xl")}
-      >
-        <div className="container-x flex h-20 items-center justify-between">
-          <Logo />
-          <nav aria-label="Main" className="hidden items-center gap-9 lg:flex">
-            {(["products", "services"] as const).map((k) => (
-              <button
-                key={k}
-                type="button"
-                aria-expanded={menu === k}
-                aria-controls="mega"
-                onMouseEnter={() => setMenu(k)}
-                onClick={() => setMenu((m) => (m === k ? null : k))}
-                className={link(is(`/${k}`) || menu === k)}
+      <header className={cn("pointer-events-none fixed inset-x-0 top-0 z-[60] px-3 pt-3 text-fg transition-transform duration-500 ease-out-expo md:px-6", hidden && !menu && !sheet && "-translate-y-[130%]")}>
+        <div ref={barRef} data-tone={menu ? "light" : tone} onMouseLeave={() => { setMenu(null); setHover(null); }} className="pointer-events-auto mx-auto max-w-6xl">
+          <div
+            className={cn(
+              "flex h-[3.75rem] items-center justify-between rounded-full border bg-bg/80 pl-5 pr-2 backdrop-blur-xl transition-all duration-500 ease-out-expo",
+              solid || menu ? "border-line shadow-[0_18px_50px_-24px_rgb(0_0_0/0.45)]" : "border-line/60 shadow-[0_8px_30px_-22px_rgb(0_0_0/0.3)]",
+            )}
+          >
+            <Logo />
+
+            <nav aria-label="Main" className="relative hidden items-center gap-1 lg:flex" onMouseLeave={() => setHover(null)}>
+              {items.map((it) => {
+                const active = it.menu ? is(`/${it.menu}`) || menu === it.menu : is(it.href!);
+                const cls = cn("relative z-10 flex items-center gap-1 rounded-full px-4 py-2 text-[0.9rem] font-medium transition-colors duration-300", active || hover === it.key ? "text-fg" : "text-muted");
+                const inner = (
+                  <>
+                    {hover === it.key && <motion.span layoutId="nav-hover" aria-hidden="true" className="absolute inset-0 -z-10 rounded-full bg-fg/[0.07]" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
+                    {active && <span aria-hidden="true" className="absolute inset-0 -z-10 rounded-full bg-accent-soft" />}
+                    {it.label}
+                    {it.menu && <ChevronDown aria-hidden="true" className={cn("size-3.5 transition-transform duration-300", menu === it.menu && "rotate-180")} />}
+                  </>
+                );
+                return it.menu ? (
+                  <button
+                    key={it.key}
+                    type="button"
+                    aria-expanded={menu === it.menu}
+                    aria-controls="mega"
+                    onMouseEnter={() => { setMenu(it.menu!); setHover(it.key); }}
+                    onClick={() => setMenu((m) => (m === it.menu ? null : it.menu!))}
+                    className={cls}
+                  >
+                    {inner}
+                  </button>
+                ) : (
+                  <Link key={it.key} href={it.href!} onMouseEnter={() => { setMenu(null); setHover(it.key); }} {...(active ? { "aria-current": "page" as const } : {})} className={cls}>
+                    {inner}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Link
+                href={nav.cta.href}
+                className="group hidden items-center gap-2 rounded-full bg-accent-strong py-2 pl-5 pr-2 text-[0.9rem] font-semibold text-on-accent shadow-[0_0_28px_-8px_rgb(107_142_61/0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_36px_-4px_rgb(157_189_106/0.9)] sm:inline-flex"
               >
-                {k === "products" ? "Products" : "Services"}
-              </button>
-            ))}
-            {nav.main.map((l) => (
-              <Link key={l.href} href={l.href} onMouseEnter={() => setMenu(null)} {...(is(l.href) ? { "aria-current": "page" as const } : {})} className={link(is(l.href))}>
-                {l.label}
+                {nav.cta.label}
+                <span className="grid size-7 place-items-center rounded-full bg-current/15 transition-transform duration-300 group-hover:translate-x-0.5">
+                  <ArrowRight aria-hidden="true" className="size-3.5" />
+                </span>
               </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <Link href={nav.cta.href} className="group hidden items-center gap-2 rounded-full border border-fg/50 px-5 py-2.5 text-[0.92rem] font-semibold transition-colors duration-300 hover:bg-fg hover:text-bg sm:inline-flex">
-              {nav.cta.label}
-              <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-            <button
-              ref={btnRef}
-              type="button"
-              aria-expanded={sheet}
-              aria-controls="mobile-sheet"
-              onClick={() => setSheet(true)}
-              className="grid h-11 place-items-center rounded-full border border-fg/50 px-5 text-[0.92rem] font-semibold lg:hidden"
-            >
-              Menu
-            </button>
+              <button
+                ref={btnRef}
+                type="button"
+                aria-expanded={sheet}
+                aria-controls="mobile-sheet"
+                aria-label="Open menu"
+                onClick={() => setSheet(true)}
+                className="grid size-10 place-items-center rounded-full bg-fg/[0.06] transition-colors hover:bg-fg/[0.12] lg:hidden"
+              >
+                <MenuIcon className="size-5" aria-hidden="true" />
+              </button>
+            </div>
           </div>
-        </div>
 
         {/* mega panel */}
         <AnimatePresence>
@@ -193,33 +218,64 @@ export function Header() {
               exit={reduce ? undefined : { opacity: 0, y: -8 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               data-tone={panelTone}
-              className="hidden border-t border-line bg-bg lg:block"
+              className="mt-2 hidden overflow-hidden rounded-[1.75rem] border border-line bg-bg shadow-[0_40px_90px_-30px_rgb(0_0_0/0.5)] lg:block"
             >
-              <div className="container-x grid grid-cols-[14rem_1fr] gap-12 py-10">
+              <div className="grid grid-cols-[13rem_1fr] gap-10 p-8">
                 <div>
-                  <p className="label text-muted">{menu === "products" ? "Products" : "Services"}</p>
-                  <Link href={menu === "products" ? "/products" : "/services"} className="group mt-4 inline-flex items-center gap-2 font-serif text-3xl leading-tight">
+                  <p className="label text-muted">{menu === "products" ? "Our products" : "Solutions we build"}</p>
+                  <Link href={menu === "products" ? "/products" : "/services"} className="group mt-4 inline-flex items-center gap-2 font-display text-2xl font-semibold leading-tight">
                     {menu === "products" ? "All products" : "All services"}
                     <ArrowUpRight aria-hidden="true" className="size-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </Link>
+                  <p className="mt-4 text-sm text-muted">
+                    {menu === "products" ? "Ready-to-use tools we build and run ourselves." : "Digital systems we build for your business."}
+                  </p>
                 </div>
-                <ul className={cn("grid gap-x-10 gap-y-2", menu === "products" ? "grid-cols-2" : "grid-cols-2")}>
-                  {items.map((it) => (
-                    <li key={it.href}>
-                      <Link href={it.href} className="group block border-t border-line py-4">
-                        <span className="flex items-center justify-between font-serif text-2xl transition-colors group-hover:text-accent">
-                          {it.name}
-                          {it.note && <span className="label rounded-full border border-current px-2.5 py-1 text-muted">{it.note}</span>}
-                        </span>
-                        <span className="mt-1 block max-w-md text-[0.95rem] text-muted">{it.text}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                {menu === "products" ? (
+                  <ul className="grid grid-cols-2 gap-x-10 gap-y-2">
+                    {productItems.map((it) => (
+                      <li key={it.href}>
+                        <Link href={it.href} className="group block border-t border-line py-4">
+                          <span className="flex items-center justify-between font-display text-lg font-semibold transition-colors group-hover:text-accent">
+                            {it.name}
+                            {it.note && <span className="label rounded-full border border-current px-2.5 py-1 text-muted">{it.note}</span>}
+                          </span>
+                          <span className="mt-1 block max-w-md text-[0.9rem] text-muted">{it.text}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul className="grid grid-cols-3 gap-x-8 gap-y-2">
+                    {nav.serviceMenu.map((it) => (
+                      <li key={it.href} className={it.children ? "col-span-2 row-span-2" : undefined}>
+                        <Link href={it.href} className="group block border-t border-line py-4">
+                          <span className="flex items-center justify-between font-display text-lg font-semibold transition-colors group-hover:text-accent">
+                            {it.label}
+                            {it.children && <span className="label rounded-full bg-accent-soft px-2.5 py-1 text-accent">New</span>}
+                          </span>
+                          <span className="mt-1 block max-w-md text-[0.9rem] text-muted">{it.text}</span>
+                        </Link>
+                        {it.children && (
+                          <ul className="mb-2 flex flex-wrap gap-2">
+                            {it.children.map((c) => (
+                              <li key={c.href}>
+                                <Link href={c.href} className="inline-flex rounded-full border border-line px-3.5 py-1.5 text-[0.85rem] text-muted transition-colors hover:border-accent hover:text-fg">
+                                  {c.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </header>
 
       {/* mobile sheet */}
@@ -243,7 +299,7 @@ export function Header() {
                 <Logo />
                 <div className="flex items-center gap-3">
                   <ThemeToggle />
-                  <button type="button" onClick={() => setSheet(false)} aria-label="Close menu" className="grid size-11 place-items-center rounded-full border border-fg/50">
+                  <button type="button" onClick={() => setSheet(false)} aria-label="Close menu" className="grid size-11 place-items-center rounded-full border border-line">
                     <X className="size-5" aria-hidden="true" />
                   </button>
                 </div>
@@ -255,7 +311,7 @@ export function Header() {
                     <ul>
                       {g.links.map((l, i) => (
                         <motion.li key={l.href} initial={reduce ? false : { y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.25 + gi * 0.08 + i * 0.04, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                          <Link href={l.href} className="flex items-baseline justify-between border-b border-line py-3.5 font-serif text-3xl">
+                          <Link href={l.href} className="flex items-baseline justify-between border-b border-line py-3.5 font-display text-2xl font-semibold">
                             {l.label}
                             {l.note && <span className="label text-muted">{l.note}</span>}
                           </Link>

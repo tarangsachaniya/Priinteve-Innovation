@@ -9,7 +9,7 @@ export const projects: Project[] = [
     client: "a digital marketing company",
     service: "website-design-development",
     icon: "trending",
-    colors: ["#3b2f8a", "#8f7bff"],
+    colors: ["#12270a", "#6b8e3d"],
     seo: {
       title: "Quantivo Website | Digital Marketing Site Case Study",
       description: "How Priinteve built a website for digital marketing company Quantivo to showcase its services and win new clients.",
@@ -23,7 +23,7 @@ export const projects: Project[] = [
     client: "a plywood supplier and wholesaler",
     service: "website-design-development",
     icon: "layers",
-    colors: ["#8a5a2b", "#d9a066"],
+    colors: ["#1b241f", "#a0824a"],
     seo: {
       title: "Royal Timber Website | Plywood Wholesaler Case Study",
       description: "How Priinteve built a website for plywood supplier Royal Timber to present its product range to trade buyers.",
@@ -37,7 +37,7 @@ export const projects: Project[] = [
     client: "a premium cashew brand",
     service: "ecommerce-websites",
     icon: "leaf",
-    colors: ["#b4541e", "#f2b155"],
+    colors: ["#18330d", "#c29b48"],
     seo: {
       title: "Cashew E-commerce Website | Case Study | Priinteve",
       description: "A mobile-first online store for a premium cashew brand, designed and built by Priinteve Innovations.",
@@ -51,7 +51,7 @@ export const projects: Project[] = [
     client: "an industrial machinery manufacturer",
     service: "website-design-development",
     icon: "factory",
-    colors: ["#0b3d7a", "#14b8a6"],
+    colors: ["#0d120d", "#4f6f2b"],
     seo: {
       title: "PVC & CPVC Machinery Website | Case Study | Priinteve",
       description: "A professional website for a manufacturer of PVC and CPVC pipe processing machines, built by Priinteve Innovations.",

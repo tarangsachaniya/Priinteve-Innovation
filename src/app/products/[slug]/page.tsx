@@ -12,7 +12,6 @@ import { Badge, Button, Checklist, CtaBand, Eyebrow, Faq, Section, SectionHead, 
 import { getProduct, productBySlug, products } from "@/content/products";
 import { site } from "@/content/site";
 import { abs, breadcrumbLd, buildMetadata, faqLd } from "@/lib/seo";
-import { PRODUCT_ID } from "@/lib/utils";
 
 type Params = { slug: string };
 
@@ -32,7 +31,6 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   if (!product) notFound();
   const related = getProduct(product.related);
   const path = `/products/${product.slug}`;
-  const id = PRODUCT_ID[product.slug];
 
   return (
     <>
@@ -53,7 +51,6 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       />
 
       <PageHero
-        tint={id.tint}
         trail={[{ name: "Products", href: "/products" }, { name: product.name }]}
         badge={<Badge status={product.status} />}
         h1={product.h1}
@@ -92,10 +89,10 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               <Eyebrow index="01" className="mb-7">
                 The problem
               </Eyebrow>
-              <Heading className="text-[clamp(2.5rem,5.4vw,4.6rem)]">The problem</Heading>
+              <Heading className="text-[clamp(2rem,4.4vw,3.5rem)]">The problem</Heading>
             </div>
             <Reveal delay={0.1}>
-              <p className="font-serif text-3xl leading-snug md:text-4xl">{product.problem}</p>
+              <p className="font-display text-2xl font-medium leading-snug md:text-3xl">{product.problem}</p>
             </Reveal>
           </div>
         </Section>
@@ -120,7 +117,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <Reveal>
             <div className="mt-12 rounded-[2rem] bg-surface p-8 md:p-10">
               <Badge status="Coming soon" />
-              <p className="mt-5 font-serif text-3xl leading-snug">{product.comingSoon}</p>
+              <p className="mt-5 font-display text-2xl font-medium leading-snug">{product.comingSoon}</p>
             </div>
           </Reveal>
         )}
@@ -133,14 +130,14 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
               <Eyebrow index="05" className="mb-7">
                 Who it is for
               </Eyebrow>
-              <Heading className="text-[clamp(2.5rem,5.4vw,4.6rem)]">Who it is for</Heading>
+              <Heading className="text-[clamp(2rem,4.4vw,3.5rem)]">Who it is for</Heading>
               <Reveal delay={0.2}>
-                <p className="mt-8 font-serif text-3xl leading-snug">
+                <p className="mt-8 font-display text-2xl font-medium leading-snug">
                   <Text>{product.who}</Text>
                 </p>
               </Reveal>
             </div>
-            <ScreensPlaceholder name={product.name} tint={id.tint} />
+            <ScreensPlaceholder name={product.name} />
           </div>
         </Section>
       )}
@@ -150,7 +147,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <div className="grid gap-14 lg:grid-cols-2 lg:gap-24">
             <div>
               <SectionHead index="05" eyebrow="Waitlist" title="Join the waitlist" em="waitlist" text="Be the first to know when Priinteve Printing launches." />
-              <ScreensPlaceholder name={product.name} tint={id.tint} />
+              <ScreensPlaceholder name={product.name} />
             </div>
             <Reveal delay={0.1}>
               <div className="rounded-[2rem] bg-surface p-8 md:p-12">
@@ -177,7 +174,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         <div className="grid gap-8 md:grid-cols-2 md:gap-16">
           <ProductCard product={related} />
           <Reveal delay={0.1} className="flex flex-col justify-center gap-8">
-            <p className="font-serif text-4xl leading-snug">Every Priinteve product solves one problem well.</p>
+            <p className="font-display text-3xl font-medium leading-snug">Every Priinteve product solves one problem well.</p>
             <div className="flex flex-wrap gap-3">
               <Button href="/products" variant="ghost">
                 All products
@@ -193,12 +190,12 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   );
 }
 
-function ScreensPlaceholder({ name, tint }: { name: string; tint: string }) {
+function ScreensPlaceholder({ name }: { name: string }) {
   return (
     <Reveal delay={0.1}>
-      <Arch tint={tint} className="mx-auto mt-0 grid aspect-[4/5] w-full max-w-sm place-items-center p-8 text-center text-fg">
+      <Arch className="mx-auto mt-0 grid aspect-[4/5] w-full max-w-sm place-items-center p-8 text-center text-fg">
         <div role="img" aria-label={`${name} product screens, to be added`}>
-          <p className="font-serif text-3xl leading-snug">Screens or photos of the product</p>
+          <p className="font-display text-2xl font-medium leading-snug">Screens or photos of the product</p>
           <p className="mt-4">
             <span className="placeholder-chip">Details coming soon</span>
           </p>

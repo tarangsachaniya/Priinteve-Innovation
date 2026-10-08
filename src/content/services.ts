@@ -1,8 +1,15 @@
-import type { Service } from "./types";
+import type { Service, ServiceCategory } from "./types";
+
+export const serviceCategories: { key: ServiceCategory; name: string; blurb: string; href: string }[] = [
+  { key: "web", name: "Web Development", blurb: "Websites, online stores and custom web applications.", href: "/services#web" },
+  { key: "digital", name: "Digital Solutions", blurb: "NFC and QR that connect print to digital.", href: "/services#digital" },
+  { key: "ai", name: "AI & Automation", blurb: "Bots, AI agents and automation for repetitive business work.", href: "/services#ai-automation" },
+];
 
 export const services: Service[] = [
   {
     slug: "website-design-development",
+    category: "web",
     name: "Website Design and Development",
     icon: "monitor",
     seo: {
@@ -18,6 +25,7 @@ export const services: Service[] = [
   },
   {
     slug: "ecommerce-websites",
+    category: "web",
     name: "E-commerce Websites",
     icon: "bag",
     seo: {
@@ -33,6 +41,7 @@ export const services: Service[] = [
   },
   {
     slug: "custom-web-applications",
+    category: "web",
     name: "Custom Web Applications",
     icon: "blocks",
     seo: {
@@ -49,6 +58,7 @@ export const services: Service[] = [
   },
   {
     slug: "nfc-qr-solutions",
+    category: "digital",
     name: "NFC and QR Solutions",
     icon: "scan",
     seo: {
@@ -62,6 +72,88 @@ export const services: Service[] = [
     card: "NFC and QR solutions: printed cards and codes that connect the physical world to your digital presence.",
     relatedWork: [],
     relatedProducts: ["nectcard", "vantadot", "salony", "xerox-buddy"],
+  },
+  {
+    slug: "whatsapp-bots",
+    category: "ai",
+    name: "WhatsApp Bots",
+    icon: "message",
+    seo: {
+      title: "WhatsApp Bots & Automation for Business | Priinteve",
+      description:
+        "Custom WhatsApp bots that handle customer enquiries, notifications and business workflows. Built by Priinteve Innovations.",
+      keywords: "WhatsApp bot development, WhatsApp automation for business, WhatsApp chatbot India, customer enquiry automation",
+    },
+    h1: "WhatsApp bots that handle customer conversations",
+    body: "We build WhatsApp bots that answer common enquiries, send notifications and move routine requests into your business workflow, so your team spends its time on the conversations that need a person.",
+    card: "Automate customer conversations, enquiries, notifications and business workflows.",
+    relatedWork: [],
+    relatedProducts: ["vantadot", "salony"],
+  },
+  {
+    slug: "telegram-bots",
+    category: "ai",
+    name: "Telegram Bots",
+    icon: "send",
+    seo: {
+      title: "Telegram Bot Development for Business | Priinteve",
+      description:
+        "Custom Telegram bots for communities, businesses and automated workflows. Built by Priinteve Innovations.",
+      keywords: "Telegram bot development, custom Telegram bot, Telegram automation, community bot",
+    },
+    h1: "Custom Telegram bots for communities and businesses",
+    body: "We build Telegram bots for communities, businesses and internal teams: bots that respond to messages, send updates and run a workflow on request.",
+    card: "Build custom Telegram bots for communities, businesses and automated workflows.",
+    relatedWork: [],
+  },
+  {
+    slug: "ai-agents",
+    category: "ai",
+    name: "AI Agents",
+    icon: "bot",
+    seo: {
+      title: "AI Agent Development for Business | Priinteve",
+      description:
+        "AI-powered agents that understand requests, respond and carry out defined business tasks. Built by Priinteve Innovations.",
+      keywords: "AI agent development, business AI agents, custom AI assistant, AI task automation",
+    },
+    h1: "AI agents that understand requests and get defined tasks done",
+    body: "We build AI-powered agents for a specific job: understanding a request, responding in your voice and carrying out the task within the systems you connect. We agree the scope of each agent with you before we build it.",
+    card: "Build AI-powered agents that understand, respond and execute business tasks.",
+    relatedWork: [],
+  },
+  {
+    slug: "business-automation",
+    category: "ai",
+    name: "Business Automation",
+    icon: "workflow",
+    seo: {
+      title: "Business Process & Workflow Automation | Priinteve",
+      description:
+        "Connect your systems and automate repetitive business processes: workflows, lead handling and customer support. Built by Priinteve Innovations.",
+      keywords: "business process automation, workflow automation, lead automation, customer support automation",
+    },
+    h1: "Automate the repetitive work in your business",
+    body: "We connect your systems and automate repetitive business processes: workflow automation, lead handling and customer support routines. We start with one process, make it reliable and build from there.",
+    card: "Connect systems and automate repetitive business processes.",
+    relatedWork: [],
+    relatedProducts: ["xerox-buddy", "vantadot", "salony"],
+  },
+  {
+    slug: "ai-integrations",
+    category: "ai",
+    name: "AI Integrations",
+    icon: "plug",
+    seo: {
+      title: "Custom AI Integrations for Business Software | Priinteve",
+      description:
+        "Add AI to the website, app or workflow you already run with custom AI integrations from Priinteve Innovations.",
+      keywords: "custom AI integration, add AI to website, AI API integration, AI for business software",
+    },
+    h1: "Custom AI integrations for the tools you already use",
+    body: "We add AI features to the website, application or workflow you already run, and connect it to the data and tools it needs. Each integration is scoped to a clear job, so you know what it does and what it does not.",
+    card: "Add AI to your existing website, app or workflow with custom integrations.",
+    relatedWork: [],
   },
 ];
 

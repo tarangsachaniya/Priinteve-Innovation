@@ -37,8 +37,8 @@ export function Timeline({ eyebrow, title, steps, index }: { eyebrow: string; ti
         <Eyebrow index={index} className="mb-7">
           {eyebrow}
         </Eyebrow>
-        <Heading className="text-[clamp(2.5rem,5.4vw,4.6rem)]">{title}</Heading>
-        <p className="numeral mt-10 hidden text-7xl text-accent lg:block" aria-hidden="true">
+        <Heading className="text-[clamp(2rem,4.4vw,3.5rem)]">{title}</Heading>
+        <p className="numeral mt-10 hidden text-6xl text-accent lg:block" aria-hidden="true">
           {String(active + 1).padStart(2, "0")}
           <span className="text-3xl text-muted"> / {String(steps.length).padStart(2, "0")}</span>
         </p>
@@ -57,8 +57,8 @@ export function Timeline({ eyebrow, title, steps, index }: { eyebrow: string; ti
               {i + 1}
             </span>
             <div className={`transition-opacity duration-700 ${i === active ? "opacity-100" : "opacity-40"}`}>
-              <h3 className="text-[clamp(2.4rem,4.6vw,4rem)]">{s.title}</h3>
-              <p className="mt-5 max-w-lg text-xl text-muted">
+              <h3 className="text-[clamp(1.8rem,3.4vw,2.8rem)]">{s.title}</h3>
+              <p className="mt-4 max-w-lg text-lg text-muted">
                 <Text>{s.text}</Text>
               </p>
             </div>

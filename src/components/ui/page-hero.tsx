@@ -2,7 +2,6 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Crumb } from "@/lib/seo";
-import { cn } from "@/lib/utils";
 import { Heading } from "../motion/heading";
 import { Reveal } from "../motion/reveal";
 import { Text } from "./primitives";
@@ -41,17 +40,17 @@ type Props = {
   actions?: ReactNode;
   /** right-hand visual, normally an <Arch> */
   visual?: ReactNode;
-  /** soft paper tint for the whole hero (defaults to bone) */
-  tint?: string;
   em?: string;
 };
 
-/** Inner-page hero: big soft serif headline on paper, an arch window on the right when there is a visual. */
-export function PageHero({ h1, lead, trail, badge, actions, visual, tint, em }: Props) {
+/** Inner-page hero: confident sans headline over a faint grid and violet glow, a framed visual on the right when there is one. */
+export function PageHero({ h1, lead, trail, badge, actions, visual, em }: Props) {
   return (
-    <header data-tone="light" className={cn("relative overflow-hidden bg-bg pb-20 pt-36 text-fg md:pb-28 md:pt-48", tint && "tint")} style={tint ? ({ "--tint": tint } as React.CSSProperties) : undefined}>
+    <header data-tone="light" className="relative overflow-hidden bg-bg pb-16 pt-32 text-fg md:pb-24 md:pt-40">
+      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0" />
+      <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/2 size-[44rem] -translate-x-1/2 rounded-full bg-accent-strong/20 blur-[120px]" />
       <div className="container-x">
-        <div className={visual ? "grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]" : ""}>
+        <div className={visual ? "grid items-center gap-14 lg:grid-cols-[1.2fr_0.8fr]" : ""}>
           <div>
             {trail && <Breadcrumbs trail={trail} />}
             {badge && (
@@ -59,19 +58,19 @@ export function PageHero({ h1, lead, trail, badge, actions, visual, tint, em }: 
                 {badge}
               </Reveal>
             )}
-            <Heading as="h1" em={em} className="max-w-5xl text-[clamp(2.9rem,7vw,6.4rem)]">
+            <Heading as="h1" em={em} className="max-w-5xl text-[clamp(2.2rem,5vw,4rem)]">
               {h1}
             </Heading>
             {lead && (
               <Reveal delay={0.25}>
-                <p className="mt-9 max-w-2xl text-xl text-fg/80 md:text-2xl md:leading-snug">
+                <p className="mt-7 max-w-2xl text-lg text-muted md:text-xl md:leading-relaxed">
                   <Text>{lead}</Text>
                 </p>
               </Reveal>
             )}
             {actions && (
               <Reveal delay={0.35}>
-                <div className="mt-10 flex flex-wrap gap-3">{actions}</div>
+                <div className="mt-9 flex flex-wrap gap-3">{actions}</div>
               </Reveal>
             )}
           </div>

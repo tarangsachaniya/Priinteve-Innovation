@@ -14,7 +14,6 @@ import { serviceBySlug, services } from "@/content/services";
 import { ENQUIRY_INTERESTS, site } from "@/content/site";
 import { projects } from "@/content/work";
 import { abs, breadcrumbLd, buildMetadata } from "@/lib/seo";
-import { SERVICE_TINT } from "@/lib/utils";
 
 type Params = { slug: string };
 
@@ -34,6 +33,11 @@ const DEFAULT_INTEREST = {
   "ecommerce-websites": "A website",
   "custom-web-applications": "A custom web application",
   "nfc-qr-solutions": "Something else",
+  "whatsapp-bots": "WhatsApp or Telegram bots",
+  "telegram-bots": "WhatsApp or Telegram bots",
+  "ai-agents": "AI agents or business automation",
+  "business-automation": "AI agents or business automation",
+  "ai-integrations": "AI agents or business automation",
 } as const satisfies Record<string, (typeof ENQUIRY_INTERESTS)[number]>;
 
 export default async function ServicePage({ params }: { params: Promise<Params> }) {
@@ -61,7 +65,6 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       />
 
       <PageHero
-        tint={SERVICE_TINT[service.slug]}
         trail={[{ name: "Services", href: "/services" }, { name: service.name }]}
         h1={service.h1}
         lead={service.body}
@@ -105,7 +108,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-24">
           <SectionHead index="05" eyebrow="Enquiry" title="Tell us about your project" em="your project" />
           <Reveal delay={0.1}>
-            <div className="rounded-[2rem] bg-surface p-8 md:p-12">
+            <div className="card rounded-[1.75rem] p-8 md:p-12">
               <EnquiryForm defaultInterest={DEFAULT_INTEREST[service.slug]} />
             </div>
           </Reveal>

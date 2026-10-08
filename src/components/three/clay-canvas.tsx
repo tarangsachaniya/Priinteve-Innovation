@@ -13,8 +13,8 @@ void main() {
 `;
 
 /**
- * Soft clay forms, ray-marched: a handful of spheres melt into each other (smooth minimum), lit by one
- * warm key light with a gentle rim. The pointer nudges the forms and the light. No geometry, one quad.
+ * Glossy violet forms, ray-marched: a handful of spheres melt into each other (smooth minimum), lit by one
+ * cool key light with a lavender rim. The pointer nudges the forms and the light. No geometry, one quad.
  */
 const FRAG = /* glsl */ `
 precision highp float;
@@ -48,7 +48,7 @@ vec3 normalAt(vec3 p) {
 }
 
 void main() {
-  vec2 uv = (vUv - 0.5) * vec2(uRes.x / uRes.y, 1.0) * 2.6;
+  vec2 uv = (vUv - 0.5) * vec2(uRes.x / uRes.y, 1.0) * 2.1;
   vec3 ro = vec3(0.0, 0.0, 3.4);
   vec3 rd = normalize(vec3(uv, -1.7));
 
@@ -76,7 +76,8 @@ void main() {
     float fres = pow(1.0 - clamp(dot(n, -rd), 0.0, 1.0), 2.4);
     float spec = pow(clamp(dot(reflect(-l, n), -rd), 0.0, 1.0), 26.0);
     vec3 base = mix(uA, uB, clamp(n.y * 0.5 + 0.5, 0.0, 1.0));
-    col = base * wrap + vec3(1.0, 0.92, 0.84) * spec * 0.32 + fres * uB * 0.28;
+    // glossy violet glass: deeper body, a lavender rim and a cool specular highlight
+    col = base * (0.35 + 0.75 * wrap) + vec3(0.86, 0.82, 1.0) * spec * 0.55 + fres * uB * 0.6;
     col *= 0.9 + 0.1 * smoothstep(-1.0, 1.0, n.y);
   }
   gl_FragColor = vec4(col, 1.0);

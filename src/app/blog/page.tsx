@@ -18,14 +18,14 @@ export default function BlogPage() {
         <div className="grid gap-x-20 gap-y-16 md:grid-cols-2">
           {blogPage.clusters.map((c, i) => (
             <Reveal key={c.cluster} delay={(i % 2) * 0.08}>
-              <article className="border-t border-fg/60 pt-8">
+              <article className="border-t border-line pt-8">
                 <p className="flex items-baseline gap-4">
                   <span className="numeral text-3xl text-accent">{String(i + 1).padStart(2, "0")}</span>
                   <span className="label text-muted">{c.cluster}</span>
                 </p>
                 <ul className="mt-6 space-y-4">
                   {c.ideas.map((idea) => (
-                    <li key={idea} className="font-serif text-2xl leading-snug md:text-[1.7rem]">
+                    <li key={idea} className="font-display text-2xl leading-snug md:text-[1.7rem]">
                       {idea}
                     </li>
                   ))}

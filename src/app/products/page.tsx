@@ -46,7 +46,7 @@ export default function ProductsPage() {
                 <Link href={h.href} className="group flex items-center justify-between gap-6 border-b border-line py-7 transition-colors hover:text-accent">
                   <span className="flex items-baseline gap-6">
                     <span className="numeral text-xl text-accent">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="font-serif text-3xl md:text-4xl">{h.label}</span>
+                    <span className="font-display text-2xl font-semibold md:text-3xl">{h.label}</span>
                   </span>
                   <ArrowRight aria-hidden="true" className="size-6 transition-transform duration-500 group-hover:translate-x-2" />
                 </Link>

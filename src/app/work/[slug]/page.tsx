@@ -47,7 +47,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
       <JsonLd data={breadcrumbLd([{ name: "Our Work", href: "/work" }, { name: project.name, href: path }])} />
       <PageHero
         trail={[{ name: "Our Work", href: "/work" }, { name: project.name }]}
-        badge={<span className="label inline-block rounded-full border border-fg/40 px-4 py-2">{project.category}</span>}
+        badge={<span className="label inline-block rounded-full border border-line px-4 py-2">{project.category}</span>}
         h1={`${project.name}: website for ${project.client}`}
         em={`${project.name}:`}
         lead={project.summary}
@@ -67,7 +67,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
       <Section>
         <div className="grid gap-14 md:grid-cols-2 md:gap-24">
           <Block index="01" label="The goal">
-            <p className="font-serif text-3xl leading-snug">{project.summary}</p>
+            <p className="font-display text-2xl font-medium leading-snug">{project.summary}</p>
           </Block>
           <Block index="02" label="What we built">
             <p className="text-xl text-muted">

@@ -22,7 +22,7 @@ export function WordBand({ top, bottom }: { top: string[]; bottom: string[] }) {
     </span>
   );
 
-  const line = "flex w-max whitespace-nowrap font-serif text-[clamp(1.6rem,3.6vw,3.1rem)] leading-[1.2]";
+  const line = "flex w-max whitespace-nowrap font-display text-[clamp(1.3rem,2.6vw,2.1rem)] font-medium leading-[1.25]";
   return (
     <div ref={ref} data-tone="sand" className="overflow-hidden bg-bg py-8 text-fg md:py-10" role="presentation">
       <motion.div style={reduce ? undefined : { x: a }} className={line}>

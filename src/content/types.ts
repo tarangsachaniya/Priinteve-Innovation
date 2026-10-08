@@ -1,6 +1,7 @@
 export type IconName =
   | "printer" | "utensils" | "scissors" | "card" | "package" | "monitor" | "bag" | "blocks" | "scan"
-  | "trending" | "layers" | "leaf" | "factory" | "puzzle" | "handshake" | "rupee" | "shield" | "sparkles";
+  | "trending" | "layers" | "leaf" | "factory" | "puzzle" | "handshake" | "rupee" | "shield" | "sparkles"
+  | "message" | "send" | "bot" | "workflow" | "plug";
 
 export type FaqItem = { q: string; a: string };
 
@@ -15,7 +16,14 @@ export type ServiceSlug =
   | "website-design-development"
   | "ecommerce-websites"
   | "custom-web-applications"
-  | "nfc-qr-solutions";
+  | "nfc-qr-solutions"
+  | "whatsapp-bots"
+  | "telegram-bots"
+  | "ai-agents"
+  | "business-automation"
+  | "ai-integrations";
+
+export type ServiceCategory = "web" | "digital" | "ai";
 
 export type WorkSlug =
   | "quantivo"
@@ -64,6 +72,7 @@ export type Product = {
 
 export type Service = {
   slug: ServiceSlug;
+  category: ServiceCategory;
   name: string;
   icon: IconName;
   seo: Seo;

@@ -8,7 +8,7 @@ import { submitForm, type FormKind, type SubmitResult } from "@/lib/forms";
 type Status = "idle" | "loading" | "success" | "error";
 
 const FIELD =
-  "w-full border-0 border-b border-fg/40 bg-transparent px-0 py-3 text-lg text-fg placeholder:text-muted/60 transition-colors duration-300 focus:border-accent focus:outline-none focus:ring-0 focus-visible:outline-none";
+  "w-full border-0 border-b border-fg/25 bg-transparent px-0 py-3 text-lg text-fg placeholder:text-muted/60 transition-colors duration-300 focus:border-accent focus:outline-none focus:ring-0 focus-visible:outline-none";
 
 function Field({ label, children, id }: { label: string; children: ReactNode; id: string }) {
   return (
@@ -61,7 +61,7 @@ function Feedback({ status, error, result, onReset }: { status: Status; error: s
       )}
       {status === "success" && result && (
         <div className="rounded-3xl bg-bg-2 p-6 text-base">
-          <p className="flex items-center gap-3 font-serif text-2xl">
+          <p className="flex items-center gap-3 font-display text-2xl">
             <CheckCircle2 aria-hidden="true" className="size-6 text-accent" />
             Details captured
           </p>
@@ -72,7 +72,7 @@ function Feedback({ status, error, result, onReset }: { status: Status; error: s
             <a href={result.mailto} className="rounded-full bg-accent px-6 py-3 font-semibold text-on-accent">
               Open in email app
             </a>
-            <button type="button" onClick={onReset} className="rounded-full border border-fg/40 px-6 py-3 font-semibold hover:border-fg">
+            <button type="button" onClick={onReset} className="rounded-full border border-line px-6 py-3 font-semibold hover:border-fg">
               Edit details
             </button>
           </div>

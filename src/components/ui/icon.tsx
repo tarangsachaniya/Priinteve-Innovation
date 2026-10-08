@@ -1,5 +1,6 @@
 import {
   Blocks,
+  Bot,
   CreditCard,
   Factory,
   Handshake,
@@ -7,17 +8,21 @@ import {
   Layers,
   Leaf,
   type LucideProps,
+  MessageCircle,
   Monitor,
   Package,
   Printer,
+  Plug,
   Puzzle,
   ScanLine,
+  Send,
   Scissors,
   ShieldCheck,
   ShoppingBag,
   Sparkles,
   TrendingUp,
   UtensilsCrossed,
+  Workflow,
 } from "lucide-react";
 import type { ComponentType } from "react";
 import type { IconName } from "@/content/types";
@@ -41,6 +46,11 @@ const ICONS: Record<IconName, ComponentType<LucideProps>> = {
   rupee: IndianRupee,
   shield: ShieldCheck,
   sparkles: Sparkles,
+  message: MessageCircle,
+  send: Send,
+  bot: Bot,
+  workflow: Workflow,
+  plug: Plug,
 };
 
 export function Icon({ name, ...props }: { name: IconName } & LucideProps) {
