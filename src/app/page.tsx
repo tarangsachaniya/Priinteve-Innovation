@@ -1,96 +1,122 @@
-import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
-import { ProjectShowcase } from "@/components/case-studies/project-showcase";
+import { WorkStory } from "@/components/case-studies/work-story";
 import { Manifesto } from "@/components/motion/manifesto";
+import { Marquee } from "@/components/motion/marquee";
+import { Magnetic } from "@/components/motion/pointer";
 import { Reveal } from "@/components/motion/reveal";
 import { Timeline } from "@/components/motion/timeline";
-import { WordBand } from "@/components/motion/word-band";
-import { ProductShowcase } from "@/components/products/product-showcase";
+import { ProductStory } from "@/components/products/product-story";
+import { Ecosystem, type EcoNode } from "@/components/sections/ecosystem";
 import { HomeHero } from "@/components/sections/home-hero";
 import { IndexList } from "@/components/sections/index-list";
-import { ContactCta } from "@/components/sections/shared";
+import { ContactCta, ProcessSection, WhyGrid } from "@/components/sections/shared";
 import { ServiceCard } from "@/components/services/service-card";
-import { Icon } from "@/components/ui/icon";
+import { SolutionsScroller, type Solution } from "@/components/services/solutions-scroller";
 import { JsonLd } from "@/components/ui/json-ld";
-import { Button, Section, SectionHead } from "@/components/ui/primitives";
+import { Button, Faq, Section, SectionHead } from "@/components/ui/primitives";
+import { homeFaqs } from "@/content/faq";
 import { about, home } from "@/content/pages";
 import { products } from "@/content/products";
-import { services } from "@/content/services";
+import { getService, servicesIn } from "@/content/services";
+import type { ServiceSlug } from "@/content/types";
 import { projects } from "@/content/work";
-import { buildMetadata, organizationLd, websiteLd } from "@/lib/seo";
+import { buildMetadata, faqLd, organizationLd, websiteLd } from "@/lib/seo";
 
 export const metadata = buildMetadata("/", home.seo);
 
-const webServices = services.filter((s) => s.category !== "ai");
-const aiServices = services.filter((s) => s.category === "ai");
+const aiServices = servicesIn("ai");
 
-const SOLUTIONS = ["Websites", "E-commerce", "Custom Web Applications", "NFC & QR", "WhatsApp Bots", "Telegram Bots", "AI Agents", "Automation"];
+const SOLUTIONS: Solution[] = [
+  { slug: "website-design-development", title: "Web Development" },
+  { slug: "ecommerce-websites", title: "E-commerce" },
+  { slug: "crm-erp", title: "CRM / ERP" },
+  { slug: "nfc-qr-solutions", title: "NFC & QR" },
+  { slug: "whatsapp-bots", title: "WhatsApp Automation" },
+  { slug: "telegram-bots", title: "Telegram Bots" },
+  { slug: "ai-agents", title: "AI Agents" },
+  { slug: "business-automation", title: "Business Automation" },
+  { slug: "custom-software", title: "Custom Software" },
+];
+
+/** Row 1: our products. Row 2: what we build. */
+const MARQUEE_PRODUCTS = products.map((p) => p.name);
+const MARQUEE_SOLUTIONS = ["AI Agents", "WhatsApp Bots", "Telegram Bots", "Automation", "Web Development", "E-commerce", "NFC & QR", "CRM", "ERP"];
+
+const ECO_PRODUCTS: EcoNode[] = products.map((p) => ({ key: p.slug, label: p.name, href: `/products/${p.slug}`, icon: p.icon, text: p.category }));
+const ECO_SOLUTIONS: EcoNode[] = (
+  [
+    ["website-design-development", "Websites"],
+    ["ecommerce-websites", "E-commerce"],
+    ["custom-software", "Custom Software"],
+    ["crm-erp", "CRM / ERP"],
+    ["nfc-qr-solutions", "NFC & QR"],
+    ["whatsapp-bots", "WhatsApp Bots"],
+    ["telegram-bots", "Telegram Bots"],
+    ["ai-agents", "AI Agents"],
+    ["business-automation", "Automation"],
+  ] as [ServiceSlug, string][]
+).map(([slug, label]) => {
+  const s = getService(slug);
+  return { key: slug, label, href: `/services/${slug}`, icon: s.icon, text: s.card };
+});
 
 export default function HomePage() {
   return (
     <>
-      <JsonLd data={[organizationLd, websiteLd]} />
+      <JsonLd data={[organizationLd, websiteLd, faqLd(homeFaqs)]} />
       <HomeHero />
 
-      <WordBand top={products.map((p) => p.name)} bottom={["WhatsApp bots", "AI agents", "automation", "websites", "NFC & QR"]} />
+      <Marquee products={MARQUEE_PRODUCTS} solutions={MARQUEE_SOLUTIONS} />
 
-      {/* the two sides of Priinteve */}
-      <Section tight>
-        <div className="grid gap-5 md:grid-cols-2">
-          {[
-            { k: "Products", sub: "Our own digital products", href: "/products", items: products.map((p) => p.name), cta: "Explore products" },
-            { k: "Solutions", sub: "What we build for your business", href: "/services", items: SOLUTIONS, cta: "Explore services" },
-          ].map((side, i) => (
-            <Reveal key={side.k} delay={i * 0.08}>
-              <Link href={side.href} className="card card-hover group flex h-full flex-col rounded-[1.75rem] p-7 sm:p-9">
-                <p className="label text-accent">{side.sub}</p>
-                <h2 className="mt-3 text-[clamp(1.8rem,3.2vw,2.5rem)]">{side.k}</h2>
-                <ul className="mt-6 flex flex-wrap gap-2">
-                  {side.items.map((it) => (
-                    <li key={it} className="rounded-full border border-line bg-fg/[0.03] px-3.5 py-1.5 text-[0.88rem] text-muted transition-colors group-hover:text-fg">
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-                <span className="mt-auto inline-flex items-center gap-2 pt-8 text-sm font-semibold text-accent">
-                  {side.cta}
-                  <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
-                </span>
-              </Link>
-            </Reveal>
-          ))}
+      {/* 01: our products, explored by scrolling */}
+      <section aria-label="Our products" data-tone="sand" className="relative bg-bg py-20 text-fg lg:motion-safe:py-0">
+        <div className="container-x lg:motion-safe:max-w-none lg:motion-safe:px-0">
+          <ProductStory products={products} eyebrow="Our products" title={home.productsHeading} />
         </div>
+      </section>
+
+      {/* 02: one team, many digital systems */}
+      <Section tone="dark" className="overflow-hidden">
+        <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 size-[50rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6b8e3d]/10 blur-[140px]" />
+        <div className="relative mb-14 grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+          <SectionHead index="02" eyebrow="One ecosystem" title="One team. Many digital systems." em="Many digital systems." className="mb-0 md:mb-0" />
+          <Reveal>
+            <p className="max-w-md text-lg text-muted lg:ml-auto">
+              Our own products on one side, the systems we build for clients on the other, and one team connecting them: the same people, stack and standards behind every line.
+            </p>
+          </Reveal>
+        </div>
+        <Ecosystem products={ECO_PRODUCTS} solutions={ECO_SOLUTIONS} />
       </Section>
 
       <Section tone="sand">
-        <ProductShowcase
-          products={products}
-          head={<SectionHead index="01" eyebrow="Our products" title={home.productsHeading} em="One problem solved well by each." className="mb-8 md:mb-10" />}
+        <Timeline index="03" eyebrow="How our products work" title={home.howHeading} steps={home.how} />
+      </Section>
+
+      <section data-tone="light" className="relative bg-bg py-20 text-fg md:py-28" aria-label="Solutions">
+        <SolutionsScroller
+          items={SOLUTIONS}
+          head={
+            <div className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-12">
+              <SectionHead index="04" eyebrow="What we build for clients" title={home.solutionsHeading} em="your business" text={home.solutionsLead} className="mb-0 md:mb-0" />
+              <Button href="/services" variant="ghost">
+                All services
+              </Button>
+            </div>
+          }
         />
-      </Section>
-
-      <Section tone="dark">
-        <Timeline index="02" eyebrow="How it works" title={home.howHeading} steps={home.how} />
-      </Section>
-
-      <Section>
-        <SectionHead index="03" eyebrow="Solutions" title={home.solutionsHeading} em="your business" text={home.solutionsLead} />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {webServices.map((s, i) => (
-            <ServiceCard key={s.slug} service={s} index={i} delay={i * 0.07} />
-          ))}
-        </div>
-      </Section>
+      </section>
 
       {/* AI & Automation */}
       <Section tone="sand" id="ai-automation">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div className="lg:sticky lg:top-32 lg:self-start">
-            <SectionHead index="04" eyebrow="AI & Automation" title="We build digital systems that automate repetitive business processes." em="automate repetitive business processes." className="mb-8 md:mb-8" />
+            <SectionHead index="05" eyebrow="AI & Automation" title="We build digital systems that automate repetitive business processes." em="automate repetitive business processes." className="mb-8 md:mb-8" />
             <Reveal delay={0.2}>
-              <p className="max-w-md text-lg text-muted">WhatsApp and Telegram bots, AI agents, workflow and lead automation, and custom AI integrations, scoped to a clear job and connected to the tools you already use.</p>
+              <p className="max-w-md text-lg text-muted">WhatsApp and Telegram bots, AI agents, workflow and lead automation, and custom AI integrations, each scoped to a clear job and connected to the tools you already use.</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button href="/services#ai-automation">AI &amp; Automation services</Button>
+                <Magnetic>
+                  <Button href="/services#ai-automation">AI &amp; Automation services</Button>
+                </Magnetic>
                 <Button href="/contact" variant="ghost">
                   Talk to us
                 </Button>
@@ -106,44 +132,47 @@ export default function HomePage() {
       </Section>
 
       <Section>
-        <SectionHead index="05" eyebrow="Who we serve" title="Who we serve" em="serve" />
+        <SectionHead index="06" eyebrow="Who we serve" title="Who we serve" em="serve" />
         <IndexList items={home.serve} />
       </Section>
 
+      {/* 07: our work, as a case-study journey */}
       <Section tone="dark">
-        <ProjectShowcase
-          projects={projects}
-          head={<SectionHead index="06" eyebrow="Our work" title={home.webHeading} em="builds yours" text={home.web} className="mb-8 md:mb-8" />}
-        />
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Button href="/work">Our Work</Button>
+        <div className="mb-12 grid gap-6 lg:mb-16 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+          <SectionHead index="07" eyebrow="Our work" title={home.webHeading} em="builds yours" className="mb-0 md:mb-0" />
+          <Reveal>
+            <p className="max-w-md text-lg text-muted lg:ml-auto">{home.web}</p>
+          </Reveal>
+        </div>
+        <WorkStory projects={projects} />
+        <div className="mt-12 flex flex-wrap gap-3">
+          <Button href="/work">All work</Button>
           <Button href="/services" variant="ghost">
             Services
           </Button>
         </div>
       </Section>
 
+      <ProcessSection tone="sand" index="08" />
+
       <Section>
-        <SectionHead index="07" eyebrow="Why Priinteve" title="Why Priinteve" em="Priinteve" />
-        <ol className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {home.why.map((w, i) => (
-            <Reveal key={w.title} delay={(i % 3) * 0.07} y={16} className="h-full">
-              <li className="card card-hover flex h-full flex-col rounded-[1.75rem] p-7">
-                <span className="flex items-center justify-between">
-                  <span className="grid size-10 place-items-center rounded-xl bg-accent-soft text-accent">
-                    <Icon name={w.icon} className="size-5" />
-                  </span>
-                  <span className="numeral text-sm text-muted">{String(i + 1).padStart(2, "0")}</span>
-                </span>
-                <h3 className="mt-6 text-xl">{w.title}</h3>
-                <p className="mt-2 text-[0.95rem] text-muted">{w.text}</p>
-              </li>
-            </Reveal>
-          ))}
-        </ol>
+        <SectionHead index="09" eyebrow="Why Priinteve" title="Why businesses work with Priinteve" em="Priinteve" />
+        <WhyGrid />
       </Section>
 
-      <Manifesto index="08" eyebrow="Our mission" text={about.mission} accents={["printing", "digital", "identity", "simple", "affordable"]} />
+      <Section tone="sand">
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div>
+            <SectionHead index="10" eyebrow="FAQ" title="Questions we hear often" em="often" className="mb-8 md:mb-8" />
+            <Button href="/faq" variant="ghost">
+              All questions
+            </Button>
+          </div>
+          <Faq items={homeFaqs} />
+        </div>
+      </Section>
+
+      <Manifesto index="11" eyebrow="Our mission" text={about.mission} accents={["simple", "useful", "affordable", "same", "day"]} />
 
       <ContactCta />
     </>

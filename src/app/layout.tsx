@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "sw
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: { default: site.name, template: `%s | ${site.name}` },
-  description: site.tagline,
+  description: site.description,
   applicationName: site.name,
   openGraph: { siteName: site.name, locale: site.locale, type: "website" },
 };

@@ -20,7 +20,7 @@ export async function submitForm(kind: FormKind, fields: [string, string][]): Pr
   if (!get("name")) return { ok: false, error: "Please enter your name." };
   if (!EMAIL_RE.test(get("email"))) return { ok: false, error: "Please enter a valid email address so we can reply." };
 
-  const subject = kind === "waitlist" ? "Priinteve Printing waitlist" : `Enquiry: ${get("i am interested in") || "Priinteve"}`;
+  const subject = kind === "waitlist" ? "Priinteve Printing waitlist" : `Enquiry: ${get("enquiry about") || "Priinteve"}`;
   const body = fields.map(([k, v]) => `${k}: ${v}`).join("\n");
   return { ok: true, delivered: false, mailto: `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` };
 }

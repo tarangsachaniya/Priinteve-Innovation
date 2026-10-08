@@ -7,8 +7,8 @@ import { Lights, Links, Particles, Rig, rng, Slab, type SceneProps } from "./com
 
 export type ObjectVariant =
   | "sheets" // Xerox Buddy: files stacking up for print
-  | "tables" // Vantadot: tables + incoming orders
-  | "slots" // Salony: appointment grid
+  | "tables" // VentaDot: tables + incoming orders
+  | "slots" // Salonly: appointment grid
   | "card" // Nectcard: NFC card + waves
   | "boxes" // Priinteve Printing: packages in transit
   | "layers" // Websites: stacked interface layers

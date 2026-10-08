@@ -1,14 +1,7 @@
-import { LegalPage } from "@/components/sections/legal-page";
-import { buildMetadata } from "@/lib/seo";
+import { LegalPage, legalMetadata } from "@/components/sections/legal-page";
 
-export const metadata = {
-  ...buildMetadata("/privacy-policy", {
-    title: "Privacy Policy | Priinteve Innovations",
-    description: "Privacy Policy for Priinteve Innovations.",
-  }),
-  robots: { index: false, follow: true },
-};
+export const metadata = legalMetadata("privacy-policy");
 
 export default function Page() {
-  return <LegalPage title="Privacy Policy" path="/privacy-policy" />;
+  return <LegalPage slug="privacy-policy" />;
 }

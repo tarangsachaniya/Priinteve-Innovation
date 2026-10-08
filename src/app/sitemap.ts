@@ -1,20 +1,19 @@
 import type { MetadataRoute } from "next";
+import { legalPages } from "@/content/legal";
 import { products } from "@/content/products";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
 import { projects } from "@/content/work";
 
+/** Every public page. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const top = ["", "/about", "/products", "/services", "/work", "/blog", "/faq", "/contact"];
-  // Legal pages are noindex while they hold placeholder copy, so they stay out of the sitemap.
-  const paths = [
-    ...top,
-    ...products.map((p) => `/products/${p.slug}`),
-    ...services.map((s) => `/services/${s.slug}`),
-    ...projects.map((p) => `/work/${p.slug}`),
+  const entries: [string, number][] = [
+    ["", 1],
+    ...["/about", "/products", "/services", "/work", "/faq", "/contact"].map<[string, number]>((p) => [p, 0.8]),
+    ...products.map<[string, number]>((p) => [`/products/${p.slug}`, 0.8]),
+    ...services.map<[string, number]>((s) => [`/services/${s.slug}`, 0.7]),
+    ...projects.map<[string, number]>((p) => [`/work/${p.slug}`, 0.6]),
+    ...legalPages.map<[string, number]>((p) => [`/${p.slug}`, 0.3]),
   ];
-  return paths.map((p) => ({
-    url: `${site.url}${p}`,
-    priority: p === "" ? 1 : p.split("/").length === 2 ? 0.8 : 0.6,
-  }));
+  return entries.map(([p, priority]) => ({ url: `${site.url}${p}`, priority, lastModified: "2026-10-08" }));
 }

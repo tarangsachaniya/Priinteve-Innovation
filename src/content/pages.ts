@@ -1,14 +1,14 @@
-import type { FaqItem, IconName } from "./types";
+import type { Feature, IconName } from "./types";
 
 export const home = {
   seo: {
-    title: "Priinteve Innovations | Print, Restaurant & Salon Software",
+    title: "Priinteve Innovations | Technology & Digital Solutions Company, Ahmedabad",
     description:
-      "Priinteve builds Xerox Buddy, Vantadot, Salony and Nectcard, plus websites, custom software, bots and AI automation for businesses. See what we make.",
-    keywords: "priinteve innovations, business software India, print restaurant salon software",
+      "Priinteve builds its own products (Nectcard, VentaDot, Xerox Buddy, Salonly) and digital solutions for businesses: websites, e-commerce, CRM/ERP, NFC & QR, WhatsApp bots, AI agents and automation.",
+    keywords: "Priinteve Innovations, technology company Ahmedabad, digital solutions company India, website development, AI automation, NFC QR",
   },
-  h1: "Software that helps Indian businesses print, serve and grow",
-  lead: "Priinteve Innovations is an India-based product company. We build ready-to-use tools for print shops, restaurants, salons and professionals, and we build websites, custom software, bots and AI automation for businesses like yours.",
+  h1: "Products and digital solutions that help businesses operate, sell and grow",
+  lead: "Priinteve Innovations is an India-based technology and digital solutions company. We build our own products for print shops, restaurants, salons and professionals, and we build websites, e-commerce, custom software, NFC and QR, bots and AI automation for businesses like yours.",
   productsHeading: "Five products. One problem solved well by each.",
   howHeading: "Scan or tap. Use it. Manage it from one dashboard.",
   how: [
@@ -16,157 +16,113 @@ export const home = {
     { title: "Use it", text: "They upload a file to print, order a meal, book a slot or save a contact." },
     { title: "Manage it", text: "You see everything in your dashboard and stay in control." },
   ],
+  solutionsHeading: "Solutions we build for your business",
+  solutionsLead: "Beyond our own products, we build digital systems for other businesses. Scroll through the main categories of work we take on.",
   serve: [
-    { icon: "printer", label: "Stationery and xerox shop owners", href: "/products/xerox-buddy", cta: "Explore Xerox Buddy", text: "Stationery, xerox and print shops that are busy at the counter" },
-    { icon: "utensils", label: "Restaurant and cafe owners", href: "/products/vantadot", cta: "Explore Vantadot", text: "Restaurants and food businesses that want faster table service and takeaway" },
-    { icon: "scissors", label: "Salon, barber and spa owners", href: "/products/salony", cta: "Explore Salony", text: "Salons, barbershops and spas that want a simple way to take appointments" },
-    { icon: "card", label: "Professionals, shops, teams", href: "/products/nectcard", cta: "Explore Nectcard", text: "Shops, studios and professionals who want a modern digital identity" },
-    { icon: "bot", label: "Businesses ready to automate", href: "/services#ai-automation", cta: "Explore AI & Automation", text: "Teams that answer the same customer questions and repeat the same tasks every day" },
-    { icon: "factory", label: "Businesses needing a website", href: "/services", cta: "Explore our services", text: "Manufacturers, wholesalers, marketing companies and e-commerce brands that need a strong website" },
+    { icon: "card", label: "Professionals and teams", href: "/products/nectcard", cta: "Explore Nectcard", text: "People and teams who want a modern, always-current business card" },
+    { icon: "utensils", label: "Restaurants and cafés", href: "/products/ventadot", cta: "Explore VentaDot", text: "Restaurants that want table-side ordering, a kitchen display and GST invoices" },
+    { icon: "printer", label: "Xerox and print shops", href: "/products/xerox-buddy", cta: "Explore Xerox Buddy", text: "Shops that want QR uploads, smart printer routing and clean sales records" },
+    { icon: "scissors", label: "Salons, barbers and spas", href: "/products/salonly", cta: "Explore Salonly", text: "Salons that want online bookings without double-bookings" },
+    { icon: "bot", label: "Businesses ready to automate", href: "/services#ai-automation", cta: "Explore AI & Automation", text: "Teams that answer the same questions and repeat the same tasks every day" },
+    { icon: "factory", label: "Businesses that need to sell online", href: "/services", cta: "Explore our services", text: "Manufacturers, suppliers and brands that need a website, a store or custom software" },
   ] as { icon: IconName; label: string; href: string; cta: string; text: string }[],
   webHeading: "The team that runs our platforms builds yours",
-  solutionsHeading: "Solutions we build for your business",
-  solutionsLead: "Beyond our own products, we build digital systems for other businesses: websites, online stores, custom applications, NFC and QR, and bots and automation that take over repetitive work.",
-  web: "We design and develop fast, modern websites, online stores and custom web applications. Recent projects include a digital marketing company website, a plywood wholesaler's trade catalogue, a premium cashew online store and an industrial machinery manufacturer's website.",
+  web: "We design and develop websites, online stores and custom software for clients. Recent work includes a scroll-driven website for a digital marketing studio, a trilingual material library for a timber and plywood supplier, and a premium D2C cashew store.",
   why: [
-    { icon: "puzzle", title: "Built by product people", text: "We run our own platforms, so we know what works in real businesses." },
-    { icon: "handshake", title: "One partner, many solutions", text: "Print, digital identity, restaurant tools, salon booking and web development under one roof." },
-    { icon: "rupee", title: "Made for India", text: "Rupee payments through Razorpay, regional settings and pricing that suits small businesses." },
-    { icon: "shield", title: "Modern, reliable technology", text: "Next.js, React, TypeScript and PostgreSQL with secure hosting and file storage." },
-    { icon: "sparkles", title: "Clear and simple", text: "Guided setup, honest pricing and support when you need it." },
+    { icon: "compass", title: "Business-first thinking", text: "We start with how your business makes money and where time is lost, then decide what to build." },
+    { icon: "puzzle", title: "Custom-built solutions", text: "Systems shaped around your process, not a template you have to work around." },
+    { icon: "code", title: "Modern technology", text: "Next.js, React, TypeScript and PostgreSQL: the stack we run our own products on." },
+    { icon: "layers", title: "Product + service expertise", text: "We build and operate our own products, so we know what it takes to keep software running in real businesses." },
+    { icon: "rocket", title: "Scalable architecture", text: "Built to start small and grow: more users, more locations, more modules." },
+    { icon: "handshake", title: "Long-term partnership", text: "We stay after launch for fixes, improvements and the next phase." },
   ] as { icon: IconName; title: string; text: string }[],
 };
 
 export const about = {
   seo: {
-    title: "About Priinteve Innovations | Indian Product Company",
+    title: "About Priinteve Innovations LLP | Technology Company in Ahmedabad",
     description:
-      "Priinteve Innovations is an India-based product and software company making print, digital identity and business tools simple and affordable.",
-    keywords: "about priinteve, product company India, Indian software company",
+      "Priinteve Innovations LLP is an India-based technology and digital solutions company founded in 2026 in Ahmedabad by Tarang Sachaniya and Keyush Prajapati.",
+    keywords: "about Priinteve, Priinteve Innovations LLP, technology company Ahmedabad, Tarang Sachaniya, Keyush Prajapati",
   },
   h1: "About Priinteve Innovations",
-  story: [
-    "We started with one idea: ordering custom print should be as easy as ordering anything else online. That idea grew into a platform, and then into a small family of products and services.",
-    "Today Priinteve Innovations builds Xerox Buddy for stationery and xerox shops, Vantadot for restaurants, Salony for salons and spas, Nectcard for digital business cards, and Priinteve Printing, our on-demand printing service. We also build websites and custom software for clients.",
+  lead: "An India-based technology and digital solutions company, founded in 2026 in Ahmedabad. We build our own products, and we build digital solutions for businesses.",
+  who: [
+    "Priinteve Innovations LLP builds software that businesses use every day. Some of it is our own: Nectcard for digital business cards, VentaDot for restaurants, Xerox Buddy for print shops and Salonly for salons, with Priinteve Printing on the way.",
+    "The rest we build for clients: websites and e-commerce stores, custom business software, CRM and ERP systems, NFC and QR experiences, WhatsApp and Telegram bots, AI agents and automation.",
+    "Running our own products shapes how we work for clients. We see the same problems our customers see: slow counters, lost orders, double-bookings, outdated contact details. We build systems that fix them and keep running.",
   ],
-  mission: "To make professional printing, digital identity and day-to-day business tools simple and affordable for small and growing businesses.",
-  howWeWork: "We are a product company first. What we build for ourselves shapes what we deliver for clients. We run our own platforms, we see the same problems our customers see, and we fix them.",
+  facts: [
+    { label: "Company", value: "Priinteve Innovations LLP" },
+    { label: "Founded", value: "2026" },
+    { label: "Based in", value: "Ahmedabad, Gujarat, India" },
+    { label: "What we do", value: "Products and digital solutions" },
+  ],
+  pillars: [
+    { title: "Our products", text: "Ready-to-use tools for print shops, restaurants, salons and professionals, built and operated by us.", href: "/products", cta: "See our products" },
+    { title: "Digital solutions", text: "Websites, e-commerce, custom software, CRM and ERP, and NFC and QR solutions built for your business.", href: "/services", cta: "See our services" },
+    { title: "AI and automation", text: "WhatsApp and Telegram bots, AI agents and workflow automation that take over repetitive work.", href: "/services#ai-automation", cta: "See AI & Automation" },
+  ] as { title: string; text: string; href: string; cta: string }[],
+  mission: "To make professional technology simple, useful and affordable for small and growing businesses, through products they can start using the same day and systems built around how they work.",
+  vision: "A business of any size should be able to run on software that fits it: connected, automated where it helps, and easy for customers to use with a tap or a scan.",
   beliefs: [
-    "Tools for small businesses should be simple enough to start using the same day.",
-    "Customers should never have to install an app to order, print or book.",
-    "Pricing should be honest and easy to understand.",
-  ],
-  team: "[Add founder or team names, photos, year founded and city if you want them shown. Not available in the current profile.]",
-  cta: { heading: "Want to know more?", sub: "Talk to us at contact@priinteve.com or call +91 96620 70751." },
+    { title: "Simple enough to start the same day", text: "Tools for small businesses should not need a training course." },
+    { title: "No app for the customer", text: "Customers should be able to order, print, book or connect from their phone browser." },
+    { title: "Honest about what we build", text: "We say what a system does, what it doesn't, and what it will cost, before we start." },
+  ] as Feature[],
 };
 
 export const productsPage = {
   seo: {
-    title: "Products | Xerox Buddy, Vantadot, Salony, Nectcard",
+    title: "Products | Nectcard, VentaDot, Xerox Buddy, Salonly | Priinteve",
     description:
-      "Explore Priinteve products: Xerox Buddy for print shops, Vantadot for restaurants, Salony for salons, Nectcard digital cards and Priinteve Printing.",
-    keywords: "business software India, QR ordering, appointment booking, digital business card",
+      "Priinteve's own products: Nectcard NFC business cards, VentaDot for restaurants, Xerox Buddy for print shops, Salonly for salons, and Priinteve Printing (coming soon).",
+    keywords: "Priinteve products, QR printing software, QR ordering, salon booking, NFC business card",
   },
-  h1: "Products built for Indian businesses",
-  intro: "Every Priinteve product solves one problem well, and most work by a simple scan or tap. Pick the one that fits your business.",
+  h1: "Products we build and run",
+  intro: "Every Priinteve product solves one problem well, and most of them work with a simple scan or tap. Each one is live on its own website, where you can start using it.",
   help: [
-    { label: "I run a print shop", href: "/products/xerox-buddy" },
-    { label: "I run a restaurant", href: "/products/vantadot" },
-    { label: "I run a salon", href: "/products/salony" },
-    { label: "I need a business card", href: "/products/nectcard" },
-    { label: "I need to print in bulk", href: "/products/priinteve-printing" },
-    { label: "I need a website", href: "/services" },
+    { label: "I need a digital business card", href: "/products/nectcard" },
+    { label: "I run a restaurant or café", href: "/products/ventadot" },
+    { label: "I run a xerox or print shop", href: "/products/xerox-buddy" },
+    { label: "I run a salon, barbershop or spa", href: "/products/salonly" },
+    { label: "I need custom printing in bulk", href: "/products/priinteve-printing" },
+    { label: "I need something built for my business", href: "/services" },
   ],
 };
 
 export const servicesPage = {
   seo: {
-    title: "Web, NFC & AI Automation Services | Priinteve Innovations",
+    title: "Services | Web, E-commerce, CRM/ERP, NFC & QR, AI & Automation | Priinteve",
     description:
-      "Priinteve designs and builds websites, e-commerce stores, custom web apps, NFC and QR solutions, WhatsApp and Telegram bots, AI agents and business automation.",
-    keywords: "web development company India, website design services, custom software development India, WhatsApp bot, AI agents, business automation",
+      "Website and web development, e-commerce, custom software, CRM and ERP, NFC and QR solutions, WhatsApp and Telegram bots, AI agents and business automation.",
+    keywords: "web development company India, ecommerce development, CRM ERP development, NFC QR solutions, WhatsApp bot, AI agents, business automation",
   },
-  h1: "Web, digital and AI solutions from one product team",
-  lead: "We build digital systems that automate repetitive business processes. From a one-page site to a multi-user platform, and from NFC and QR to WhatsApp bots and AI agents, we design and develop it for you, on the same technology we run our own products on.",
+  h1: "Digital solutions from one product team",
+  lead: "We build digital systems that help businesses operate, sell and grow, and that automate the repetitive work in between. These are the main categories of solutions we provide, built on the same technology we run our own products on.",
   included: {
     title: "Payments, email and notifications",
-    text: "Secure online payments, transactional email and push notifications built in.",
-    badge: "Included in every project",
+    text: "Online payments, transactional email and notifications can be built into any project that needs them.",
+    badge: "Available on every project",
   },
 };
 
 export const workPage = {
   seo: {
-    title: "Our Work | Website Projects by Priinteve Innovations",
-    description:
-      "See websites we built for a digital marketing company, a plywood wholesaler, a premium cashew brand and an industrial machinery manufacturer.",
-    keywords: "website portfolio India, web development projects, ecommerce portfolio, manufacturer website examples",
+    title: "Our Work | Websites & E-commerce by Priinteve Innovations",
+    description: "Client work by Priinteve: Royal Timber's trilingual material library, EarthOra's premium cashew D2C store, and Quantivo's digital marketing website.",
+    keywords: "Priinteve portfolio, website portfolio India, ecommerce case study, Royal Timber website, EarthOra",
   },
-  h1: "Websites we have built for clients",
-  intro: "A look at recent websites we designed and developed. Each project starts with a business goal and ends with a site that does a job.",
-  namingNote: "Add the client name and live link for the cashew brand and the machinery manufacturer only if the clients agree to be named.",
-};
-
-export const caseStudyTemplate = {
-  built: "[Pages, features, and the visual or mobile approach.]",
-  technology: ["Next.js", "React", "TypeScript", "PostgreSQL"],
-  technologyNote: "[Confirm which of these apply to this project.]",
-  outcome: "[Add real results, such as enquiries or launch date, only if known.]",
-  liveSite: "[Add live site link and screenshots.]",
-};
-
-export const faqPage = {
-  seo: {
-    title: "FAQ | Priinteve Innovations Products and Services",
-    description:
-      "Answers about Priinteve Innovations: our products, how scan and tap works, pricing, support and website development services.",
-    keywords: "priinteve faq, xerox buddy faq, vantadot faq, nectcard faq",
-  },
-  h1: "Frequently asked questions",
-  note: "[Add pricing and support-hours answers once confirmed.]",
-  items: [
-    { q: "What does Priinteve Innovations do?", a: "We are an India-based product company. We make Xerox Buddy, Vantadot, Salony, Nectcard and Priinteve Printing, and we build websites and software for clients." },
-    { q: "Do my customers need to download an app?", a: "No. Xerox Buddy, Vantadot, Salony and Nectcard all open in the phone browser after a scan or tap." },
-    { q: "Which product is right for me?", a: "Print or stationery shop: Xerox Buddy. Restaurant: Vantadot. Salon, barbershop or spa: Salony. Business card: Nectcard. Bulk branded print: Priinteve Printing." },
-    { q: "Do you build websites for other businesses?", a: "Yes. We design and develop websites, e-commerce stores and custom web applications." },
-    { q: "Do you build bots and AI automation?", a: "Yes. We build WhatsApp bots, Telegram bots, AI agents, business automation and custom AI integrations. We agree the scope of each build with you first." },
-    { q: "Can I pay in rupees?", a: "Yes. Payments run through Razorpay." },
-    { q: "How do I get started?", a: "Call +91 96620 70751 or write to contact@priinteve.com." },
-  ] satisfies FaqItem[],
+  h1: "Work we have built for clients",
+  intro: "A look at websites and stores we designed and developed. Each project starts with a business goal and ends with a site that does a job. Visit the live sites to see them in action.",
 };
 
 export const contactPage = {
   seo: {
-    title: "Contact Priinteve Innovations | Call or Send an Enquiry",
-    description:
-      "Tell us what you want to print, build or launch. Call +91 96620 70751 or write to contact@priinteve.com and we will take it from there.",
-    keywords: "contact priinteve, priinteve phone, priinteve email",
+    title: "Contact Priinteve Innovations | Start a Project or Ask a Question",
+    description: "Tell us what you want to print, build, automate or launch. Call +91 96620 70751 or write to contact@priinteve.com. Based in Ahmedabad, Gujarat, India.",
+    keywords: "contact Priinteve, Priinteve phone, Priinteve email, software company Ahmedabad contact",
   },
-  h1: "Contact Priinteve Innovations",
-  next: "We read every enquiry, reply within [add your promised time], and suggest the right next step, whether that is a demo, a quote or a call.",
+  h1: "Let's talk about what you want to build",
+  next: "Tell us a little about your business and what you need. We read every enquiry and reply with the right next step: a call, a demo of one of our products, or a proposal.",
 };
-
-export const blogPage = {
-  /** The plan gives no title/description for the blog index; these are neutral and derived from Part 3. */
-  seo: {
-    title: "Blog | Priinteve Innovations",
-    description:
-      "Guides on self-service printing, QR ordering, salon booking, digital business cards and websites for Indian businesses.",
-    keywords: "priinteve blog",
-  },
-  h1: "Blog",
-  intro: "Each article is 800 to 1,200 words, answers one question, and links to the matching product or service page.",
-  clusters: [
-    { cluster: "Print shops", linkLabel: "Xerox Buddy", href: "/products/xerox-buddy", ideas: ["How stationery shops can handle rush hour without hiring more staff", "How to let customers print from a QR code", "Self-service printing for xerox shops: a simple guide"] },
-    { cluster: "Restaurants", linkLabel: "Vantadot", href: "/products/vantadot", ideas: ["How QR code table ordering works", "Takeaway ordering without a separate app", "What a kitchen display screen does for your chefs"] },
-    { cluster: "Salons", linkLabel: "Salony", href: "/products/salony", ideas: ["How online booking helps salons and barbershops", "Running a salon appointment book without phone calls"] },
-    { cluster: "Digital cards", linkLabel: "Nectcard", href: "/products/nectcard", ideas: ["NFC business card vs paper visiting card", "How to share your digital visiting card on WhatsApp", "NFC vs QR for business cards"] },
-    { cluster: "Print", linkLabel: "Priinteve Printing", href: "/products/priinteve-printing", ideas: ["How to prepare a design for printing", "Ordering printed material in bulk for a small business"] },
-    { cluster: "Web and automation", linkLabel: "Services and Our Work", href: "/services", ideas: ["What a manufacturer's website needs to win trade buyers", "Mobile-first e-commerce basics for Indian brands", "Why your business needs a fast website"] },
-  ],
-};
-
-export const legalPages = {
-  "privacy-policy": { title: "Privacy Policy" },
-  terms: { title: "Terms" },
-} as const;

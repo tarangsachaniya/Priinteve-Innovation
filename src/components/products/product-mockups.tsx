@@ -104,7 +104,7 @@ function XeroxBuddy({ p }: { p: Product }) {
   );
 }
 
-function Vantadot({ p }: { p: Product }) {
+function VentaDot({ p }: { p: Product }) {
   const cols = [
     { h: "New", items: ["Table 4"] },
     { h: "Cooking", items: ["Takeaway #18"] },
@@ -146,7 +146,7 @@ function Vantadot({ p }: { p: Product }) {
   );
 }
 
-function Salony({ p }: { p: Product }) {
+function Salonly({ p }: { p: Product }) {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
   const booked = new Set([1, 4, 7, 9, 12]);
   return (
@@ -233,8 +233,8 @@ function Printing({ p }: { p: Product }) {
 
 const MOCKUPS: Record<ProductSlug, (props: { p: Product }) => ReactNode> = {
   "xerox-buddy": XeroxBuddy,
-  vantadot: Vantadot,
-  salony: Salony,
+  ventadot: VentaDot,
+  salonly: Salonly,
   nectcard: Nectcard,
   "priinteve-printing": Printing,
 };

@@ -1,31 +1,34 @@
-import { serviceCategories, services } from "@/content/services";
-import type { ServiceCategory } from "@/content/types";
+import { serviceCategories, servicesIn } from "@/content/services";
 import { Reveal } from "../motion/reveal";
 import { ServiceCard } from "./service-card";
 
-const ANCHOR: Record<ServiceCategory, string> = { web: "web", digital: "digital", ai: "ai-automation" };
-const POSITIONING: Partial<Record<ServiceCategory, string>> = {
-  ai: "We build digital systems that automate repetitive business processes.",
-};
-
-/** Services grouped as Web Development, Digital Solutions and AI & Automation. One flat numbering runs through all of them. */
+/** Services grouped by category. Each group lists everything it covers, then a card per service page. */
 export function ServiceGroups() {
   let n = 0;
   return (
-    <div className="space-y-16 md:space-y-20">
-      {serviceCategories.map((cat) => {
-        const items = services.filter((s) => s.category === cat.key);
+    <div className="space-y-20 md:space-y-24">
+      {serviceCategories.map((cat, ci) => {
+        const items = servicesIn(cat.key);
         return (
-          <div key={cat.key} id={ANCHOR[cat.key]} className="scroll-mt-28">
+          <div key={cat.key} id={cat.anchor} className="scroll-mt-28">
             <Reveal y={12}>
-              <div className="mb-7 flex flex-wrap items-end justify-between gap-4 border-b border-line pb-5">
+              <div className="mb-8 grid gap-6 border-b border-line pb-7 lg:grid-cols-[1fr_1.2fr] lg:items-end lg:gap-12">
                 <div>
-                  <p className="label text-accent">{cat.name}</p>
-                  <p className="mt-2 max-w-xl text-lg text-fg">{POSITIONING[cat.key] ?? cat.blurb}</p>
+                  <p className="label flex items-center gap-3 text-accent">
+                    <span className="numeral text-sm">{String(ci + 1).padStart(2, "0")}</span>
+                    <span aria-hidden="true" className="h-px w-6 bg-current opacity-60" />
+                    Category
+                  </p>
+                  <h3 className="mt-3 text-[clamp(1.6rem,3vw,2.3rem)]">{cat.name}</h3>
+                  <p className="mt-3 max-w-xl text-muted">{cat.blurb}</p>
                 </div>
-                <span className="label text-muted">
-                  {items.length} {items.length === 1 ? "service" : "services"}
-                </span>
+                <ul aria-label={`${cat.name}: what we build`} className="flex flex-wrap gap-2 lg:justify-end">
+                  {cat.items.map((it) => (
+                    <li key={it} className="rounded-full border border-line bg-fg/[0.03] px-3.5 py-1.5 text-[0.82rem] text-muted">
+                      {it}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </Reveal>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

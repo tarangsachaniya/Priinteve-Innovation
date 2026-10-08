@@ -2,7 +2,7 @@
 
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { useId, useState, type FormEvent, type ReactNode } from "react";
-import { ENQUIRY_INTERESTS, site } from "@/content/site";
+import { PRODUCT_ENQUIRIES, PROJECT_TYPES, site, type EnquiryInterest } from "@/content/site";
 import { submitForm, type FormKind, type SubmitResult } from "@/lib/forms";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -63,10 +63,10 @@ function Feedback({ status, error, result, onReset }: { status: Status; error: s
         <div className="rounded-3xl bg-bg-2 p-6 text-base">
           <p className="flex items-center gap-3 font-display text-2xl">
             <CheckCircle2 aria-hidden="true" className="size-6 text-accent" />
-            Details captured
+            Your email is ready
           </p>
           <p className="mt-3 text-muted">
-            Online delivery is not connected yet, so your message has <strong className="text-fg">not been sent</strong>. Open it in your email app to send it, or write to {site.email} or call {site.phone}.
+            Your message has <strong className="text-fg">not been sent yet</strong>. Open it in your email app and press send, or write to {site.email} or call {site.phone}.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <a href={result.mailto} className="rounded-full bg-accent px-6 py-3 font-semibold text-on-accent">
@@ -89,22 +89,22 @@ function Submit({ status, children }: { status: Status; children: ReactNode }) {
       type="submit"
       disabled={loading}
       aria-busy={loading}
-      className="inline-flex w-fit items-center justify-center gap-3 rounded-full bg-accent px-8 py-4 font-semibold text-on-accent transition-all duration-300 hover:bg-fg hover:text-bg disabled:pointer-events-none disabled:opacity-60"
+      className="inline-flex w-fit items-center justify-center gap-3 rounded-full bg-accent-strong px-8 py-4 font-semibold text-on-accent transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_36px_-6px_rgb(107_142_61/0.8)] disabled:pointer-events-none disabled:opacity-60"
     >
       {loading && <Loader2 aria-hidden="true" className="size-4 animate-spin" />}
-      {loading ? "Sending…" : children}
+      {loading ? "Preparing…" : children}
     </button>
   );
 }
 
-export function EnquiryForm({ defaultInterest }: { defaultInterest?: (typeof ENQUIRY_INTERESTS)[number] }) {
+export function EnquiryForm({ defaultInterest }: { defaultInterest?: EnquiryInterest }) {
   const uid = useId();
   const s = useFormState("enquiry", {
     name: "Name",
-    phone: "Phone",
     email: "Email",
-    interest: "I am interested in",
-    business: "Business name and type",
+    phone: "Phone",
+    company: "Company",
+    interest: "Enquiry about",
     message: "Message",
   });
   const id = (n: string) => `${uid}-${n}`;
@@ -112,30 +112,40 @@ export function EnquiryForm({ defaultInterest }: { defaultInterest?: (typeof ENQ
   return (
     <form onSubmit={s.onSubmit} noValidate className="grid gap-8">
       <div className="grid gap-8 sm:grid-cols-2">
-        <Field label="Name" id={id("name")}>
+        <Field label="Name *" id={id("name")}>
           <input id={id("name")} name="name" required autoComplete="name" className={FIELD} />
         </Field>
+        <Field label="Email *" id={id("email")}>
+          <input id={id("email")} name="email" type="email" required autoComplete="email" className={FIELD} />
+        </Field>
+      </div>
+      <div className="grid gap-8 sm:grid-cols-2">
         <Field label="Phone" id={id("phone")}>
           <input id={id("phone")} name="phone" type="tel" autoComplete="tel" className={FIELD} />
         </Field>
+        <Field label="Company" id={id("company")}>
+          <input id={id("company")} name="company" autoComplete="organization" className={FIELD} />
+        </Field>
       </div>
-      <Field label="Email" id={id("email")}>
-        <input id={id("email")} name="email" type="email" required autoComplete="email" className={FIELD} />
-      </Field>
-      <Field label="I am interested in" id={id("interest")}>
-        <select id={id("interest")} name="interest" defaultValue={defaultInterest ?? ENQUIRY_INTERESTS[0]} className={FIELD}>
-          {ENQUIRY_INTERESTS.map((o) => (
-            <option key={o}>{o}</option>
-          ))}
+      <Field label="Enquiry about" id={id("interest")}>
+        <select id={id("interest")} name="interest" defaultValue={defaultInterest ?? PROJECT_TYPES[0]} className={FIELD}>
+          <optgroup label="A project for my business">
+            {PROJECT_TYPES.map((o) => (
+              <option key={o}>{o}</option>
+            ))}
+          </optgroup>
+          <optgroup label="A Priinteve product">
+            {PRODUCT_ENQUIRIES.map((o) => (
+              <option key={o}>{o}</option>
+            ))}
+          </optgroup>
         </select>
       </Field>
-      <Field label="Business name and type" id={id("business")}>
-        <input id={id("business")} name="business" className={FIELD} />
-      </Field>
       <Field label="Message" id={id("message")}>
-        <textarea id={id("message")} name="message" rows={3} className={FIELD} />
+        <textarea id={id("message")} name="message" rows={4} placeholder="What do you want to print, build, automate or launch?" className={FIELD} />
       </Field>
-      {!done && <Submit status={s.status}>Send enquiry</Submit>}
+      {!done && <Submit status={s.status}>Prepare enquiry</Submit>}
+      {!done && <p className="-mt-4 text-sm text-muted">This opens a pre-filled email in your email app. Nothing is sent until you send it.</p>}
       <Feedback status={s.status} error={s.error} result={s.result} onReset={s.reset} />
     </form>
   );
@@ -165,6 +175,7 @@ export function WaitlistForm({ fields }: { fields: string[] }) {
         );
       })}
       {!done && <Submit status={s.status}>Join the waitlist</Submit>}
+      {!done && <p className="-mt-4 text-sm text-muted">This opens a pre-filled email in your email app. Nothing is sent until you send it.</p>}
       <Feedback status={s.status} error={s.error} result={s.result} onReset={s.reset} />
     </form>
   );

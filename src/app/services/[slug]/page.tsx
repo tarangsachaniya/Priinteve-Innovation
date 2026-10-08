@@ -6,14 +6,17 @@ import { Reveal } from "@/components/motion/reveal";
 import { ProductCard } from "@/components/products/product-card";
 import { ServiceVisual } from "@/components/products/product-visual";
 import { ProcessSection } from "@/components/sections/shared";
+import { ServiceCard } from "@/components/services/service-card";
 import { JsonLd } from "@/components/ui/json-ld";
+import { FeatureGrid } from "@/components/ui/media";
 import { PageHero } from "@/components/ui/page-hero";
-import { Button, Note, Section, SectionHead } from "@/components/ui/primitives";
+import { Button, Checklist, Faq, LinkCard, Section, SectionHead } from "@/components/ui/primitives";
 import { products } from "@/content/products";
-import { serviceBySlug, services } from "@/content/services";
-import { ENQUIRY_INTERESTS, site } from "@/content/site";
+import { categoryOf, serviceBySlug, services, servicesIn } from "@/content/services";
+import { site, type EnquiryInterest } from "@/content/site";
+import type { ServiceSlug } from "@/content/types";
 import { projects } from "@/content/work";
-import { abs, breadcrumbLd, buildMetadata } from "@/lib/seo";
+import { abs, breadcrumbLd, buildMetadata, faqLd } from "@/lib/seo";
 
 type Params = { slug: string };
 
@@ -28,24 +31,31 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   return service ? buildMetadata(`/services/${service.slug}`, service.seo) : {};
 }
 
-const DEFAULT_INTEREST = {
-  "website-design-development": "A website",
-  "ecommerce-websites": "A website",
-  "custom-web-applications": "A custom web application",
-  "nfc-qr-solutions": "Something else",
-  "whatsapp-bots": "WhatsApp or Telegram bots",
-  "telegram-bots": "WhatsApp or Telegram bots",
-  "ai-agents": "AI agents or business automation",
-  "business-automation": "AI agents or business automation",
-  "ai-integrations": "AI agents or business automation",
-} as const satisfies Record<string, (typeof ENQUIRY_INTERESTS)[number]>;
+/** Pre-selects the enquiry type on the form. */
+const INTEREST: Record<ServiceSlug, EnquiryInterest> = {
+  "website-design-development": "Website",
+  "custom-web-applications": "Custom Software",
+  "ecommerce-websites": "E-commerce",
+  "whatsapp-catalog": "E-commerce",
+  "custom-software": "Custom Software",
+  "crm-erp": "CRM / ERP",
+  "nfc-qr-solutions": "NFC / QR",
+  "whatsapp-bots": "WhatsApp Bot",
+  "telegram-bots": "Telegram Bot",
+  "ai-agents": "AI Agent",
+  "business-automation": "Automation",
+  "ai-integrations": "AI Agent",
+};
 
 export default async function ServicePage({ params }: { params: Promise<Params> }) {
   const service = serviceBySlug((await params).slug);
   if (!service) notFound();
   const path = `/services/${service.slug}`;
+  const category = categoryOf(service.category);
   const relatedProducts = service.relatedProducts ? products.filter((p) => service.relatedProducts!.includes(p.slug)) : [];
   const relatedWork = projects.filter((p) => service.relatedWork.includes(p.slug));
+  const siblings = servicesIn(service.category).filter((s) => s.slug !== service.slug);
+  const others = siblings.length ? siblings : services.filter((s) => s.slug !== service.slug).slice(0, 3);
 
   return (
     <>
@@ -55,25 +65,26 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
             "@context": "https://schema.org",
             "@type": "Service",
             name: service.name,
+            serviceType: category.name,
             description: service.seo.description,
             url: abs(path),
             areaServed: "IN",
             provider: { "@type": "Organization", name: site.name, url: site.url },
           },
+          faqLd(service.faq),
           breadcrumbLd([{ name: "Services", href: "/services" }, { name: service.name, href: path }]),
         ]}
       />
 
       <PageHero
         trail={[{ name: "Services", href: "/services" }, { name: service.name }]}
+        badge={<span className="label inline-block rounded-full border border-line px-4 py-2">{category.name}</span>}
         h1={service.h1}
         lead={service.body}
         visual={<ServiceVisual service={service} />}
         actions={
           <>
-            <Button href="#enquiry" variant="solid">
-              Start a project
-            </Button>
+            <Button href="#enquiry">Start a project</Button>
             <Button href="/work" variant="ghost">
               See our work
             </Button>
@@ -82,36 +93,76 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       />
 
       <Section>
-        <SectionHead index="01" eyebrow="What you get" title="What you get" em="get" text={service.body} />
-      </Section>
-
-      <ProcessSection tone="dark" index="02" heading="How we work" eyebrow="How we work" />
-
-      <Section>
-        <SectionHead index="03" eyebrow="Related projects" title={relatedWork.length ? "Related projects" : "See it in action"} />
-        {relatedWork.length > 0 && <ProjectTiles projects={relatedWork} />}
-        {relatedProducts.length > 0 && (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {relatedProducts.map((p, i) => (
-              <ProductCard key={p.slug} product={p} delay={i * 0.06} />
-            ))}
-          </div>
-        )}
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <SectionHead index="01" eyebrow="What's included" title="What we build" em="build" text={service.card} />
+          <Checklist items={service.includes} columns />
+        </div>
       </Section>
 
       <Section tone="sand">
-        <SectionHead index="04" eyebrow="FAQ" title="Frequently asked questions" em="questions" />
-        <Note>[Service FAQ to be added. The plan lists an FAQ for this page but gives no questions yet.]</Note>
+        <SectionHead index="02" eyebrow="Use cases" title="Where it helps" />
+        <FeatureGrid items={service.useCases} icon={service.icon} columns={service.useCases.length === 4 ? 2 : 3} />
       </Section>
+
+      <Section>
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <SectionHead index="03" eyebrow="Deliverables" title="What you get" em="get" text="Every project is scoped in writing before work begins. Typical deliverables:" />
+          <Checklist items={service.deliverables} />
+        </div>
+      </Section>
+
+      <ProcessSection tone="dark" index="04" />
+
+      {(relatedWork.length > 0 || relatedProducts.length > 0) && (
+        <Section>
+          <SectionHead index="05" eyebrow={relatedWork.length ? "Related work" : "See it in action"} title={relatedWork.length ? "Related projects" : "Built on the same approach"} text={relatedWork.length ? undefined : "Our own products use the same approach we bring to client work."} />
+          {relatedWork.length > 0 && <ProjectTiles projects={relatedWork} />}
+          {relatedProducts.length > 0 && (
+            <div className={`grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${relatedWork.length ? "mt-14" : ""}`}>
+              {relatedProducts.map((p, i) => (
+                <ProductCard key={p.slug} product={p} delay={i * 0.06} />
+              ))}
+            </div>
+          )}
+        </Section>
+      )}
+
+      <Section tone="sand">
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div>
+            <SectionHead index="06" eyebrow="FAQ" title={`${service.short ?? service.name} questions`} em="questions" className="mb-8 md:mb-8" />
+            <Button href="/faq" variant="ghost">
+              All questions
+            </Button>
+          </div>
+          <Faq items={service.faq} />
+        </div>
+      </Section>
+
 
       <Section id="enquiry">
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-24">
-          <SectionHead index="05" eyebrow="Enquiry" title="Tell us about your project" em="your project" />
+          <div>
+            <SectionHead index="07" eyebrow="Enquiry" title="Tell us about your project" em="your project" text={`Share a few details and we'll reply with the right next step. Or write to ${site.email}.`} />
+            <div className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-1">
+              <LinkCard eyebrow="Category" title={category.name} href={`/services#${category.anchor}`} />
+              <LinkCard eyebrow="Contact" title="Call or email us" href="/contact" />
+            </div>
+          </div>
           <Reveal delay={0.1}>
             <div className="card rounded-[1.75rem] p-8 md:p-12">
-              <EnquiryForm defaultInterest={DEFAULT_INTEREST[service.slug]} />
+              <EnquiryForm defaultInterest={INTEREST[service.slug]} />
             </div>
           </Reveal>
+        </div>
+      </Section>
+
+      <Section tone="dark">
+        <SectionHead index="08" eyebrow="More services" title={siblings.length ? `More in ${category.name}` : "Other services"} />
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {others.slice(0, 3).map((s, i) => (
+            <ServiceCard key={s.slug} service={s} index={i} delay={i * 0.06} />
+          ))}
         </div>
       </Section>
     </>

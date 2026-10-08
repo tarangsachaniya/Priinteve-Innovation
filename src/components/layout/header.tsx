@@ -18,7 +18,7 @@ const MOBILE_GROUPS: { title: string; links: NavLink[] }[] = [
   { title: "Products", links: nav.products },
   { title: "Services", links: nav.serviceMenu.map(({ label, href }) => ({ label, href })) },
   { title: "AI & Automation", links: nav.serviceMenu.find((m) => m.children)?.children ?? [] },
-  { title: "Explore", links: [...nav.main, { label: "Contact", href: "/contact" }] },
+  { title: "Explore", links: nav.main },
 ];
 
 /**

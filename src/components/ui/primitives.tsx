@@ -2,6 +2,7 @@ import { ArrowRight, ArrowUpRight, Plus } from "lucide-react";
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { PLACEHOLDER_RE } from "@/content/site";
+import type { FaqItem } from "@/content/types";
 import { cn, type Tone } from "@/lib/utils";
 import { Heading } from "../motion/heading";
 import { Reveal } from "../motion/reveal";
@@ -54,7 +55,7 @@ export function Button({ href, variant = "primary", arrow = "right", children, c
       {inner}
     </Link>
   ) : (
-    <a href={href} className={cls} {...(href.startsWith("http") ? { rel: "noopener" } : {})} {...rest}>
+    <a href={href} className={cls} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})} {...rest}>
       {inner}
     </a>
   );
@@ -86,7 +87,7 @@ export function Eyebrow({ children, className, index }: { children: ReactNode; c
 /** Full-bleed band: base (`light`), lifted (`sand`), deepest (`dark`) or violet (`brand`). */
 export function Section({ children, tone = "light", tight, id, className }: { children: ReactNode; tone?: Tone; tight?: boolean; id?: string; className?: string }) {
   return (
-    <section id={id} data-tone={tone} className={cn("relative bg-bg text-fg", tight ? "py-14 md:py-16" : "py-20 md:py-28", className)}>
+    <section id={id} data-tone={tone} className={cn("relative overflow-x-clip bg-bg text-fg", tight ? "py-14 md:py-16" : "py-20 md:py-28", className)}>
       <div className="container-x relative">{children}</div>
     </section>
   );
@@ -139,14 +140,12 @@ export function Checklist({ items, columns }: { items: string[]; columns?: boole
   return (
     <ul className={cn("border-t border-line", columns && "md:grid md:grid-cols-2 md:gap-x-16")}>
       {items.map((item, i) => (
-        <Reveal key={item} delay={(i % 4) * 0.04} y={12}>
-          <li className="flex gap-5 border-b border-line py-4 text-base">
+        <Reveal as="li" key={item} delay={(i % 4) * 0.04} y={12} className="flex gap-5 border-b border-line py-4 text-base">
             <span aria-hidden="true" className="mt-[0.85em] h-px w-5 shrink-0 bg-accent" />
             <span>
               <Text>{item}</Text>
             </span>
-          </li>
-        </Reveal>
+          </Reveal>
       ))}
     </ul>
   );
@@ -159,8 +158,7 @@ export function Steps({ items }: { items: ({ title?: string; text: string } | st
       {items.map((it, i) => {
         const step = typeof it === "string" ? { text: it } : it;
         return (
-          <Reveal key={i} y={16}>
-            <li className="grid items-baseline gap-4 border-b border-line py-8 md:grid-cols-[6rem_1fr] md:gap-10 md:py-8">
+          <Reveal as="li" key={i} y={16} className="grid items-baseline gap-4 border-b border-line py-8 md:grid-cols-[6rem_1fr] md:gap-10 md:py-8">
               <span aria-hidden="true" className="numeral text-3xl text-accent md:text-4xl">
                 {String(i + 1).padStart(2, "0")}
               </span>
@@ -170,44 +168,43 @@ export function Steps({ items }: { items: ({ title?: string; text: string } | st
                   <Text>{step.text}</Text>
                 </p>
               </div>
-            </li>
-          </Reveal>
+            </Reveal>
         );
       })}
     </ol>
   );
 }
 
-export function Faq({ items }: { items: { q: string; a: string }[] }) {
+export function Faq({ items, className }: { items: FaqItem[]; className?: string }) {
   return (
-    <div className="max-w-4xl border-t border-line">
-      {items.map(({ q, a }, i) => (
+    <div className={cn("max-w-4xl border-t border-line", className)}>
+      {items.map(({ q, a, link }, i) => (
         <Reveal key={q} delay={(i % 4) * 0.04} y={12}>
           <details className="group border-b border-line">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-8 py-6 font-display text-xl font-medium leading-snug md:text-2xl [&::-webkit-details-marker]:hidden">
-              <span className="flex gap-6">
-                <span className="numeral mt-1 text-lg text-accent">{String(i + 1).padStart(2, "0")}</span>
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-8 py-6 font-display text-lg font-medium leading-snug md:text-xl [&::-webkit-details-marker]:hidden">
+              <span className="flex gap-5">
+                <span className="numeral mt-0.5 text-base text-accent">{String(i + 1).padStart(2, "0")}</span>
                 <Text>{q}</Text>
               </span>
-              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-current transition-all duration-500 group-open:rotate-45 group-open:border-accent group-open:bg-accent-strong group-open:text-white">
+              <span className="grid size-9 shrink-0 place-items-center rounded-full border border-line transition-all duration-500 group-open:rotate-45 group-open:border-accent group-open:bg-accent-strong group-open:text-on-accent">
                 <Plus aria-hidden="true" className="size-4" />
               </span>
             </summary>
-            <p className="max-w-3xl pb-8 pl-14 pr-16 text-base text-muted">
-              <Text>{a}</Text>
-            </p>
+            <div className="max-w-3xl pb-7 pl-11 pr-4 text-base text-muted md:pr-14">
+              <p>
+                <Text>{a}</Text>
+              </p>
+              {link && (
+                <Link href={link.href} {...(link.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})} className="group/l mt-3 inline-flex items-center gap-1.5 font-semibold text-accent">
+                  <span className="link-u">{link.label}</span>
+                  <ArrowUpRight aria-hidden="true" className="size-4 transition-transform group-hover/l:-translate-y-0.5 group-hover/l:translate-x-0.5" />
+                </Link>
+              )}
+            </div>
           </details>
         </Reveal>
       ))}
     </div>
-  );
-}
-
-export function Note({ children, className }: { children: string; className?: string }) {
-  return (
-    <p className={cn("mt-8 max-w-3xl rounded-2xl border border-dashed border-line px-6 py-5 text-base text-fg", className)}>
-      <Text>{children}</Text>
-    </p>
   );
 }
 
@@ -224,25 +221,54 @@ export function Chips({ items }: { items: readonly string[] }) {
 }
 
 /* ------------------------------------------------------------ CTA / links */
-export function CtaBand({ heading, sub, children, em }: { heading: string; sub?: string; children: ReactNode; em?: string }) {
+/** Renders `text` with the `em` phrase highlighted (no word-by-word masking, so nothing can clip). */
+export function EmText({ text, em }: { text: string; em?: string }) {
+  const at = em ? text.indexOf(em) : -1;
+  if (!em || at < 0) return <>{text}</>;
   return (
-    <Section tone="brand" className="overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute -right-32 -top-40 size-[34rem] rounded-full bg-white/10 blur-3xl" />
-      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-40" />
-      <div className="relative max-w-4xl">
-        <Heading em={em} className="text-[clamp(2.2rem,5.2vw,4.2rem)]">
-          {heading}
-        </Heading>
-        {sub && (
-          <Reveal delay={0.2}>
-            <p className="mt-6 max-w-xl text-lg text-fg/90">{sub}</p>
-          </Reveal>
-        )}
-        <Reveal delay={0.3}>
-          <div className="mt-10 flex flex-wrap gap-3">{children}</div>
+    <>
+      {text.slice(0, at)}
+      <span className="em">{em}</span>
+      {text.slice(at + em.length)}
+    </>
+  );
+}
+
+/**
+ * Closing call to action: deep-green band with an ambient glow. The heading is set as plain text
+ * (balanced wrapping, generous line-height) and the actions sit in their own column on desktop.
+ */
+export function CtaBand({ heading, sub, children, em, eyebrow = "Let's work together", words }: { heading: string; sub?: string; children: ReactNode; em?: string; eyebrow?: string; words?: string[] }) {
+  return (
+    <section data-tone="brand" className="relative isolate overflow-hidden bg-bg py-20 text-fg md:py-28">
+      <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-48 -z-10 size-[40rem] rounded-full bg-[#6b8e3d]/35 blur-[120px]" />
+      <div aria-hidden="true" className="pointer-events-none absolute -bottom-56 -left-40 -z-10 size-[34rem] rounded-full bg-[#eed89e]/10 blur-[120px]" />
+      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-50" />
+      <div className="container-x grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-end lg:gap-20">
+        <Reveal>
+          <p className="label mb-6 flex items-center gap-3 text-muted">
+            <span aria-hidden="true" className="h-px w-8 bg-accent" />
+            {eyebrow}
+          </p>
+          {words && (
+            <ul aria-label="What we do" className="mb-7 flex flex-wrap gap-2">
+              {words.map((w) => (
+                <li key={w} className="rounded-full border border-line bg-fg/[0.06] px-3.5 py-1.5 text-[0.8rem] font-semibold tracking-wide">
+                  {w}
+                </li>
+              ))}
+            </ul>
+          )}
+          <h2 className="max-w-3xl text-[clamp(1.9rem,4.2vw,3.4rem)] leading-[1.1] tracking-[-0.03em] [text-wrap:balance]">
+            <EmText text={heading} em={em} />
+          </h2>
+          {sub && <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">{sub}</p>}
+        </Reveal>
+        <Reveal delay={0.15} className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-col lg:items-stretch [&>*]:justify-between">
+          {children}
         </Reveal>
       </div>
-    </Section>
+    </section>
   );
 }
 

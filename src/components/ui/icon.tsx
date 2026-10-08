@@ -1,5 +1,8 @@
 import {
   Blocks,
+  CodeXml,
+  Compass,
+  Database,
   Bot,
   CreditCard,
   Factory,
@@ -14,11 +17,13 @@ import {
   Printer,
   Plug,
   Puzzle,
+  Rocket,
   ScanLine,
   Send,
   Scissors,
   ShieldCheck,
   ShoppingBag,
+  Store,
   Sparkles,
   TrendingUp,
   UtensilsCrossed,
@@ -51,6 +56,11 @@ const ICONS: Record<IconName, ComponentType<LucideProps>> = {
   bot: Bot,
   workflow: Workflow,
   plug: Plug,
+  database: Database,
+  store: Store,
+  code: CodeXml,
+  compass: Compass,
+  rocket: Rocket,
 };
 
 export function Icon({ name, ...props }: { name: IconName } & LucideProps) {

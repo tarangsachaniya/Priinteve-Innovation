@@ -280,10 +280,10 @@ html[data-theme="light"] {
   .card-hover {
     transition: transform 0.5s var(--ease-out-expo), border-color 0.4s ease, box-shadow 0.5s ease;
   }
+  /* no lift: the card answers with a border, an inner light and a glow, so hover never feels "bouncy" */
   .card-hover:hover {
-    transform: translateY(-4px);
     border-color: rgb(107 142 61 / 0.6);
-    box-shadow: 0 30px 70px -30px rgb(107 142 61 / 0.45);
+    box-shadow: inset 0 1px 0 rgb(157 189 106 / 0.25), 0 30px 70px -34px rgb(107 142 61 / 0.5);
   }
 
   /* Faint grid, used behind heroes */
@@ -357,4 +357,101 @@ html[data-theme="light"] {
 @keyframes sweep {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
+}
+
+/* ---- endless marquee (see components/motion/marquee.tsx) ---- */
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+.marquee {
+  --gap: 0.45em;
+  overflow: hidden;
+  padding-block: 0.06em;
+}
+.marquee-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(157 189 106 / 0.75);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-dur, 40s) linear infinite;
+  will-change: transform;
+}
+.marquee-reverse .marquee-track { animation-direction: reverse; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--gap);
+  padding-right: var(--gap);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none !important; width: auto; justify-content: center; }
+  .marquee-group { flex-wrap: wrap; justify-content: center; flex-shrink: 1; row-gap: 0.5rem; padding-inline: 1.5rem; }
+  .marquee-dup { display: none; }
+}
+
+/* ---- footer wordmark: emerges from the dark with a soft ambient glow (pure CSS) ---- */
+.glow-word {
+  position: relative;
+  isolation: isolate;
+  color: transparent;
+  background: linear-gradient(180deg, rgb(250 248 242 / 0.16) 0%, rgb(157 189 106 / 0.1) 45%, rgb(250 248 242 / 0.02) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 0 60px rgb(157 189 106 / 0.08);
+}
+.glow-word::before {
+  content: "";
+  position: absolute;
+  inset: 15% 10% -10%;
+  z-index: -1;
+  background: radial-gradient(50% 60% at 50% 70%, rgb(107 142 61 / 0.32), rgb(107 142 61 / 0.08) 55%, transparent 75%);
+  filter: blur(40px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+.glow-word::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: rgb(157 189 106 / 0.18);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+/* full-bleed rail whose first item lines up with .container-x content */
+.bleed-pad { padding-inline: 1.5rem; }
+@media (min-width: 768px) {
+  .bleed-pad { padding-inline: max(3rem, calc((100vw - 80rem) / 2 + 3rem)); }
+}
+
+/* grid children shrink to their track instead of stretching it (prevents narrow-screen overflow) */
+.grid > * { min-width: 0; }
+
+/* ---- scroll stories ---- */
+/* steps that are not active sit before/after the stage and fade, blur and shift by direction */
+.story-step {
+  transition: opacity 0.7s var(--ease-out-expo), transform 0.9s var(--ease-out-expo), filter 0.7s var(--ease-out-expo);
+}
+.story-step[data-state="before"] { opacity: 0; transform: translate3d(0, -2.5rem, 0) scale(0.97); filter: blur(8px); pointer-events: none; visibility: hidden; transition-property: opacity, transform, filter, visibility; }
+.story-step[data-state="after"] { opacity: 0; transform: translate3d(0, 3rem, 0) scale(0.97); filter: blur(8px); pointer-events: none; visibility: hidden; transition-property: opacity, transform, filter, visibility; }
+.story-step[data-state="active"] { opacity: 1; transform: none; filter: none; visibility: visible; }
+.story-visual[data-state="before"] { transform: translate3d(0, -6%, 0) scale(0.92) rotateX(8deg); }
+.story-visual[data-state="after"] { transform: translate3d(0, 10%, 0) scale(0.92) rotateX(-8deg); }
+@media (max-height: 820px) {
+  .short-hide { display: none !important; }
+}
+
+/* ---- ecosystem ---- */
+@keyframes eco-spin { to { transform: rotate(360deg); } }
+.eco-ring { animation: eco-spin 60s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .eco-ring { animation: none; }
+  .eco-pulse { display: none; }
 }

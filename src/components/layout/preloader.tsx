@@ -90,7 +90,6 @@ export function Preloader() {
                 </motion.span>
               </span>
             ))}
-            <span className="text-accent">.</span>
           </p>
           <div className="mt-10 flex items-center gap-5" aria-hidden="true">
             <span className="relative h-px flex-1 bg-fg/20">

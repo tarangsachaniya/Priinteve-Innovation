@@ -18,8 +18,9 @@ export function buildMetadata(path: string, seo: PageSeo): Metadata {
       title: seo.title,
       description: seo.description,
       url: path,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: site.name }],
     },
-    twitter: { card: "summary_large_image", title: seo.title, description: seo.description },
+    twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: ["/opengraph-image"] },
   };
 }
 
@@ -48,8 +49,7 @@ export function faqLd(items: { q: string; a: string }[]) {
     mainEntity: items.map(({ q, a }) => ({
       "@type": "Question",
       name: q,
-      // placeholders are not published answers
-      acceptedAnswer: { "@type": "Answer", text: a.replace(/\s*\[[^\]]+\]/g, "").trim() },
+      acceptedAnswer: { "@type": "Answer", text: a },
     })),
   };
 }
@@ -58,11 +58,17 @@ export const organizationLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: site.name,
+  alternateName: site.brand,
   url: site.url,
+  logo: abs("/logo-mark.png"),
+  description: site.description,
+  foundingDate: String(site.founded),
+  founders: site.founders.map((f) => ({ "@type": "Person", name: f.name, jobTitle: f.role })),
   telephone: site.phone,
   email: site.email,
   slogan: site.tagline,
-  address: { "@type": "PostalAddress", addressCountry: "IN" },
+  address: { "@type": "PostalAddress", addressLocality: site.location.city, addressRegion: site.location.region, addressCountry: "IN" },
+  sameAs: [site.youtube, site.cardsUrl],
 };
 
 export const websiteLd = {

@@ -3,7 +3,7 @@ import path from "node:path";
 import { ImageResponse } from "next/og";
 import { site } from "@/content/site";
 
-export const alt = `${site.name} — ${site.tagline}`;
+export const alt = `${site.name}: ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -26,14 +26,11 @@ export default async function OpengraphImage() {
           <div style={{ fontSize: 44, display: "flex", alignItems: "center", gap: 18, fontWeight: 600 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={logo} width={66} height={45} alt="" />
-            <div style={{ display: "flex" }}>
-              {site.shortName}
-              <span style={{ color: "#19c74e" }}>.</span>
-            </div>
+            <div style={{ display: "flex" }}>{site.shortName}</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            <div style={{ fontSize: 66, fontWeight: 700, lineHeight: 1.05 }}>Software that helps Indian businesses print, serve and grow</div>
-            <div style={{ fontSize: 28, color: "#a9b0a4" }}>{site.tagline}</div>
+            <div style={{ fontSize: 58, fontWeight: 700, lineHeight: 1.05 }}>Products and digital solutions that help businesses operate, sell and grow</div>
+            <div style={{ fontSize: 28, color: "#a9b0a4" }}>{`${site.positioning} · ${site.location.city}`}</div>
           </div>
         </div>
         <div style={{ width: 300, height: 300, borderRadius: 56, background: "#0e3c32", border: "2px solid rgba(25,199,78,0.35)", alignSelf: "flex-end", display: "flex", alignItems: "center", justifyContent: "center" }}>

@@ -22,7 +22,7 @@ export function ProductCard({ product, className, delay = 0 }: { product: Produc
         <h3 className="text-2xl">{product.name}</h3>
         <p className="mt-2 text-[0.95rem] text-muted">{product.card}</p>
         <span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-accent">
-          Learn more
+          View product
           <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
         </span>
       </Link>
