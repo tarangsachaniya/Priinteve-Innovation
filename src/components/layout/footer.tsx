@@ -1,3 +1,4 @@
+import { FooterWordmark } from "./footer-wordmark";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { nav } from "@/content/navigation";
@@ -100,9 +101,9 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <p aria-hidden="true" data-text="Priinteve" className="glow-word pointer-events-none mt-8 select-none whitespace-nowrap text-center font-display text-[clamp(4rem,19vw,17rem)] font-bold leading-[0.8] tracking-[-0.04em]">
-        Priinteve
-      </p>
+      <div className="container-x">
+        <FooterWordmark />
+      </div>
     </footer>
   );
 }

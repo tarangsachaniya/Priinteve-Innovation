@@ -76,7 +76,7 @@ export default function HomePage() {
 
       {/* 02: one team, many digital systems */}
       <Section tone="dark" className="overflow-hidden">
-        <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 size-[50rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6b8e3d]/10 blur-[140px]" />
+        <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative mb-14 grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-end">
           <SectionHead index="02" eyebrow="One ecosystem" title="One team. Many digital systems." em="Many digital systems." className="mb-0 md:mb-0" />
           <Reveal>

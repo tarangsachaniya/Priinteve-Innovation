@@ -1,11 +1,10 @@
-import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
 import { home } from "@/content/pages";
-import { CTA_TEXT, PROCESS, site } from "@/content/site";
+import { PROCESS } from "@/content/site";
 import type { Tone } from "@/lib/utils";
 import { Reveal } from "@/components/motion/reveal";
 import { Icon } from "@/components/ui/icon";
-import { Button, CtaBand, Section, SectionHead } from "@/components/ui/primitives";
+import { Section, SectionHead } from "@/components/ui/primitives";
+import { ContactCtaBand } from "./contact-cta";
 
 /** How we work: six steps, as numbered cards joined by a rule. */
 export function ProcessSection({ tone = "light", heading = "How we work", eyebrow = "How we work", index, text }: { tone?: Tone; heading?: string; eyebrow?: string; index?: string; text?: string }) {
@@ -49,16 +48,6 @@ export function WhyGrid() {
 }
 
 /** Final call to action used across the site. */
-export function ContactCta({ heading = CTA_TEXT, sub = "Products, websites, software, NFC and QR, bots and AI automation, built by one team in Ahmedabad.", em = "print, build, automate or launch" }: { heading?: string; sub?: string; em?: string }) {
-  return (
-    <CtaBand heading={heading} sub={sub} em={em} words={["Print", "Build", "Automate", "Launch"]}>
-      <Button href="/contact">Start a project</Button>
-      <Button href={site.phoneHref} variant="ghost" arrow={false}>
-        Call {site.phone}
-      </Button>
-      <Button href={`mailto:${site.email}`} variant="ghost" arrow={false}>
-        {site.email}
-      </Button>
-    </CtaBand>
-  );
+export function ContactCta({ heading = "Tell us what you want to print, build, automate or launch.", sub = "Products, websites, software, NFC and QR, bots and AI automation, built by one team in Ahmedabad.", em }: { heading?: string; sub?: string; em?: string }) {
+  return <ContactCtaBand heading={heading} sub={sub} em={em} />;
 }

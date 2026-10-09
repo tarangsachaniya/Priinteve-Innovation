@@ -1,6 +1,5 @@
 import { ArrowUpRight, Building2, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
-import { EnquiryForm } from "@/components/forms/forms";
 import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/ui/json-ld";
 import { PageHero } from "@/components/ui/page-hero";
@@ -29,7 +28,7 @@ export default function ContactPage() {
       <PageHero trail={[{ name: "Contact" }]} h1={contactPage.h1} em="what you want to build" lead={CTA_TEXT} />
 
       <Section>
-        <div className="grid gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+        <div className="max-w-4xl">
           <div>
             <ul className="grid gap-3 sm:grid-cols-2">
               {details.map((d) => {
@@ -83,13 +82,6 @@ export default function ContactPage() {
               </div>
             </Reveal>
           </div>
-          <Reveal delay={0.1}>
-            <div className="card rounded-[2rem] p-8 md:p-12 lg:sticky lg:top-28">
-              <h2 className="mb-2 text-2xl">Send an enquiry</h2>
-              <p className="mb-8 text-muted">Tell us about your business and what you need.</p>
-              <EnquiryForm />
-            </div>
-          </Reveal>
         </div>
       </Section>
 

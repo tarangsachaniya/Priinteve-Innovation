@@ -2,7 +2,7 @@
 
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { useId, useState, type FormEvent, type ReactNode } from "react";
-import { PRODUCT_ENQUIRIES, PROJECT_TYPES, site, type EnquiryInterest } from "@/content/site";
+import { site } from "@/content/site";
 import { submitForm, type FormKind, type SubmitResult } from "@/lib/forms";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -94,60 +94,6 @@ function Submit({ status, children }: { status: Status; children: ReactNode }) {
       {loading && <Loader2 aria-hidden="true" className="size-4 animate-spin" />}
       {loading ? "Preparing…" : children}
     </button>
-  );
-}
-
-export function EnquiryForm({ defaultInterest }: { defaultInterest?: EnquiryInterest }) {
-  const uid = useId();
-  const s = useFormState("enquiry", {
-    name: "Name",
-    email: "Email",
-    phone: "Phone",
-    company: "Company",
-    interest: "Enquiry about",
-    message: "Message",
-  });
-  const id = (n: string) => `${uid}-${n}`;
-  const done = s.status === "success";
-  return (
-    <form onSubmit={s.onSubmit} noValidate className="grid gap-8">
-      <div className="grid gap-8 sm:grid-cols-2">
-        <Field label="Name *" id={id("name")}>
-          <input id={id("name")} name="name" required autoComplete="name" className={FIELD} />
-        </Field>
-        <Field label="Email *" id={id("email")}>
-          <input id={id("email")} name="email" type="email" required autoComplete="email" className={FIELD} />
-        </Field>
-      </div>
-      <div className="grid gap-8 sm:grid-cols-2">
-        <Field label="Phone" id={id("phone")}>
-          <input id={id("phone")} name="phone" type="tel" autoComplete="tel" className={FIELD} />
-        </Field>
-        <Field label="Company" id={id("company")}>
-          <input id={id("company")} name="company" autoComplete="organization" className={FIELD} />
-        </Field>
-      </div>
-      <Field label="Enquiry about" id={id("interest")}>
-        <select id={id("interest")} name="interest" defaultValue={defaultInterest ?? PROJECT_TYPES[0]} className={FIELD}>
-          <optgroup label="A project for my business">
-            {PROJECT_TYPES.map((o) => (
-              <option key={o}>{o}</option>
-            ))}
-          </optgroup>
-          <optgroup label="A Priinteve product">
-            {PRODUCT_ENQUIRIES.map((o) => (
-              <option key={o}>{o}</option>
-            ))}
-          </optgroup>
-        </select>
-      </Field>
-      <Field label="Message" id={id("message")}>
-        <textarea id={id("message")} name="message" rows={4} placeholder="What do you want to print, build, automate or launch?" className={FIELD} />
-      </Field>
-      {!done && <Submit status={s.status}>Prepare enquiry</Submit>}
-      {!done && <p className="-mt-4 text-sm text-muted">This opens a pre-filled email in your email app. Nothing is sent until you send it.</p>}
-      <Feedback status={s.status} error={s.error} result={s.result} onReset={s.reset} />
-    </form>
   );
 }
 

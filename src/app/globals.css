@@ -102,10 +102,6 @@ html[data-theme="dark"] [data-tone="dark"] {
 
 /* ---- values that need to be read from JS (scroll/WebGL scenes) ---- */
 :root {
-  --clay-bg: #e8eed9;
-  --clay-a: #4f6f2b;
-  --clay-b: #c9dca0;
-  --obj-line: #4f6f2b;
   --m-bg0: #faf8f2;
   --m-bg1: #131c17;
   --m-fg0: #1a1712;
@@ -117,10 +113,6 @@ html[data-theme="dark"] [data-tone="dark"] {
 }
 html[data-theme="dark"] {
   color-scheme: dark;
-  --clay-bg: #0f1711;
-  --clay-a: #5f8a2f;
-  --clay-b: #d4e4b0;
-  --obj-line: #9dbd6a;
   --m-bg0: #0d120d;
   --m-bg1: #080b08;
   --m-fg0: #f4f1ea;
@@ -395,34 +387,25 @@ html[data-theme="light"] {
   .marquee-dup { display: none; }
 }
 
-/* ---- footer wordmark: emerges from the dark with a soft ambient glow (pure CSS) ---- */
-.glow-word {
-  position: relative;
-  isolation: isolate;
+/* ---- footer wordmark (see components/layout/footer-wordmark.tsx): flat outline + cursor-revealed fill ---- */
+.fw-text {
   color: transparent;
-  background: linear-gradient(180deg, rgb(250 248 242 / 0.16) 0%, rgb(157 189 106 / 0.1) 45%, rgb(250 248 242 / 0.02) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  text-shadow: 0 0 60px rgb(157 189 106 / 0.08);
+  -webkit-text-stroke: 1.5px rgb(157 189 106 / 0.45);
+  margin-bottom: -0.1em; /* letters bleed off the bottom edge */
 }
-.glow-word::before {
-  content: "";
-  position: absolute;
-  inset: 15% 10% -10%;
-  z-index: -1;
-  background: radial-gradient(50% 60% at 50% 70%, rgb(107 142 61 / 0.32), rgb(107 142 61 / 0.08) 55%, transparent 75%);
-  filter: blur(40px);
-  opacity: 0.9;
-  pointer-events: none;
+.fw-fill {
+  color: #9dbd6a;
+  -webkit-text-stroke: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  -webkit-mask-image: radial-gradient(14rem circle at var(--mx, 50%) var(--my, 50%), #000, transparent 70%);
+  mask-image: radial-gradient(14rem circle at var(--mx, 50%) var(--my, 50%), #000, transparent 70%);
 }
-.glow-word::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  color: rgb(157 189 106 / 0.18);
-  filter: blur(18px);
-  pointer-events: none;
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .fw[data-on] .fw-fill { opacity: 0.85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fw-fill { display: none; }
 }
 
 /* full-bleed rail whose first item lines up with .container-x content */
@@ -435,23 +418,32 @@ html[data-theme="light"] {
 .grid > * { min-width: 0; }
 
 /* ---- scroll stories ---- */
-/* steps that are not active sit before/after the stage and fade, blur and shift by direction */
-.story-step {
-  transition: opacity 0.7s var(--ease-out-expo), transform 0.9s var(--ease-out-expo), filter 0.7s var(--ease-out-expo);
-}
-.story-step[data-state="before"] { opacity: 0; transform: translate3d(0, -2.5rem, 0) scale(0.97); filter: blur(8px); pointer-events: none; visibility: hidden; transition-property: opacity, transform, filter, visibility; }
-.story-step[data-state="after"] { opacity: 0; transform: translate3d(0, 3rem, 0) scale(0.97); filter: blur(8px); pointer-events: none; visibility: hidden; transition-property: opacity, transform, filter, visibility; }
-.story-step[data-state="active"] { opacity: 1; transform: none; filter: none; visibility: visible; }
-.story-visual[data-state="before"] { transform: translate3d(0, -6%, 0) scale(0.92) rotateX(8deg); }
-.story-visual[data-state="after"] { transform: translate3d(0, 10%, 0) scale(0.92) rotateX(-8deg); }
+/* steps are positioned frame by frame from the scroll position (see product-story.tsx); no CSS transition,
+   or the change would lag behind the scroll */
+.story-step { transition: none; }
 @media (max-height: 820px) {
   .short-hide { display: none !important; }
 }
 
 /* ---- ecosystem ---- */
-@keyframes eco-spin { to { transform: rotate(360deg); } }
-.eco-ring { animation: eco-spin 60s linear infinite; }
 @media (prefers-reduced-motion: reduce) {
-  .eco-ring { animation: none; }
   .eco-pulse { display: none; }
+}
+
+/* ---- contact CTA: cursor-following spotlight (fine pointers, motion allowed only) ---- */
+.cta-spot {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgb(238 216 158 / 0.16), transparent 70%);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .cta-panel:hover .cta-spot { opacity: 1; }
+}
+
+/* ---- spec panel (components/ui/spec-panel.tsx): rows light up in turn, 4 x 2.4s loop ---- */
+@keyframes spec-row { 0%, 22% { background-color: var(--accent-soft); } 28%, 100% { background-color: transparent; } }
+@keyframes spec-dot { 0%, 22% { background-color: var(--accent); box-shadow: 0 0 0 4px rgb(157 189 106 / 0.2); } 28%, 100% { background-color: var(--line); box-shadow: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .spec-row { animation: spec-row 9.6s ease-in-out infinite; }
+  .spec-dot { animation: spec-dot 9.6s ease-in-out infinite; }
 }

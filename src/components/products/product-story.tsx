@@ -3,17 +3,17 @@
 import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 import type { Product } from "@/content/types";
+import { useRef } from "react";
 import { useScrollSteps } from "@/lib/use-scroll-steps";
 import { cn } from "@/lib/utils";
 import { PointerParallax } from "../motion/pointer";
 import { Reveal } from "../motion/reveal";
-import { Product3D } from "../three/scenes";
 import { Badge, Button } from "../ui/primitives";
 import { DeviceDuo } from "../ui/media";
 import { ProductMockup } from "./product-mockups";
-import { PRODUCT_VARIANT, hostOf } from "./product-visual";
+import { hostOf } from "./product-visual";
 
-const STEP_VH = 75; // scroll distance per product
+const STEP_VH = 95; // scroll distance per product (a beat to read, then the change)
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
 
@@ -38,12 +38,11 @@ function Ctas({ p, tabbable = true, className }: { p: Product; tabbable?: boolea
   );
 }
 
-/** The product's visual: real website screens for live products; mockup + 3D for the one that isn't live. */
+/** The product's visual: real website screens for live products; mockup for the one that isn't live. */
 function Visual({ p, active, priority }: { p: Product; active: boolean; priority?: boolean }) {
   if (p.media) return <DeviceDuo desktop={p.media.desktop} mobile={p.media.mobile} url={hostOf(p.liveUrl)} priority={priority} />;
   return (
     <div className="relative grid aspect-[16/11] place-items-center overflow-hidden rounded-[1.5rem] border border-line bg-surface">
-      {active && <Product3D variant={PRODUCT_VARIANT[p.slug]} className="absolute inset-0 opacity-70" />}
       <ProductMockup product={p} className="relative z-10 w-[78%]" />
       <span className="label absolute left-5 top-5 rounded-full border border-line bg-bg/80 px-3 py-1.5 backdrop-blur">Coming soon</span>
     </div>
@@ -53,13 +52,42 @@ function Visual({ p, active, priority }: { p: Product; active: boolean; priority
 /**
  * OUR PRODUCTS, explored by scrolling.
  * Desktop (motion allowed): the stage pins; scroll moves through the five products. A numbered rail on the
- * left fills with progress and doubles as navigation (click or keyboard). Copy and visuals change with a
- * directional fade / blur / shift, and the visual tilts with the pointer.
+ * left fills with progress and doubles as navigation (click or keyboard). Copy and visuals cross over
+ * continuously with the scroll position (scale, blur, opacity, shift, mask), and the visual tilts with the pointer.
  * Mobile and reduced motion: a plain vertical sequence, one product after another.
  */
 export function ProductStory({ products, eyebrow, title }: { products: Product[]; eyebrow: string; title: string }) {
   const n = products.length;
-  const { track, active, go } = useScrollSteps(n);
+  const copy = useRef<(HTMLDivElement | null)[]>([]);
+  const art = useRef<(HTMLDivElement | null)[]>([]);
+
+  /**
+   * Layered, scroll-synchronised transition. d = step offset from the current scroll position:
+   * the item leaving (d < 0) scales down, blurs and fades while drifting up; the one arriving (d > 0)
+   * comes from the opposite side, slightly larger and blurred, and sharpens into place. Every
+   * product therefore shows partly (e.g. 70 % / 30 %) while the scroll is between two steps.
+   */
+  const frame = (pos: number) => {
+    for (let i = 0; i < n; i++) {
+      const d = i - pos;
+      const k = Math.min(1, Math.abs(d));
+      const o = 1 - k;
+      const eo = o * o * (3 - 2 * o);
+      const scale = d < 0 ? 1 - 0.03 * k : 1 + 0.03 * k;
+      const sign = d < 0 ? -1 : 1;
+      const blur = k * 8;
+      for (const [el, depth, clip] of [[copy.current[i], 1, false], [art.current[i], 1.6, true]] as const) {
+        if (!el) continue;
+        el.style.opacity = eo.toFixed(3);
+        el.style.transform = `translate3d(${(sign * k * 2.5 * depth).toFixed(2)}rem,${(sign * k * 1.5 * depth).toFixed(2)}rem,0) scale(${scale.toFixed(4)})`;
+        el.style.filter = blur < 0.05 ? "none" : `blur(${blur.toFixed(2)}px)`;
+        el.style.visibility = k >= 1 ? "hidden" : "visible";
+        // the visual is also unmasked from the arrival side, so it sweeps in rather than just fading
+        el.style.clipPath = clip && k > 0.001 ? `inset(0 ${d > 0 ? 0 : k * 14}% 0 ${d > 0 ? k * 14 : 0}% round 1.5rem)` : "none";
+      }
+    }
+  };
+  const { track, active, go } = useScrollSteps(n, frame);
   const state = (i: number) => (i === active ? "active" : i < active ? "before" : "after");
 
   const onKey = (e: React.KeyboardEvent, i: number) => {
@@ -127,7 +155,7 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
             {/* copy */}
             <div className="relative grid">
               {products.map((p, i) => (
-                <div key={p.slug} id={`ps-panel-${p.slug}`} role="tabpanel" aria-labelledby={`ps-tab-${p.slug}`} aria-hidden={i !== active} data-state={state(i)} className="story-step relative [grid-area:1/1]">
+                <div key={p.slug} ref={(el) => void (copy.current[i] = el)} id={`ps-panel-${p.slug}`} role="tabpanel" aria-labelledby={`ps-tab-${p.slug}`} aria-hidden={i !== active} data-state={state(i)} style={i === 0 ? undefined : { opacity: 0, visibility: "hidden" }} className={cn("story-step relative will-change-[transform,opacity,filter] [grid-area:1/1]", i !== active && "pointer-events-none")}>
                   <span aria-hidden="true" className="numeral pointer-events-none absolute -top-4 right-0 select-none text-[8rem] leading-none text-transparent [-webkit-text-stroke:1px_rgb(107_142_61/0.35)]">
                     {num(i)}
                   </span>
@@ -155,7 +183,7 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
             {/* visual */}
             <PointerParallax className="relative grid [perspective:1400px]">
               {products.map((p, i) => (
-                <div key={p.slug} aria-hidden={i !== active} data-state={state(i)} className="story-step story-visual mx-auto w-full max-w-[min(100%,calc((100svh-17rem)*1.45))] [grid-area:1/1]">
+                <div key={p.slug} ref={(el) => void (art.current[i] = el)} aria-hidden={i !== active} data-state={state(i)} style={i === 0 ? undefined : { opacity: 0, visibility: "hidden" }} className={cn("story-step mx-auto w-full max-w-[min(100%,calc((100svh-17rem)*1.45))] will-change-[transform,opacity,filter] [grid-area:1/1]", i !== active && "pointer-events-none")}>
                   <div className="transition-transform duration-700 ease-out-expo" style={{ transform: "rotateY(calc(var(--px, 0) * 4deg)) rotateX(calc(var(--py, 0) * -3deg))" }}>
                     <Visual p={p} active={i === active} priority={i === 0} />
                   </div>

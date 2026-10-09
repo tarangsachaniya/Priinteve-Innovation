@@ -4,13 +4,21 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
  * Scroll-driven steps for a pinned section. The track (a tall wrapper around a sticky stage) maps its
- * scroll distance onto `n` equal steps. The continuous progress (0..1) is written to the track as the CSS
- * variable --progress (no React render per frame); React only re-renders when the active step changes.
+ * scroll distance onto `n` steps. The continuous progress (0..1) is written to the track as the CSS
+ * variable --progress and, with the eased step position `pos` (0..n-1, fractional while changing),
+ * handed to `onFrame` every frame, so visuals can follow the scroll with no React render. React only
+ * re-renders when the nearest step changes. Each step holds for a beat; the change happens mid-step.
  * When the track is not displayed (mobile / reduced-motion layout), nothing runs.
  */
-export function useScrollSteps(n: number) {
+const ease = (t: number) => t * t * (3 - 2 * t);
+
+export function useScrollSteps(n: number, onFrame?: (pos: number) => void) {
   const track = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const frame = useRef(onFrame);
+  useEffect(() => {
+    frame.current = onFrame;
+  });
 
   useEffect(() => {
     let raf = 0;
@@ -21,7 +29,11 @@ export function useScrollSteps(n: number) {
       if (dist <= 0) return;
       const p = Math.min(1, Math.max(0, -t.getBoundingClientRect().top / dist));
       t.style.setProperty("--progress", p.toFixed(4));
-      setActive(Math.min(n - 1, Math.floor(p * n * 0.9999)));
+      const f = p * (n - 1);
+      const base = Math.min(Math.floor(f), Math.max(0, n - 2));
+      const pos = n > 1 ? base + ease(Math.min(1, Math.max(0, (f - base - 0.2) / 0.6))) : 0;
+      frame.current?.(pos);
+      setActive(Math.round(pos));
     };
     const on = () => {
       cancelAnimationFrame(raf);
@@ -44,7 +56,7 @@ export function useScrollSteps(n: number) {
       if (!t) return;
       const dist = t.offsetHeight - window.innerHeight;
       const top = t.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: top + ((i + 0.5) / n) * dist, behavior: "smooth" });
+      window.scrollTo({ top: top + (i / Math.max(1, n - 1)) * dist, behavior: "smooth" });
     },
     [n],
   );

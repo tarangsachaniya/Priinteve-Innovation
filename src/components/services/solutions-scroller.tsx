@@ -52,8 +52,10 @@ export function SolutionsScroller({ items, head }: { items: Solution[]; head?: R
   useEffect(() => {
     const el = rail.current;
     if (!el) return;
+    const cards = () => Array.from(el.children, (c) => c.firstElementChild as HTMLElement | null);
     if (!pinned || !dist) {
       el.style.transform = "";
+      for (const c of cards()) c?.removeAttribute("style");
       return;
     }
     let raf = 0;
@@ -62,7 +64,16 @@ export function SolutionsScroller({ items, head }: { items: Solution[]; head?: R
       if (!t) return;
       const p = Math.min(1, Math.max(0, -t.getBoundingClientRect().top / dist));
       el.style.transform = `translate3d(${-p * dist}px,0,0)`;
-      setActive(Math.round(p * (n - 1)));
+      const pos = p * (n - 1);
+      setActive(Math.round(pos));
+      // card emphasis follows the scroll continuously: the nearer the centre, the larger and brighter
+      cards().forEach((c, i) => {
+        if (!c) return;
+        const k = Math.min(1, Math.abs(i - pos));
+        const e = k * k * (3 - 2 * k);
+        c.style.opacity = (1 - 0.45 * e).toFixed(3);
+        c.style.transform = `scale(${(1 - 0.06 * e).toFixed(4)})`;
+      });
     };
     const on = () => {
       cancelAnimationFrame(raf);
@@ -105,8 +116,8 @@ export function SolutionsScroller({ items, head }: { items: Solution[]; head?: R
                 href={`/services/${s.slug}`}
                 onFocus={() => reveal(i)}
                 className={cn(
-                  "card group relative flex h-full w-[min(82vw,22rem)] flex-col overflow-hidden rounded-[2rem] p-7 transition-[transform,opacity,border-color,box-shadow] duration-700 ease-out-expo sm:w-[24rem] lg:min-h-[27rem] lg:w-[27rem] lg:p-8",
-                  on ? "border-accent/50 opacity-100 shadow-[0_40px_90px_-40px_rgb(107_142_61/0.55)]" : "scale-[0.94] opacity-55 hover:opacity-90",
+                  "card group relative flex h-full w-[min(82vw,22rem)] flex-col overflow-hidden rounded-[2rem] p-7 transition-[border-color,box-shadow] duration-700 ease-out-expo sm:w-[24rem] lg:min-h-[27rem] lg:w-[27rem] lg:p-8",
+                  on ? "border-accent/50 opacity-100 shadow-[0_40px_90px_-40px_rgb(107_142_61/0.55)]" : "border-line",
                 )}
               >
                 {/* depth: layered rings behind the icon */}

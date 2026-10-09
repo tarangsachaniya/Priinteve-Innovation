@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectTiles } from "@/components/case-studies/project-list";
-import { EnquiryForm } from "@/components/forms/forms";
-import { Reveal } from "@/components/motion/reveal";
 import { ProductCard } from "@/components/products/product-card";
 import { ServiceVisual } from "@/components/products/product-visual";
-import { ProcessSection } from "@/components/sections/shared";
+import { ContactCta, ProcessSection } from "@/components/sections/shared";
 import { ServiceCard } from "@/components/services/service-card";
 import { JsonLd } from "@/components/ui/json-ld";
 import { FeatureGrid } from "@/components/ui/media";
 import { PageHero } from "@/components/ui/page-hero";
-import { Button, Checklist, Faq, LinkCard, Section, SectionHead } from "@/components/ui/primitives";
+import { Button, Checklist, Faq, Section, SectionHead } from "@/components/ui/primitives";
 import { products } from "@/content/products";
 import { categoryOf, serviceBySlug, services, servicesIn } from "@/content/services";
-import { site, type EnquiryInterest } from "@/content/site";
-import type { ServiceSlug } from "@/content/types";
+import { site } from "@/content/site";
 import { projects } from "@/content/work";
 import { abs, breadcrumbLd, buildMetadata, faqLd } from "@/lib/seo";
 
@@ -30,22 +27,6 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const service = serviceBySlug((await params).slug);
   return service ? buildMetadata(`/services/${service.slug}`, service.seo) : {};
 }
-
-/** Pre-selects the enquiry type on the form. */
-const INTEREST: Record<ServiceSlug, EnquiryInterest> = {
-  "website-design-development": "Website",
-  "custom-web-applications": "Custom Software",
-  "ecommerce-websites": "E-commerce",
-  "whatsapp-catalog": "E-commerce",
-  "custom-software": "Custom Software",
-  "crm-erp": "CRM / ERP",
-  "nfc-qr-solutions": "NFC / QR",
-  "whatsapp-bots": "WhatsApp Bot",
-  "telegram-bots": "Telegram Bot",
-  "ai-agents": "AI Agent",
-  "business-automation": "Automation",
-  "ai-integrations": "AI Agent",
-};
 
 export default async function ServicePage({ params }: { params: Promise<Params> }) {
   const service = serviceBySlug((await params).slug);
@@ -84,7 +65,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         visual={<ServiceVisual service={service} />}
         actions={
           <>
-            <Button href="#enquiry">Start a project</Button>
+            <Button href="/contact">Start a project</Button>
             <Button href="/work" variant="ghost">
               See our work
             </Button>
@@ -139,26 +120,10 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         </div>
       </Section>
 
-
-      <Section id="enquiry">
-        <div className="grid gap-14 lg:grid-cols-2 lg:gap-24">
-          <div>
-            <SectionHead index="07" eyebrow="Enquiry" title="Tell us about your project" em="your project" text={`Share a few details and we'll reply with the right next step. Or write to ${site.email}.`} />
-            <div className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-1">
-              <LinkCard eyebrow="Category" title={category.name} href={`/services#${category.anchor}`} />
-              <LinkCard eyebrow="Contact" title="Call or email us" href="/contact" />
-            </div>
-          </div>
-          <Reveal delay={0.1}>
-            <div className="card rounded-[1.75rem] p-8 md:p-12">
-              <EnquiryForm defaultInterest={INTEREST[service.slug]} />
-            </div>
-          </Reveal>
-        </div>
-      </Section>
+      <ContactCta />
 
       <Section tone="dark">
-        <SectionHead index="08" eyebrow="More services" title={siblings.length ? `More in ${category.name}` : "Other services"} />
+        <SectionHead index="07" eyebrow="More services" title={siblings.length ? `More in ${category.name}` : "Other services"} />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {others.slice(0, 3).map((s, i) => (
             <ServiceCard key={s.slug} service={s} index={i} delay={i * 0.06} />
