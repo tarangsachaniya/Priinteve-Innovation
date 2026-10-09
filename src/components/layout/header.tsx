@@ -248,7 +248,7 @@ export function Header() {
                 ) : (
                   <ul className="grid grid-cols-3 gap-x-8 gap-y-2">
                     {nav.serviceMenu.map((it) => (
-                      <li key={it.href} className={it.children ? "col-span-2 row-span-2" : undefined}>
+                      <li key={it.href} className={it.children ? "col-span-3" : undefined}>
                         <Link href={it.href} className="group block border-t border-line py-4">
                           <span className="flex items-center justify-between font-display text-lg font-semibold transition-colors group-hover:text-accent">
                             {it.label}
@@ -311,7 +311,7 @@ export function Header() {
                     <ul>
                       {g.links.map((l, i) => (
                         <motion.li key={l.href} initial={reduce ? false : { y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.25 + gi * 0.08 + i * 0.04, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                          <Link href={l.href} className="flex items-baseline justify-between border-b border-line py-3.5 font-display text-2xl font-semibold">
+                          <Link href={l.href} className="group flex items-baseline justify-between border-b border-line py-4 font-display text-[1.75rem] font-semibold tracking-[-0.03em] transition-colors hover:text-accent">
                             {l.label}
                             {l.note && <span className="label text-muted">{l.note}</span>}
                           </Link>

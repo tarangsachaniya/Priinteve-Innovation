@@ -3,6 +3,7 @@ import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { nav } from "@/content/navigation";
 import { site } from "@/content/site";
+import { CookieSettingsButton } from "./cookie-consent";
 import { Logo } from "./logo";
 
 type FooterLink = { label: string; href: string; note?: string };
@@ -28,12 +29,18 @@ function Col({ title, links, label }: { title: string; links: FooterLink[]; labe
 
 export function Footer() {
   return (
-    <footer data-tone="dark" className="relative overflow-hidden bg-bg pt-20 text-fg md:pt-24">
-      <div className="container-x">
+    <footer data-tone="dark" className="grain relative overflow-hidden bg-bg pt-24 text-fg md:pt-32">
+      <div className="container-x relative z-10">
         <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
-          <p className="max-w-3xl font-display text-[clamp(1.8rem,4vw,3rem)] font-semibold leading-[1.1] tracking-[-0.03em] [text-wrap:balance]">
-            We build products, websites, software and <span className="em">automation</span> that help businesses grow.
-          </p>
+          <div>
+            <p className="label mb-6 flex items-center gap-3 text-muted">
+              <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
+              Priinteve Innovations · Ahmedabad
+            </p>
+            <p className="max-w-3xl font-display text-[clamp(2rem,4.6vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.035em] [text-wrap:balance]">
+              We build products, websites, software and <span className="em">automation</span> that help businesses grow.
+            </p>
+          </div>
           <div className="flex flex-wrap gap-3 lg:justify-end">
             <Link href="/contact" className="group inline-flex items-center gap-2 rounded-full bg-accent-strong px-6 py-3 text-[0.92rem] font-semibold text-on-accent transition-transform duration-300 hover:-translate-y-0.5">
               Start a project
@@ -59,7 +66,7 @@ export function Footer() {
               <p className="font-semibold">{site.name}</p>
               <p className="flex gap-2.5 text-muted">
                 <MapPin aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
-                {site.location.line}
+                {site.registeredAddress.line}
               </p>
               <a href={`mailto:${site.email}`} className="link-u flex w-fit gap-2.5 whitespace-nowrap">
                 <Mail aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
@@ -98,10 +105,13 @@ export function Footer() {
                 Contact
               </Link>
             </li>
+            <li>
+              <CookieSettingsButton className="link-u hover:text-fg" />
+            </li>
           </ul>
         </div>
       </div>
-      <div className="container-x">
+      <div className="container-x relative z-10">
         <FooterWordmark />
       </div>
     </footer>

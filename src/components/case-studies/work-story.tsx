@@ -64,18 +64,18 @@ export function WorkStory({ projects }: { projects: Project[] }) {
       {projects.map((p, i) => {
         const service = serviceBySlug(p.service);
         return (
-          <div key={p.slug} data-slot className="lg:motion-safe:sticky lg:motion-safe:top-24 lg:motion-safe:h-[calc(100svh-7rem)] lg:motion-safe:pb-6" style={{ zIndex: i + 1 }}>
-            <article data-panel aria-labelledby={`work-${p.slug}`} className="card grid h-full origin-top overflow-hidden rounded-[2rem] lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:motion-reduce:mb-6">
+          <div key={p.slug} data-slot className="lg:motion-safe:sticky lg:motion-safe:top-24 lg:motion-safe:h-[min(38rem,calc(100svh-7rem))] lg:motion-safe:pb-6" style={{ zIndex: i + 1 }}>
+            <article data-panel aria-labelledby={`work-${p.slug}`} className="card grid h-full origin-top overflow-hidden rounded-[2rem] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:motion-reduce:mb-6">
               {/* info */}
-              <div className="flex flex-col p-7 sm:p-10 lg:p-12">
+              <div className="flex flex-col p-7 sm:p-10 lg:p-11">
                 <div className="flex items-center justify-between gap-4">
-                  <span className="numeral text-[clamp(3rem,6vw,5.5rem)] text-accent">{num(i)}</span>
+                  <span className="font-serif text-[clamp(3rem,5vw,4.5rem)] italic leading-none text-accent">{num(i)}</span>
                   <span className="label text-right text-muted">
                     {num(i)} / {num(projects.length - 1)}
                   </span>
                 </div>
                 <p className="label mt-6 text-muted">{p.category}</p>
-                <h3 id={`work-${p.slug}`} className="mt-3 text-[clamp(2rem,4.2vw,3.8rem)] uppercase leading-[0.95] tracking-[-0.04em]">
+                <h3 id={`work-${p.slug}`} className="mt-3 text-[clamp(2rem,3.6vw,3.2rem)] uppercase leading-[0.95] tracking-[-0.04em]">
                   {p.name}
                 </h3>
                 <p className="mt-5 max-w-md text-lg text-muted">{p.summary}</p>
@@ -100,25 +100,25 @@ export function WorkStory({ projects }: { projects: Project[] }) {
                   )}
                 </div>
               </div>
-              {/* visual */}
-              <Reveal variant="mask" className="relative min-h-[16rem] sm:min-h-[22rem] lg:min-h-0">
-                <Link href={`/work/${p.slug}`} tabIndex={-1} aria-hidden="true" className="group absolute inset-0 block overflow-hidden lg:rounded-none">
-                  {p.media?.cover && p.media.cover.src === p.media.desktop?.src ? (
-                    // the cover is a full-page screenshot: frame it instead of cropping it
-                    <span className="absolute inset-0 grid place-items-center bg-[radial-gradient(80%_70%_at_60%_40%,rgb(107_142_61/0.35),transparent_70%),linear-gradient(150deg,#18330d,#0d120d)] p-6 sm:p-10">
-                      <span className="block w-full max-w-[40rem] transition-transform duration-[1400ms] ease-out-expo group-hover:scale-[1.03]">
-                        <BrowserFrame media={p.media.desktop} url={p.domain} sizes="(min-width: 1024px) 45vw, 90vw" />
-                      </span>
-                    </span>
-                  ) : p.media?.cover ? (
-                    <Image src={p.media.cover.src} alt="" fill sizes="(min-width: 1024px) 55vw, 100vw" className="object-cover transition-transform duration-[1400ms] ease-out-expo group-hover:scale-[1.04]" />
-                  ) : (
-                    <ProjectArt project={p} className="absolute inset-0 rounded-none border-0" />
+              {/* visual: the live site, framed whole (never cropped), over a soft wash of the project's own imagery */}
+              <Reveal variant="mask" className="relative min-h-[17rem] overflow-hidden sm:min-h-[24rem] lg:min-h-0">
+                <Link href={`/work/${p.slug}`} tabIndex={-1} aria-hidden="true" className="group absolute inset-0 block">
+                  <span className="absolute inset-0 bg-[radial-gradient(80%_70%_at_60%_40%,rgb(107_142_61/0.35),transparent_70%),linear-gradient(150deg,#18330d,#0d120d)]" />
+                  {p.media?.cover && p.media.cover.src !== p.media.desktop?.src && (
+                    <Image src={p.media.cover.src} alt="" fill sizes="40vw" className="scale-110 object-cover opacity-35 blur-[2px] transition-transform duration-[1600ms] ease-out-expo group-hover:scale-[1.14]" />
                   )}
-                  <span className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-                  {p.domain && p.media?.cover.src !== p.media?.desktop?.src && <span className="absolute left-5 top-5 rounded-full bg-black/55 px-3.5 py-1.5 text-[0.72rem] text-white backdrop-blur">{p.domain}</span>}
+                  <span className="absolute inset-0 bg-gradient-to-t from-[#0d120d]/70 via-[#0d120d]/20 to-transparent" />
+                  <span className="absolute inset-0 grid place-items-center p-6 pb-10 sm:p-10 sm:pr-20 lg:pr-24">
+                    {p.media?.desktop ? (
+                      <span className="block w-full max-w-[34rem] transition-transform duration-[1400ms] ease-out-expo group-hover:-translate-y-1.5">
+                        <BrowserFrame media={p.media.desktop} url={p.domain} sizes="(min-width: 1024px) 34rem, 90vw" className="shadow-[0_50px_100px_-30px_rgb(0_0_0/0.9)]" />
+                      </span>
+                    ) : (
+                      <ProjectArt project={p} className="aspect-[4/3] w-full max-w-[34rem]" />
+                    )}
+                  </span>
                 </Link>
-                {p.media?.mobile && <PhoneFrame media={p.media.mobile} className="pointer-events-none absolute bottom-6 right-6 hidden w-[22%] min-w-[7rem] max-w-[10rem] sm:block" />}
+                {p.media?.mobile && <PhoneFrame media={p.media.mobile} className="pointer-events-none absolute bottom-5 right-5 hidden w-[19%] min-w-[6.5rem] max-w-[8.5rem] sm:block" />}
               </Reveal>
             </article>
           </div>

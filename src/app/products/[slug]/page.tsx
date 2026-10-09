@@ -246,14 +246,15 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         </div>
       </Section>
 
-      <CtaBand heading={product.cta.heading} sub={product.cta.sub} eyebrow={product.name}>
-        <Button href={product.cta.href ?? "/contact"} arrow={product.cta.href?.startsWith("http") ? "up-right" : "right"}>
-          {product.cta.button}
-        </Button>
-        <Button href="/contact" variant="ghost">
-          Contact Priinteve
-        </Button>
-      </CtaBand>
+      <CtaBand
+        heading={product.cta.heading}
+        sub={product.cta.sub}
+        eyebrow={product.name}
+        actions={[
+          { href: product.cta.href ?? "/contact", label: product.cta.href?.startsWith("http") ? "Visit the product" : "Next step", value: product.cta.button, primary: true },
+          { href: "/contact", label: "Questions first?", value: "Contact Priinteve", icon: "mail" },
+        ]}
+      />
 
       <Section tone="sand">
         <SectionHead index={idx()} eyebrow="Related services" title="Need something built around it?" text="The same team builds custom solutions for businesses." />

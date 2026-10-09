@@ -43,10 +43,10 @@ type Props = {
   em?: string;
 };
 
-/** Inner-page hero: confident sans headline over a faint grid and violet glow, a framed visual on the right when there is one. */
+/** Inner-page hero: confident sans headline with a serif italic accent over a faint grid and green glow, a framed visual on the right when there is one. */
 export function PageHero({ h1, lead, trail, badge, actions, visual, em }: Props) {
   return (
-    <header data-tone="light" className="relative overflow-hidden bg-bg pb-16 pt-32 text-fg md:pb-24 md:pt-40">
+    <header data-tone="light" className="relative overflow-hidden bg-bg pb-16 pt-32 text-fg md:pb-28 md:pt-44">
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0" />
       <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/2 size-[44rem] -translate-x-1/2 rounded-full bg-accent-strong/20 blur-[120px]" />
       <div className="container-x">
@@ -58,7 +58,7 @@ export function PageHero({ h1, lead, trail, badge, actions, visual, em }: Props)
                 {badge}
               </Reveal>
             )}
-            <Heading as="h1" em={em} className="max-w-5xl text-[clamp(2.2rem,5vw,4rem)]">
+            <Heading as="h1" em={em} className="max-w-5xl text-[clamp(2.5rem,6vw,5rem)] leading-[1.0] tracking-[-0.045em]">
               {h1}
             </Heading>
             {lead && (

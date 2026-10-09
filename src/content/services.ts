@@ -40,6 +40,13 @@ export const serviceCategories: { key: ServiceCategory; name: string; blurb: str
     blurb: "We build digital systems that automate repetitive business processes.",
     items: ["WhatsApp bots", "Telegram bots", "AI agents", "AI-powered customer support", "Lead automation", "Workflow automation", "Business process automation", "AI integrations", "Custom AI solutions"],
   },
+  {
+    key: "growth",
+    name: "Brand & Growth",
+    anchor: "brand-growth",
+    blurb: "A brand people remember and a presence customers find when they search.",
+    items: ["Google Business Profile", "Local SEO", "On-page SEO", "Technical SEO", "Schema and structured data", "Search Console setup", "Logo design", "Brand identity", "Brand guidelines", "Packaging and print design", "Social media kits"],
+  },
 ];
 
 export const services: Service[] = [
@@ -419,6 +426,69 @@ export const services: Service[] = [
       { q: "Can AI be added to an existing website?", a: "Yes, in most cases, depending on how the site is built." },
     ],
     relatedWork: [],
+  },
+  /* ------------------------------------------------------------------ Brand & Growth */
+  {
+    slug: "seo-google-business",
+    category: "growth",
+    name: "SEO & Google Business",
+    short: "SEO",
+    icon: "search",
+    seo: {
+      title: "SEO & Google Business Profile Services in Ahmedabad | Priinteve",
+      description:
+        "Google Business Profile setup, local SEO, on-page and technical SEO, structured data and Search Console, so customers in Ahmedabad and beyond find you when they search.",
+      keywords: "SEO company Ahmedabad, Google Business Profile setup, local SEO India, technical SEO, schema markup",
+    },
+    h1: "SEO and Google Business that help customers find you",
+    body: "Most customers start with a search. We set up and tidy your Google Business Profile, fix the technical basics that stop pages ranking, structure your content around what people actually search for, and add the structured data that search engines and AI answers read. You get clear reports on what changed, not vague promises.",
+    card: "Google Business Profile, local and technical SEO, and structured data, so customers find you when they search.",
+    includes: ["Google Business Profile setup and optimisation", "Local SEO for your city and area", "Keyword and search intent research", "On-page SEO: titles, descriptions, headings", "Technical SEO: speed, indexing, sitemaps", "Schema and structured data", "Google Search Console and analytics setup", "Content plan for service and location pages"],
+    useCases: [
+      { title: "Local shops and services", text: "Show up in Maps and the local pack when nearby customers search for what you sell." },
+      { title: "New websites", text: "Launch with the right structure, metadata and sitemaps from day one instead of fixing it later." },
+      { title: "Sites that don't rank", text: "Find and fix the technical and content issues holding existing pages back." },
+      { title: "Multi-location businesses", text: "Consistent profiles and location pages for every branch." },
+    ],
+    deliverables: ["SEO audit with a prioritised fix list", "Google Business Profile set up and verified", "On-page fixes across key pages", "Structured data on the site", "Search Console and sitemap setup", "Monthly or one-off progress report"],
+    faq: [
+      { q: "How long does SEO take to show results?", a: "Technical fixes and Google Business changes can show within weeks; content and rankings usually build over a few months. We agree what to measure before we start." },
+      { q: "Do you guarantee first-page rankings?", a: "No one honest can. We do the work search engines reward and report clearly on what changed." },
+      { q: "Can you set up my Google Business Profile?", a: "Yes. We create or claim it, complete every field, add photos and services, and help you through verification." },
+      { q: "Do you work on sites you didn't build?", a: "Yes. We audit the existing site first and tell you what can be fixed in place." },
+    ],
+    relatedWork: ["royal-timber", "premium-cashew-ecommerce"],
+  },
+  {
+    slug: "branding",
+    category: "growth",
+    name: "Branding",
+    icon: "palette",
+    seo: {
+      title: "Branding & Logo Design Agency in Ahmedabad | Priinteve",
+      description:
+        "Logo design, brand identity, colour and type systems, brand guidelines, packaging and social media kits for small and growing businesses, by Priinteve in Ahmedabad.",
+      keywords: "branding agency Ahmedabad, logo design India, brand identity design, packaging design, brand guidelines",
+    },
+    h1: "Branding that makes a small business look established",
+    body: "A clear brand makes every other piece of marketing work harder. We design the logo, colours and type, then carry them into the places customers actually see you: the website, packaging, cards, menus, signage and social posts. You get a system your team can use, not just a logo file.",
+    card: "Logos, colour and type systems, and brand assets that carry through the website, packaging and social posts.",
+    includes: ["Logo design and variations", "Colour palette and typography", "Brand guidelines document", "Business cards and stationery", "Packaging and label design", "Menus, standees and print collateral", "Social media templates", "Brand refresh for existing businesses"],
+    useCases: [
+      { title: "New businesses", text: "Start with a brand that looks considered from the first customer." },
+      { title: "D2C and packaged products", text: "Packaging and labels that stand out on a shelf and in a photo." },
+      { title: "Restaurants and salons", text: "A look that carries from the sign to the menu, the QR standee and Instagram." },
+      { title: "Rebrands", text: "Modernise an outdated identity while keeping what customers already recognise." },
+    ],
+    deliverables: ["Brand discovery workshop", "Logo concepts and final files (SVG, PNG, PDF)", "Colour and type system", "Brand guidelines PDF", "Core collateral designs", "Social media template kit"],
+    faq: [
+      { q: "How many logo concepts do I get?", a: "We present a small set of distinct directions, then refine the one you choose. The exact number is agreed in the plan." },
+      { q: "Do I own the final logo?", a: "Yes. On final payment you receive the source files and full rights to the artwork." },
+      { q: "Can you design packaging too?", a: "Yes, labels, pouches and boxes, prepared as print-ready files for your printer." },
+      { q: "Can branding and website be done together?", a: "Yes, and it is often faster: the website is designed straight from the new brand system." },
+    ],
+    relatedWork: ["premium-cashew-ecommerce", "quantivo"],
+    relatedProducts: ["nectcard"],
   },
 ];
 

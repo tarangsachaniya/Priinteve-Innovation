@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   PRIINTEVE — design tokens, taken from the Priinteve Cards site (cards.priinteve.com):
+   PRIINTEVE: design tokens, taken from the Priinteve Cards site (cards.priinteve.com):
    warm cream paper, near-black ink, olive green accent, deep forest-green dark sections, a touch of gold.
    `html[data-theme]` picks light (default) or dark; every section also declares a tone and the
    semantic tokens swap, so components never hard-code colours.
-   Tones: light (base) → sand (lifted) → dark (forest green) → brand (deep green CTA).
+   Tones: light (base), sand (lifted), dark (forest green), brand (deep green CTA).
 ------------------------------------------------------------------- */
 :root,
 [data-tone="light"] {
@@ -100,27 +100,8 @@ html[data-theme="dark"] [data-tone="dark"] {
   --surface: #101712;
 }
 
-/* ---- values that need to be read from JS (scroll/WebGL scenes) ---- */
-:root {
-  --m-bg0: #faf8f2;
-  --m-bg1: #131c17;
-  --m-fg0: #1a1712;
-  --m-fg1: #faf8f2;
-  --m-ac0: #56752f;
-  --m-ac1: #9dbd6a;
-  --m-mu0: #6b6459;
-  --m-mu1: #a9b0a4;
-}
 html[data-theme="dark"] {
   color-scheme: dark;
-  --m-bg0: #0d120d;
-  --m-bg1: #080b08;
-  --m-fg0: #f4f1ea;
-  --m-fg1: #faf8f2;
-  --m-ac0: #9dbd6a;
-  --m-ac1: #b9d58a;
-  --m-mu0: #a9b0a4;
-  --m-mu1: #a9b0a4;
 }
 html[data-theme="light"] {
   color-scheme: light;
@@ -140,6 +121,7 @@ html[data-theme="light"] {
   --color-ring: var(--ring);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
 }
 
 @theme {
@@ -186,7 +168,7 @@ html[data-theme="light"] {
     border-radius: 4px;
   }
   ::selection {
-    background: #7c3aed;
+    background: #6b8e3d;
     color: #ffffff;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -205,8 +187,13 @@ html[data-theme="light"] {
   .container-x {
     margin-inline: auto;
     width: 100%;
-    max-width: 80rem;
-    padding-inline: 1.5rem;
+    max-width: 86rem;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-x {
+      padding-inline: 1.5rem;
+    }
   }
   @media (min-width: 768px) {
     .container-x {
@@ -214,22 +201,17 @@ html[data-theme="light"] {
     }
   }
 
-  /* Accent phrase inside a headline: olive gradient, upright. */
+  /* Accent phrase inside a headline: editorial serif italic in the tone's accent colour.
+     Plain colour (no background-clip gradient), so it can never render as a filled box. */
   .em {
-    font-style: normal;
+    font-family: var(--font-serif), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     color: var(--accent);
-    background: linear-gradient(100deg, #6b8e3d 0%, #3f5a20 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  html[data-theme="dark"] .em,
-  [data-tone="dark"] .em {
-    background-image: linear-gradient(100deg, #d4e4b0 0%, #9dbd6a 60%, #6b8e3d 100%);
+    padding-right: 0.06em;
   }
   [data-tone="brand"] .em {
-    background: none;
-    -webkit-text-fill-color: currentColor;
     color: #eed89e;
   }
 
@@ -258,7 +240,7 @@ html[data-theme="light"] {
       radial-gradient(120% 90% at 0% 0%, rgb(107 142 61 / 0.09), transparent 60%),
       var(--surface);
     border: 1px solid var(--line);
-    box-shadow: 0 24px 60px -38px rgb(26 23 18 / 0.35);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.5) inset, 0 20px 50px -40px rgb(26 23 18 / 0.3);
   }
   html[data-theme="dark"] .tint,
   html[data-theme="dark"] .card,
@@ -267,7 +249,7 @@ html[data-theme="light"] {
     background:
       radial-gradient(120% 90% at 0% 0%, rgb(107 142 61 / 0.16), transparent 60%),
       var(--surface);
-    box-shadow: 0 24px 60px -34px rgb(0 0 0 / 0.7);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 24px 60px -36px rgb(0 0 0 / 0.7);
   }
   .card-hover {
     transition: transform 0.5s var(--ease-out-expo), border-color 0.4s ease, box-shadow 0.5s ease;
@@ -391,7 +373,7 @@ html[data-theme="light"] {
 .fw-text {
   color: transparent;
   -webkit-text-stroke: 1.5px rgb(157 189 106 / 0.45);
-  margin-bottom: -0.1em; /* letters bleed off the bottom edge */
+  padding-bottom: 0.08em; /* the whole word stays visible above the bottom edge */
 }
 .fw-fill {
   color: #9dbd6a;
@@ -411,7 +393,7 @@ html[data-theme="light"] {
 /* full-bleed rail whose first item lines up with .container-x content */
 .bleed-pad { padding-inline: 1.5rem; }
 @media (min-width: 768px) {
-  .bleed-pad { padding-inline: max(3rem, calc((100vw - 80rem) / 2 + 3rem)); }
+  .bleed-pad { padding-inline: max(3rem, calc((100vw - 86rem) / 2 + 3rem)); }
 }
 
 /* grid children shrink to their track instead of stretching it (prevents narrow-screen overflow) */
@@ -425,8 +407,11 @@ html[data-theme="light"] {
   .short-hide { display: none !important; }
 }
 
-/* ---- ecosystem ---- */
+/* ---- ecosystem and logo stage rings ---- */
+@keyframes eco-spin { to { transform: rotate(360deg); } }
+.eco-ring { animation: eco-spin 60s linear infinite; }
 @media (prefers-reduced-motion: reduce) {
+  .eco-ring { animation: none; }
   .eco-pulse { display: none; }
 }
 
@@ -447,3 +432,68 @@ html[data-theme="light"] {
   .spec-row { animation: spec-row 9.6s ease-in-out infinite; }
   .spec-dot { animation: spec-dot 9.6s ease-in-out infinite; }
 }
+
+/* ---- film grain on the deep tones (pure CSS, SVG noise) ---- */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* outlined display text */
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line);
+}
+.outline-strong {
+  color: transparent;
+  -webkit-text-stroke: 1.2px color-mix(in srgb, var(--fg) 35%, transparent);
+}
+
+/* typewriter caret */
+@keyframes caret-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.caret { animation: caret-blink 1s steps(1) infinite; }
+
+/* slow ambient drift for glows */
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(6%, -4%, 0) scale(1.08); }
+}
+.drift { animation: drift 18s ease-in-out infinite; }
+
+/* underline that draws under a (possibly wrapping) phrase */
+@keyframes underline-in { from { background-size: 0% 2px; } to { background-size: 100% 2px; } }
+.draw-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 92%;
+  background-size: 100% 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .draw-underline { animation: underline-in linear both; animation-timeline: view(); animation-range: entry 60% cover 40%; }
+  }
+}
+
+/* ---- cursor spotlight (components/motion/spotlight.tsx) ---- */
+.spotlight > * { opacity: 0; transition: opacity 0.6s ease; }
+.spotlight[data-on] > * { opacity: 1; }
+.spotlight-glow {
+  background: radial-gradient(520px circle at var(--sx, 50%) var(--sy, 50%), rgb(107 142 61 / 0.18), transparent 65%);
+}
+.spotlight-grid {
+  background-image:
+    linear-gradient(to right, rgb(107 142 61 / 0.35) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(107 142 61 / 0.35) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(260px circle at var(--sx, 50%) var(--sy, 50%), #000, transparent 75%);
+  mask-image: radial-gradient(260px circle at var(--sx, 50%) var(--sy, 50%), #000, transparent 75%);
+}
+html[data-theme="dark"] .spotlight-glow { background: radial-gradient(520px circle at var(--sx, 50%) var(--sy, 50%), rgb(157 189 106 / 0.14), transparent 65%); }

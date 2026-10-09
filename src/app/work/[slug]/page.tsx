@@ -1,15 +1,14 @@
 import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ProjectArt } from "@/components/case-studies/project-list";
+import { CaseGallery } from "@/components/case-studies/case-gallery";
+import { CaseHero } from "@/components/case-studies/case-hero";
+import { NextProject } from "@/components/case-studies/next-project";
 import { Reveal } from "@/components/motion/reveal";
 import { ProductCard } from "@/components/products/product-card";
 import { ContactCta } from "@/components/sections/shared";
 import { JsonLd } from "@/components/ui/json-ld";
-import { DeviceDuo, FeatureGrid } from "@/components/ui/media";
-import { PageHero } from "@/components/ui/page-hero";
-import { Button, Chips, Eyebrow, LinkCard, Section, SectionHead } from "@/components/ui/primitives";
+import { Chips, Eyebrow, Section, SectionHead } from "@/components/ui/primitives";
 import { getProduct } from "@/content/products";
 import { serviceBySlug } from "@/content/services";
 import { site } from "@/content/site";
@@ -45,7 +44,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           {
             "@context": "https://schema.org",
             "@type": "CreativeWork",
-            name: `${project.name} — ${project.category}`,
+            name: `${project.name}: ${project.category}`,
             description: project.seo.description,
             url: abs(path),
             creator: { "@type": "Organization", name: site.name, url: site.url },
@@ -54,55 +53,20 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           breadcrumbLd([{ name: "Our Work", href: "/work" }, { name: project.name, href: path }]),
         ]}
       />
-      <PageHero
-        trail={[{ name: "Our Work", href: "/work" }, { name: project.name }]}
-        badge={<span className="label inline-block rounded-full border border-line px-4 py-2">{project.category}</span>}
-        h1={project.name}
-        lead={project.summary}
-        visual={
-          media?.desktop ? (
-            <DeviceDuo desktop={media.desktop} mobile={media.mobile} url={project.domain} priority />
-          ) : (
-            <ProjectArt project={project} priority className="mx-auto aspect-[4/3] w-full max-w-md lg:max-w-none" />
-          )
-        }
-        actions={
-          <>
-            {project.liveUrl ? (
-              <Button href={project.liveUrl} arrow="up-right">
-                Visit live site
-              </Button>
-            ) : (
-              <Button href="/contact">Start a project</Button>
-            )}
-            <Button href={`/services/${service.slug}`} variant="ghost">
-              {service.name}
-            </Button>
-          </>
-        }
-      />
+      <CaseHero project={project} service={service} index={projects.indexOf(project)} total={projects.length} />
 
+      {/* overview: editorial, with a drop cap */}
       <Section>
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+        <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24">
           <div>
             <Eyebrow index="01" className="mb-6">
-              Overview
+              The brief
             </Eyebrow>
-            <dl className="grid grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-6">
-              {[
-                ["Client", project.client],
-                ["Category", project.category],
-                ["Service", service.name],
-                ["Live site", project.domain ?? "Not public"],
-              ].map(([k, v]) => (
-                <div key={k}>
-                  <dt className="label text-muted">{k}</dt>
-                  <dd className="mt-1.5 font-medium [overflow-wrap:anywhere]">{v}</dd>
-                </div>
-              ))}
-            </dl>
+            <h2 className="text-[clamp(2rem,4vw,3.2rem)] leading-[1.02] tracking-[-0.04em]">
+              What {project.name} <span className="em">needed</span>
+            </h2>
           </div>
-          <Reveal delay={0.1} className="space-y-5 text-lg leading-relaxed text-fg/85">
+          <Reveal delay={0.1} className="space-y-6 text-lg leading-relaxed text-fg/85 md:text-xl md:leading-relaxed [&>p:first-child]:first-letter:float-left [&>p:first-child]:first-letter:mr-3 [&>p:first-child]:first-letter:mt-1 [&>p:first-child]:first-letter:font-serif [&>p:first-child]:first-letter:text-[4.6rem] [&>p:first-child]:first-letter:italic [&>p:first-child]:first-letter:leading-[0.8] [&>p:first-child]:first-letter:text-accent">
             {project.overview.map((p) => (
               <p key={p}>{p}</p>
             ))}
@@ -110,13 +74,28 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         </div>
       </Section>
 
+      {/* build notes: a numbered ledger */}
       <Section tone="sand">
-        <SectionHead index="02" eyebrow="What we built" title="Highlights of the build" em="the build" text={project.liveUrl ? "Everything below can be seen on the live site." : undefined} />
-        <FeatureGrid items={project.highlights} icon={project.icon} />
+        <div className="mb-12 flex flex-wrap items-end justify-between gap-6 md:mb-16">
+          <SectionHead index="02" eyebrow="What we built" title="Build notes" em="notes" className="mb-0 md:mb-0" />
+          {project.liveUrl && <p className="label max-w-xs text-muted">Everything below can be seen on the live site.</p>}
+        </div>
+        <ol className="grid border-t border-line md:grid-cols-2">
+          {project.highlights.map((h, i) => (
+            <Reveal as="li" key={h.title} delay={(i % 2) * 0.08} className="group relative isolate flex gap-6 overflow-hidden border-b border-line py-9 md:odd:pr-12 md:even:border-l md:even:pl-12">
+              <span aria-hidden="true" className="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-accent-soft transition-transform duration-700 ease-out-expo group-hover:scale-y-100" />
+              <span aria-hidden="true" className="w-12 shrink-0 font-serif text-[2.6rem] italic leading-[0.9] text-accent">{String(i + 1).padStart(2, "0")}</span>
+              <span>
+                <h3 className="text-[clamp(1.3rem,2vw,1.7rem)] leading-tight tracking-[-0.03em]">{h.title}</h3>
+                <p className="mt-3 max-w-md text-muted">{h.text}</p>
+              </span>
+            </Reveal>
+          ))}
+        </ol>
         {project.scope && (
           <Reveal>
-            <div className="mt-12 border-t border-line pt-8">
-              <p className="label mb-5 text-muted">{project.scope.heading}</p>
+            <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
+              <p className="label text-muted">{project.scope.heading}</p>
               <Chips items={project.scope.items} />
             </div>
           </Reveal>
@@ -124,28 +103,12 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
       </Section>
 
       {media && media.gallery.length > 0 && (
-        <Section>
-          <SectionHead index="03" eyebrow="Gallery" title="From the live site" em="live site" />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {media.gallery.map((g, i) => (
-              <Reveal key={g.src} delay={(i % 3) * 0.06} className={i === 0 ? "sm:col-span-2 lg:row-span-2" : undefined}>
-                <figure className="group relative h-full overflow-hidden rounded-[1.5rem] border border-line">
-                  <Image src={g.src} alt={g.alt} width={g.width} height={g.height} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.04]" />
-                  <figcaption className="absolute inset-x-3 bottom-3 rounded-full bg-black/55 px-4 py-1.5 text-[0.75rem] text-white backdrop-blur">{g.alt}</figcaption>
-                </figure>
-              </Reveal>
-            ))}
-          </div>
-          {project.liveUrl && (
-            <p className="mt-6 text-sm text-muted">
-              Images and screenshots from{" "}
-              <a href={project.liveUrl} target="_blank" rel="noopener" className="link-u text-fg">
-                {project.domain}
-              </a>
-              .
-            </p>
-          )}
-        </Section>
+        <section data-tone="dark" aria-label="Gallery" className="relative overflow-x-clip bg-bg text-fg">
+          <CaseGallery
+            items={[...(media.cover.src !== media.desktop?.src ? [media.cover] : []), ...media.gallery]}
+            head={<SectionHead index="03" eyebrow="Gallery" title="From the live site" em="live site" className="mb-0 md:mb-0" />}
+          />
+        </section>
       )}
 
       {also && project.alsoUses && (
@@ -164,13 +127,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         </Section>
       )}
 
-      <Section tight>
-        <div className="grid gap-x-16 md:grid-cols-3">
-          <LinkCard eyebrow="Service used" title={service.name} href={`/services/${service.slug}`} />
-          <LinkCard eyebrow="Next project" title={next.name} href={`/work/${next.slug}`} />
-          <LinkCard eyebrow="All work" title="Our Work" href="/work" />
-        </div>
-      </Section>
+      <NextProject project={next} />
 
       <ContactCta heading="Want a website or store like this?" em="like this?" sub="Tell us about your business and what it needs to do online." />
     </>

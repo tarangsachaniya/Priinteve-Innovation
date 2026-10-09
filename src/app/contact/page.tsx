@@ -16,7 +16,7 @@ const details = [
   { label: "Email", value: site.email, href: `mailto:${site.email}`, icon: Mail },
   { label: "Phone", value: site.phone, href: site.phoneHref, icon: Phone },
   { label: "Company", value: site.name, icon: Building2 },
-  { label: "Location", value: site.location.line, icon: MapPin },
+  { label: "Registered office", value: site.registeredAddress.line, icon: MapPin },
 ];
 
 const contactFaqs = faqGroups.find((g) => g.id === "working")!.items;

@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Plus } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Mail, Phone, Plus } from "lucide-react";
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { PLACEHOLDER_RE } from "@/content/site";
@@ -35,19 +35,24 @@ type ButtonProps = {
 } & Omit<ComponentProps<"a">, "href">;
 
 const BTN = {
-  base: "group/btn relative inline-flex items-center justify-center gap-3 rounded-full px-7 py-3.5 text-[0.93rem] font-semibold transition-all duration-300 ease-out-expo hover:-translate-y-0.5",
+  base: "group/btn relative inline-flex items-center justify-center gap-3 rounded-full py-2 pl-6 pr-2 text-[0.93rem] font-semibold transition-all duration-300 ease-out-expo",
+  plain: "px-6 py-3.5",
   primary: "bg-accent-strong text-on-accent shadow-[0_0_30px_-8px_rgb(107_142_61/0.85)] hover:shadow-[0_0_44px_-4px_rgb(157_189_106/0.95)]",
   ghost: "border border-line bg-fg/[0.03] text-fg hover:border-accent hover:bg-accent-soft hover:shadow-[0_0_30px_-10px_rgb(107_142_61/0.8)]",
 };
 
 /** Internal links use next/link; external, tel:, mailto: and #anchors use a plain anchor. Hover lifts, glows and nudges the arrow. */
 export function Button({ href, variant = "primary", arrow = "right", children, className, ...rest }: ButtonProps) {
-  const cls = cn(BTN.base, variant === "ghost" ? BTN.ghost : BTN.primary, className);
+  const cls = cn(BTN.base, !arrow && BTN.plain, variant === "ghost" ? BTN.ghost : BTN.primary, className);
   const Arrow = arrow === "up-right" ? ArrowUpRight : ArrowRight;
   const inner = (
     <>
       {children}
-      {arrow && <Arrow aria-hidden="true" className="size-4 transition-transform duration-300 group-hover/btn:translate-x-1" />}
+      {arrow && (
+        <span className={cn("grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-300", variant === "ghost" ? "bg-fg/[0.07] group-hover/btn:bg-accent-strong group-hover/btn:text-on-accent" : "bg-black/15")}>
+          <Arrow aria-hidden="true" className="size-4 transition-transform duration-500 ease-out-expo group-hover/btn:translate-x-0.5" />
+        </span>
+      )}
     </>
   );
   return href.startsWith("/") ? (
@@ -72,12 +77,12 @@ export function Badge({ status, className }: { status: "Live" | "Coming soon"; c
   );
 }
 
-/** Small-caps label with a rule and optional chapter number: "01 — What we make". */
+/** Small-caps label with a rule and optional chapter number: "01 · What we make". */
 export function Eyebrow({ children, className, index }: { children: ReactNode; className?: string; index?: string }) {
   return (
     <span className={cn("label inline-flex items-center gap-3 text-muted", className)}>
       {index && <span className="text-accent">{index}</span>}
-      <span aria-hidden="true" className="h-px w-8 bg-current opacity-60" />
+      <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
       {children}
     </span>
   );
@@ -87,7 +92,7 @@ export function Eyebrow({ children, className, index }: { children: ReactNode; c
 /** Full-bleed band: base (`light`), lifted (`sand`), deepest (`dark`) or violet (`brand`). */
 export function Section({ children, tone = "light", tight, id, className }: { children: ReactNode; tone?: Tone; tight?: boolean; id?: string; className?: string }) {
   return (
-    <section id={id} data-tone={tone} className={cn("relative overflow-x-clip bg-bg text-fg", tight ? "py-14 md:py-16" : "py-20 md:py-28", className)}>
+    <section id={id} data-tone={tone} className={cn("relative overflow-x-clip bg-bg text-fg", tight ? "py-14 md:py-20" : "py-24 md:py-32", className)}>
       <div className="container-x relative">{children}</div>
     </section>
   );
@@ -120,7 +125,7 @@ export function SectionHead({
           </Eyebrow>
         </Reveal>
       )}
-      <Heading em={em} className="text-[clamp(2rem,4.4vw,3.5rem)]">
+      <Heading em={em} className="text-[clamp(2.1rem,4.8vw,3.9rem)] leading-[1.02]">
         {title}
       </Heading>
       {text && (
@@ -141,7 +146,7 @@ export function Checklist({ items, columns }: { items: string[]; columns?: boole
     <ul className={cn("border-t border-line", columns && "md:grid md:grid-cols-2 md:gap-x-16")}>
       {items.map((item, i) => (
         <Reveal as="li" key={item} delay={(i % 4) * 0.04} y={12} className="flex gap-5 border-b border-line py-4 text-base">
-            <span aria-hidden="true" className="mt-[0.85em] h-px w-5 shrink-0 bg-accent" />
+            <span aria-hidden="true" className="mt-[0.6em] size-[5px] shrink-0 rotate-45 bg-accent" />
             <span>
               <Text>{item}</Text>
             </span>
@@ -183,14 +188,14 @@ export function Faq({ items, className }: { items: FaqItem[]; className?: string
           <details className="group border-b border-line">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-8 py-6 font-display text-lg font-medium leading-snug md:text-xl [&::-webkit-details-marker]:hidden">
               <span className="flex gap-5">
-                <span className="numeral mt-0.5 text-base text-accent">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-serif text-2xl italic leading-none text-accent">{String(i + 1).padStart(2, "0")}</span>
                 <Text>{q}</Text>
               </span>
               <span className="grid size-9 shrink-0 place-items-center rounded-full border border-line transition-all duration-500 group-open:rotate-45 group-open:border-accent group-open:bg-accent-strong group-open:text-on-accent">
                 <Plus aria-hidden="true" className="size-4" />
               </span>
             </summary>
-            <div className="max-w-3xl pb-7 pl-11 pr-4 text-base text-muted md:pr-14">
+            <div className="max-w-3xl pb-7 pl-12 pr-4 text-base text-muted md:pr-14">
               <p>
                 <Text>{a}</Text>
               </p>
@@ -234,41 +239,79 @@ export function EmText({ text, em }: { text: string; em?: string }) {
   );
 }
 
+export type CtaAction = { href: string; label: string; value?: string; icon?: "arrow" | "phone" | "mail"; primary?: boolean };
+
+const CTA_ICON = { arrow: ArrowUpRight, phone: Phone, mail: Mail };
+
 /**
- * Closing call to action: deep-green band with an ambient glow. The heading is set as plain text
- * (balanced wrapping, generous line-height) and the actions sit in their own column on desktop.
+ * Closing call to action: deep-green band with grain, a slow ambient glow and an outlined watermark.
+ * The heading runs wide with its phrase in cream serif italic over a drawn underline; the actions
+ * sit below as tiles (primary project tile, then phone and email).
  */
-export function CtaBand({ heading, sub, children, em, eyebrow = "Let's work together", words }: { heading: string; sub?: string; children: ReactNode; em?: string; eyebrow?: string; words?: string[] }) {
+export function CtaBand({ heading, sub, em, eyebrow = "Let's work together", actions }: { heading: string; sub?: string; em?: string; eyebrow?: string; actions: CtaAction[] }) {
   return (
-    <section data-tone="brand" className="relative isolate overflow-hidden bg-bg py-20 text-fg md:py-28">
-      <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-48 -z-10 size-[40rem] rounded-full bg-[#6b8e3d]/35 blur-[120px]" />
+    <section data-tone="brand" className="grain relative isolate overflow-hidden bg-bg py-24 text-fg md:py-32">
+      <div aria-hidden="true" className="drift pointer-events-none absolute -right-40 -top-48 -z-10 size-[42rem] rounded-full bg-[#6b8e3d]/40 blur-[130px]" />
       <div aria-hidden="true" className="pointer-events-none absolute -bottom-56 -left-40 -z-10 size-[34rem] rounded-full bg-[#eed89e]/10 blur-[120px]" />
-      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-50" />
-      <div className="container-x grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:items-end lg:gap-20">
+      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-40" />
+      <p aria-hidden="true" className="pointer-events-none absolute -bottom-[0.2em] right-0 select-none whitespace-nowrap font-display text-[clamp(6rem,20vw,19rem)] font-bold leading-none tracking-[-0.05em] text-transparent [-webkit-text-stroke:1px_rgb(250_248_242/0.09)]">
+        Let&apos;s talk
+      </p>
+      <div className="container-x relative z-10">
         <Reveal>
-          <p className="label mb-6 flex items-center gap-3 text-muted">
-            <span aria-hidden="true" className="h-px w-8 bg-accent" />
+          <p className="label mb-8 flex items-center gap-3 text-muted">
+            <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
             {eyebrow}
           </p>
-          {words && (
-            <ul aria-label="What we do" className="mb-7 flex flex-wrap gap-2">
-              {words.map((w) => (
-                <li key={w} className="rounded-full border border-line bg-fg/[0.06] px-3.5 py-1.5 text-[0.8rem] font-semibold tracking-wide">
-                  {w}
-                </li>
-              ))}
-            </ul>
-          )}
-          <h2 className="max-w-3xl text-[clamp(1.9rem,4.2vw,3.4rem)] leading-[1.1] tracking-[-0.03em] [text-wrap:balance]">
-            <EmText text={heading} em={em} />
+          <h2 className="max-w-[22ch] text-[clamp(2.2rem,5.6vw,4.8rem)] leading-[1.02] tracking-[-0.04em] [text-wrap:balance]">
+            <CtaHeading text={heading} em={em} />
           </h2>
-          {sub && <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">{sub}</p>}
+          {sub && <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted">{sub}</p>}
         </Reveal>
-        <Reveal delay={0.15} className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-col lg:items-stretch [&>*]:justify-between">
-          {children}
+        <Reveal delay={0.15} className={cn("mt-12 grid gap-3 md:mt-16", actions.length > 2 ? "md:grid-cols-[1.4fr_1fr_1fr]" : actions.length === 2 ? "md:grid-cols-[1.4fr_1fr]" : "md:max-w-xl")}>
+          {actions.map((a) => {
+            const Icon = CTA_ICON[a.icon ?? "arrow"];
+            const cls = cn(
+              "group relative flex min-h-[8rem] flex-col justify-between overflow-hidden rounded-[1.5rem] border p-6 transition-all duration-500 ease-out-expo hover:-translate-y-1",
+              a.primary ? "border-transparent bg-accent text-on-accent hover:shadow-[0_30px_60px_-24px_rgb(238_216_158/0.55)]" : "border-line bg-fg/[0.04] hover:border-accent/60 hover:bg-fg/[0.07]",
+            );
+            const inner = (
+              <>
+                <span className="flex items-start justify-between gap-4">
+                  <span className={cn("label", a.primary ? "opacity-70" : "text-muted")}>{a.label}</span>
+                  <span className={cn("grid size-10 shrink-0 place-items-center rounded-full transition-transform duration-500 ease-out-expo group-hover:-rotate-12 group-hover:scale-110", a.primary ? "bg-[#18330d] text-accent" : "bg-accent-soft text-accent")}>
+                    <Icon aria-hidden="true" className="size-4" />
+                  </span>
+                </span>
+                <span className={cn("mt-6 block break-words font-display font-semibold tracking-[-0.02em]", a.primary ? "text-[clamp(1.5rem,2.4vw,2rem)]" : "text-lg md:text-xl")}>{a.value ?? a.label}</span>
+              </>
+            );
+            return a.href.startsWith("/") ? (
+              <Link key={a.href} href={a.href} className={cls}>
+                {inner}
+              </Link>
+            ) : (
+              <a key={a.href} href={a.href} className={cls} {...(a.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})}>
+                {inner}
+              </a>
+            );
+          })}
         </Reveal>
       </div>
     </section>
+  );
+}
+
+/** Heading with the `em` phrase in serif italic over an underline that draws in once. */
+function CtaHeading({ text, em }: { text: string; em?: string }) {
+  const at = em ? text.indexOf(em) : -1;
+  if (!em || at < 0) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, at)}
+      <span className="em draw-underline">{em}</span>
+      {text.slice(at + em.length)}
+    </>
   );
 }
 

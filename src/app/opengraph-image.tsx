@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
+import sharp from "sharp";
 import { site } from "@/content/site";
 
 export const alt = `${site.name}: ${site.tagline}`;
@@ -8,7 +9,9 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpengraphImage() {
-  const logo = `data:image/png;base64,${(await readFile(path.join(process.cwd(), "public", "logo-mark.png"))).toString("base64")}`;
+  // the OG renderer reads PNG, not WebP: convert the mark in memory at build time
+  const png = await sharp(await readFile(path.join(process.cwd(), "public", "logo-mark.webp"))).png().toBuffer();
+  const logo = `data:image/png;base64,${png.toString("base64")}`;
   return new ImageResponse(
     (
       <div

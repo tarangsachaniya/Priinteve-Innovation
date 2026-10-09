@@ -1,6 +1,6 @@
 import { WorkStory } from "@/components/case-studies/work-story";
-import { Manifesto } from "@/components/motion/manifesto";
 import { Marquee } from "@/components/motion/marquee";
+import { MissionTypewriter } from "@/components/motion/mission-typewriter";
 import { Magnetic } from "@/components/motion/pointer";
 import { Reveal } from "@/components/motion/reveal";
 import { Timeline } from "@/components/motion/timeline";
@@ -172,7 +172,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      <Manifesto index="11" eyebrow="Our mission" text={about.mission} accents={["simple", "useful", "affordable", "same", "day"]} />
+      <MissionTypewriter index="11" mission={about.mission} vision={about.vision} accents={["simple", "useful", "affordable", "same", "day"]} />
 
       <ContactCta />
     </>

@@ -18,8 +18,8 @@ export const projects: Project[] = [
     service: "website-design-development",
     icon: "trending",
     colors: ["#12270a", "#6b8e3d"],
-    liveUrl: "https://quantivo-omega.vercel.app/",
-    domain: "quantivo-omega.vercel.app",
+    liveUrl: "https://www.quantivodigitals.com/",
+    domain: "quantivodigitals.com",
     seo: {
       title: "Quantivo Website | Digital Marketing Studio Case Study | Priinteve",
       description: "A scroll-driven website for Quantivo Digitals presenting its digital growth, branding, website and 3D visualisation services, portfolio and approach, built by Priinteve.",
@@ -98,8 +98,8 @@ export const projects: Project[] = [
     service: "ecommerce-websites",
     icon: "leaf",
     colors: ["#18330d", "#c29b48"],
-    liveUrl: "https://cashew-craft-elegance.vercel.app/",
-    domain: "cashew-craft-elegance.vercel.app",
+    liveUrl: "https://earthorafood.com/",
+    domain: "earthorafood.com",
     seo: {
       title: "Premium Cashew E-commerce (EarthOra) | D2C Store Case Study | Priinteve",
       description:

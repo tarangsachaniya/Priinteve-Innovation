@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Eyebrow, Text } from "../ui/primitives";
 import { Heading } from "./heading";
@@ -12,11 +11,8 @@ type Step = { title: string; text: string };
  * draws as you scroll. The step nearest the middle of the screen lights up.
  */
 export function Timeline({ eyebrow, title, steps, index }: { eyebrow: string; title: string; steps: Step[]; index?: string }) {
-  const reduce = useReducedMotion();
   const wrap = useRef<HTMLOListElement>(null);
   const [active, setActive] = useState(0);
-  const { scrollYProgress } = useScroll({ target: wrap, offset: ["start 65%", "end 55%"] });
-  const line = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
 
   useEffect(() => {
     const items = wrap.current?.querySelectorAll<HTMLElement>("[data-step]");
@@ -45,10 +41,14 @@ export function Timeline({ eyebrow, title, steps, index }: { eyebrow: string; ti
       </div>
 
       <ol ref={wrap} className="relative">
-        <span aria-hidden="true" className="absolute bottom-0 left-[1.1rem] top-2 w-px bg-line" />
-        <motion.span aria-hidden="true" style={reduce ? { scaleY: 1 } : { scaleY: line }} className="absolute bottom-0 left-[1.1rem] top-2 w-px origin-top bg-accent" />
         {steps.map((s, i) => (
           <li key={s.title} data-step={i} className="relative pb-24 pl-16 last:pb-0 md:pb-32">
+            {/* connector to the next node only, so nothing runs past the last step */}
+            {i < steps.length - 1 && (
+              <span aria-hidden="true" className="absolute -bottom-2 left-[1.1rem] top-11 w-px bg-line">
+                <span className={`absolute inset-0 origin-top bg-accent transition-transform duration-700 ease-out-expo ${i < active ? "scale-y-100" : "scale-y-0"}`} />
+              </span>
+            )}
             <span
               aria-hidden="true"
               className="absolute left-0 top-2 grid size-9 place-items-center rounded-full border border-current bg-bg text-xs font-semibold transition-colors duration-500"

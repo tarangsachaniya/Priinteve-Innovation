@@ -6,7 +6,7 @@ import { site } from "@/content/site";
 export function Logo({ full }: { full?: boolean }) {
   return (
     <Link href="/" aria-label={`${site.name} home`} className="inline-flex items-center gap-2.5 font-display text-[1.25rem] font-semibold leading-none tracking-tight text-fg">
-      <Image src="/logo-mark.png" alt="" width={547} height={373} priority className="h-[1.7rem] w-auto" />
+      <Image src="/logo-mark.webp" alt="" width={547} height={373} priority className="h-[1.7rem] w-auto" />
       <span>{full ? site.brand : site.shortName}</span>
     </Link>
   );

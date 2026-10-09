@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Instrument_Serif, Inter, Space_Grotesk } from "next/font/google";
 import { ComingSoonDock } from "@/components/layout/coming-soon-dock";
+import { CookieConsent } from "@/components/layout/cookie-consent";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Preloader } from "@/components/layout/preloader";
@@ -10,6 +11,7 @@ import "./globals.css";
 
 const grotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-grotesk", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -34,7 +36,7 @@ const THEME_SCRIPT =
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" data-theme="light" suppressHydrationWarning className={`${grotesk.variable} ${inter.variable}`}>
+    <html lang="en-IN" data-theme="light" suppressHydrationWarning className={`${grotesk.variable} ${inter.variable} ${instrument.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
@@ -52,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <ComingSoonDock />
+        <CookieConsent />
       </body>
     </html>
   );

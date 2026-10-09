@@ -102,15 +102,15 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
     <>
       {/* ---------------- desktop: pinned, scroll-driven ---------------- */}
       <div ref={track} className="relative hidden lg:motion-safe:block" style={{ height: `calc(100svh + ${(n - 1) * STEP_VH}svh)` }}>
-        <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden pb-8 pt-28">
+        <div className="sticky top-0 flex h-[100svh] flex-col justify-center gap-[clamp(2rem,5vh,3.5rem)] overflow-hidden pb-8 pt-24">
           <div className="container-x flex items-end justify-between gap-8">
             <div>
               <p className="label flex items-center gap-3 text-muted">
                 <span className="text-accent">01</span>
-                <span aria-hidden="true" className="h-px w-8 bg-current opacity-60" />
+                <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
                 {eyebrow}
               </p>
-              <h2 className="mt-3 max-w-2xl text-[clamp(1.8rem,3vw,2.6rem)]">{title}</h2>
+              <h2 className="mt-4 max-w-2xl text-[clamp(2.2rem,3.8vw,3.4rem)] leading-[1.02] tracking-[-0.04em]">{title}</h2>
             </div>
             <p aria-hidden="true" className="numeral shrink-0 text-right text-muted">
               <span className="text-[2.6rem] text-fg">{num(active)}</span>
@@ -119,7 +119,7 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
             </p>
           </div>
 
-          <div className="container-x grid min-h-0 flex-1 grid-cols-[11.5rem_minmax(0,0.9fr)_minmax(0,1.2fr)] items-center gap-10 xl:gap-14">
+          <div className="container-x grid min-h-0 grid-cols-[11.5rem_minmax(0,0.9fr)_minmax(0,1.25fr)] items-center gap-10 xl:gap-14">
             {/* rail */}
             <div role="tablist" aria-label="Priinteve products" aria-orientation="vertical" className="relative py-2">
               <span aria-hidden="true" className="absolute bottom-2 left-[0.55rem] top-2 w-px bg-line" />
@@ -199,7 +199,7 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
         <Reveal>
           <p className="label flex items-center gap-3 text-muted">
             <span className="text-accent">01</span>
-            <span aria-hidden="true" className="h-px w-8 bg-current opacity-60" />
+            <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
             {eyebrow}
           </p>
           <h2 className="mt-4 text-[clamp(2rem,6vw,3rem)]">{title}</h2>

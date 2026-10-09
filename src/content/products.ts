@@ -2,7 +2,7 @@ import type { Media, Product, ProductSlug } from "./types";
 
 /*
  * Product content. Every feature, plan and FAQ answer below is taken from the product's own live website
- * (zerox.priinteve.com, menu.priinteve.com, saloon-nu-two.vercel.app, cards.priinteve.com) as audited in
+ * (zerox.priinteve.com, menu.priinteve.com, salon.priinteve.com, cards.priinteve.com) as audited in
  * October 2026. Nothing here is a metric or a testimonial. Re-check prices against the live sites before
  * changing them; the live site is always the authority.
  */
@@ -49,7 +49,7 @@ export const products: Product[] = [
       { title: "QR backup", text: "Every card ships with a QR code, so phones that don't tap can scan." },
       { title: "Digital profile", text: "Photo, title, company and every way to reach you, live behind one link." },
       { title: "One-tap contact actions", text: "Save contact, call, WhatsApp, email and open your website straight from the profile." },
-      { title: "Gallery", text: "Show your work with gallery images; the image allowance depends on the card plan." },
+      { title: "Gallery", text: "Show your work with up to 20 gallery images and 5 videos, on every card plan." },
       { title: "Analytics", text: "See how your card is being viewed." },
       { title: "Custom profile", text: "Colours, fonts and layout that look like your brand." },
       { title: "Team management", text: "Keep every team member's card consistent, on-brand and instantly updatable." },
@@ -59,9 +59,9 @@ export const products: Product[] = [
     pricing: {
       intro: "Choose a plastic, wooden or metal card on a 1, 2 or 3-year plan, with no monthly fee. Free shipping on every order.",
       plans: [
-        { name: "Plastic", price: "₹499", period: "2-year plan", note: "Light, durable and everyday-ready.", items: ["Tap + QR scan", "8 gallery images", "Durable printed plastic card", "Full profile customisation"] },
-        { name: "Wooden", price: "₹799", period: "2-year plan", featured: true, note: "Eco-friendly engraved finish.", items: ["Tap + QR scan", "20 gallery images", "Engraved wooden card", "Full profile customisation", "Priority support"] },
-        { name: "Metal", price: "₹1,399", period: "2-year plan", note: "Premium laser-etched statement card.", items: ["Tap + QR scan", "50 gallery images", "Laser-etched metal card", "Full profile customisation", "Priority support", "Dedicated onboarding help"] },
+        { name: "Plastic", price: "₹499", period: "2-year plan", note: "Light, durable and everyday-ready.", items: ["Tap + QR scan", "20 gallery images", "5 videos", "Durable printed plastic card", "Full profile customisation"] },
+        { name: "Wooden", price: "₹799", period: "2-year plan", featured: true, note: "Eco-friendly engraved finish.", items: ["Tap + QR scan", "20 gallery images", "5 videos", "Engraved wooden card", "Full profile customisation", "Priority support"] },
+        { name: "Metal", price: "₹1,399", period: "2-year plan", note: "Premium laser-etched statement card.", items: ["Tap + QR scan", "20 gallery images", "5 videos", "Laser-etched metal card", "Full profile customisation", "Priority support", "Dedicated onboarding help"] },
       ],
       note: "2-year prices as listed on cards.priinteve.com; 1 and 3-year plans are also available there. The live site is the authority on current prices.",
     },
@@ -259,7 +259,7 @@ export const products: Product[] = [
     name: "Salonly",
     icon: "scissors",
     status: "Live",
-    liveUrl: "https://saloon-nu-two.vercel.app/",
+    liveUrl: "https://salon.priinteve.com/",
     category: "Salon discovery and appointment booking",
     seo: {
       title: "Salonly | Salon Discovery & Online Appointment Booking",
@@ -323,7 +323,7 @@ export const products: Product[] = [
       { q: "What about my clients' data?", a: "Salonly records consent on every booking, and client data can be exported or deleted on request." },
       { q: "Can two guests book the same slot?", a: "No. Slots are live per stylist and the system refuses a clashing booking." },
     ],
-    cta: { heading: "Own a salon? Let's get you listed.", sub: "The Salonly team sets everything up. You just say yes.", button: "Visit Salonly", href: "https://saloon-nu-two.vercel.app/" },
+    cta: { heading: "Own a salon? Let's get you listed.", sub: "The Salonly team sets everything up. You just say yes.", button: "Visit Salonly", href: "https://salon.priinteve.com/" },
     related: "nectcard",
     relatedServices: ["custom-software", "whatsapp-bots"],
     mock: { title: "Today's diary", rows: [["Haircut · 11:00", "Booked"], ["Colour · 12:30", "Booked"], ["Beard trim · 2:00", "New"]] },
@@ -370,7 +370,7 @@ export const products: Product[] = [
       { title: "Made for real quantities", text: "Built for businesses that need 25 to 1,000 pieces per order." },
       { title: "Order tracking", text: "Follow your order from placement to delivery." },
     ],
-    highlights: ["Upload your design", "Vetted local printers", "25–1,000 pieces", "Order tracking", "Delivered to you"],
+    highlights: ["Upload your design", "Vetted local printers", "25 to 1,000 pieces", "Order tracking", "Delivered to you"],
     who: "Businesses and individuals who need custom printed material in real quantities.",
     audiences: ["Small businesses", "Brands", "Event organisers", "Offices"],
     comingSoon: "Priinteve Printing is not live yet. Join the waitlist and we'll tell you first when it launches.",

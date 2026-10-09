@@ -1,7 +1,7 @@
 export type IconName =
   | "printer" | "utensils" | "scissors" | "card" | "package" | "monitor" | "bag" | "blocks" | "scan"
   | "trending" | "layers" | "leaf" | "factory" | "puzzle" | "handshake" | "rupee" | "shield" | "sparkles"
-  | "message" | "send" | "bot" | "workflow" | "plug" | "database" | "store" | "code" | "compass" | "rocket";
+  | "message" | "send" | "bot" | "workflow" | "plug" | "database" | "store" | "code" | "compass" | "rocket" | "search" | "palette";
 
 export type FaqItem = { q: string; a: string; link?: { label: string; href: string } };
 
@@ -19,9 +19,11 @@ export type ServiceSlug =
   | "telegram-bots"
   | "ai-agents"
   | "business-automation"
-  | "ai-integrations";
+  | "ai-integrations"
+  | "seo-google-business"
+  | "branding";
 
-export type ServiceCategory = "web" | "ecommerce" | "software" | "nfcqr" | "ai";
+export type ServiceCategory = "web" | "ecommerce" | "software" | "nfcqr" | "ai" | "growth";
 
 export type WorkSlug = "royal-timber" | "premium-cashew-ecommerce" | "quantivo";
 

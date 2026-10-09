@@ -15,7 +15,7 @@ function Headline({ text, em }: { text: string; em?: string }) {
     return (
       <>
         {text.slice(0, at)}
-        <span className="text-accent">{em}</span>
+        <span className="em">{em}</span>
         {text.slice(at + em.length)}
       </>
     );
@@ -23,7 +23,7 @@ function Headline({ text, em }: { text: string; em?: string }) {
     <>
       {text.split(VERBS).map((part, i) =>
         i % 2 === 1 ? (
-          <span key={i} className="text-accent">
+          <span key={i} className="em">
             {part}
           </span>
         ) : (
@@ -101,7 +101,7 @@ export function ContactCtaBand({ heading, sub, em, eyebrow = "Let's work togethe
       <div className="container-x grid gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-center lg:gap-20">
         <div>
           <p className="label mb-8 flex items-center gap-3 text-muted">
-            <span aria-hidden="true" className="h-px w-8 bg-accent" />
+            <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
             {eyebrow}
           </p>
           <h2 className="text-[clamp(2.2rem,6.4vw,5.4rem)] leading-[1.02] tracking-[-0.04em]">

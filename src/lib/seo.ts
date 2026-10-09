@@ -60,14 +60,14 @@ export const organizationLd = {
   name: site.name,
   alternateName: site.brand,
   url: site.url,
-  logo: abs("/logo-mark.png"),
+  logo: abs("/logo-mark.webp"),
   description: site.description,
   foundingDate: String(site.founded),
   founders: site.founders.map((f) => ({ "@type": "Person", name: f.name, jobTitle: f.role })),
   telephone: site.phone,
   email: site.email,
   slogan: site.tagline,
-  address: { "@type": "PostalAddress", addressLocality: site.location.city, addressRegion: site.location.region, addressCountry: "IN" },
+  address: { "@type": "PostalAddress", streetAddress: site.registeredAddress.street, addressLocality: site.registeredAddress.city, addressRegion: site.registeredAddress.region, postalCode: site.registeredAddress.postalCode, addressCountry: "IN" },
   sameAs: [site.youtube, site.cardsUrl],
 };
 

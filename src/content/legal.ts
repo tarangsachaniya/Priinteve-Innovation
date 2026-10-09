@@ -7,7 +7,7 @@ import { BUSINESS_TBC as TBC, site } from "./site";
  * This copy is a website-ready draft based on how the business actually operates. It is not legal advice and
  * has not been reviewed by a lawyer. Items marked TBC render as a visible "[BUSINESS INFORMATION TO BE CONFIRMED]"
  * chip and must be confirmed:
- *   - Registered office address and LLPIN. Details published on Priinteve's own product sites (cards.priinteve.com
+ *   - Registered office address: confirmed (see site.registeredAddress). LLPIN still to confirm. Details published on Priinteve's own product sites (cards.priinteve.com
  *     footer and the Salonly footer, October 2026) show "LLPIN: ADC-7224 | GSTIN: In process" and
  *     "416, Mukhi ne Khadki, Near Ambe Maa Temple, Paldi Gam, Paldi, Ahmedabad, Gujarat 380007". Confirm these,
  *     then replace the TBC markers below.
@@ -25,7 +25,7 @@ export type LegalSection = { id: string; heading: string; body: Block[] };
 export type LegalPage = { slug: string; title: string; description: string; intro: string; sections: LegalSection[] };
 
 const contactBlock: Block[] = [
-  { ul: [`${site.name}`, `Location: ${site.location.line}`, `Registered office address: ${TBC}`, `Email: ${site.email}`, `Phone: ${site.phone}`] },
+  { ul: [`${site.name}`, `Location: ${site.location.line}`, `Registered office address: ${site.registeredAddress.line}`, `Email: ${site.email}`, `Phone: ${site.phone}`] },
 ];
 
 export const legalPages: LegalPage[] = [
@@ -60,7 +60,7 @@ export const legalPages: LegalPage[] = [
         { p: "We do not sell your personal information, and we do not use it for advertising profiles." },
       ] },
       { id: "cookies", heading: "4. Cookies and browser storage", body: [
-        { p: "This website does not currently set analytics or marketing cookies. It uses your browser's local storage to remember your light or dark theme choice, and session storage to skip the opening animation after your first visit. See our Cookie Policy for details." },
+        { p: "This website does not currently set analytics or marketing cookies. It uses your browser's local storage to remember your light or dark theme choice and your cookie consent choice, and session storage to skip the opening animation after your first visit. On your first visit a consent banner lets you choose which optional categories to allow. See our Cookie Policy for details." },
       ] },
       { id: "analytics", heading: "5. Analytics", body: [
         { p: "We do not currently run analytics tools on this website. If we add analytics in future, we will update this policy and the Cookie Policy, and ask for consent where required." },
@@ -171,14 +171,16 @@ export const legalPages: LegalPage[] = [
         { ul: [
           "Theme preference (local storage, key \"priinteve-theme\"): remembers whether you chose the light or dark theme.",
           "Intro animation (session storage, key \"priinteve-intro-seen\"): skips the opening animation for the rest of your visit. It is cleared when you close the tab.",
+          "Consent choice (local storage, key \"priinteve-consent\"): remembers which optional categories you allowed in the cookie banner, and when.",
         ] },
       ] },
       { id: "categories", heading: "3. Cookie categories", body: [
         { ul: [
           "Necessary: needed for the website to work and to keep it secure. Our hosting provider may use strictly necessary technical cookies or logs for security and performance.",
-          "Preferences: remember choices such as your theme. This website uses browser storage for this.",
-          "Analytics: help us understand how the website is used. Not used at present.",
-          "Marketing: used to personalise advertising. Not used.",
+          "Necessary storage also covers your theme choice, the intro animation and your consent choice. It is always on.",
+          "Media: allows embedded YouTube product videos to load. Off until you allow it in the banner or when you press play.",
+          "Analytics: help us understand how the website is used. Not used at present, and off until you allow it.",
+          "Marketing: used to personalise advertising. Not used."
         ] },
       ] },
       { id: "third-party", heading: "4. Third-party cookies", body: [
@@ -186,7 +188,7 @@ export const legalPages: LegalPage[] = [
       ] },
       { id: "control", heading: "5. Managing cookies and storage", body: [
         { p: "You can delete or block cookies and site data in your browser settings at any time. Clearing site data for priinteve.com resets your theme choice. Blocking storage does not stop the website from working." },
-        { p: "Because this website does not set analytics or marketing cookies, it does not show a cookie consent banner. If that changes, we will add consent controls and update this policy." },
+        { p: "On your first visit a cookie banner asks for your choice. You can accept all, reject everything that isn't necessary, or choose category by category. You can change your choice at any time with the \"Cookie settings\" button in the website footer." },
       ] },
       { id: "contact", heading: "6. Contact", body: contactBlock },
     ],

@@ -19,6 +19,8 @@ export const nav = {
     { label: "E-commerce", href: svc("ecommerce-websites"), text: "Shopify, WooCommerce, custom stores and WhatsApp catalogues." },
     { label: "Business Software", href: svc("custom-software"), text: "Custom software, CRM and ERP systems." },
     { label: "NFC & QR", href: svc("nfc-qr-solutions"), text: "Cards, profiles, QR menus, ordering and campaigns." },
+    { label: "SEO & Google Business", href: svc("seo-google-business"), text: "Local and technical SEO, and your Google Business Profile." },
+    { label: "Branding", href: svc("branding"), text: "Logos, brand identity, packaging and social kits." },
     {
       label: "AI & Automation",
       href: "/services#ai-automation",
@@ -34,6 +36,8 @@ export const nav = {
     { label: "Custom Software", href: svc("custom-software") },
     { label: "CRM / ERP", href: svc("crm-erp") },
     { label: "NFC & QR", href: svc("nfc-qr-solutions") },
+    { label: "SEO & Google Business", href: svc("seo-google-business") },
+    { label: "Branding", href: svc("branding") },
     { label: "AI & Automation", href: "/services#ai-automation" },
   ] satisfies NavLink[],
   main: [

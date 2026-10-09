@@ -1,20 +1,26 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Heading } from "@/components/motion/heading";
+import { MissionTypewriter } from "@/components/motion/mission-typewriter";
 import { Reveal } from "@/components/motion/reveal";
 import { ProductGrid } from "@/components/products/product-card";
-import { ContactCta, ProcessSection, WhyGrid } from "@/components/sections/shared";
+import { ContactCta, ProcessSection, TechStack, WhyGrid } from "@/components/sections/shared";
 import { JsonLd } from "@/components/ui/json-ld";
 import { PageHero } from "@/components/ui/page-hero";
-import { Button, Chips, Eyebrow, Section, SectionHead } from "@/components/ui/primitives";
+import { Button, Eyebrow, Section, SectionHead } from "@/components/ui/primitives";
 import { about } from "@/content/pages";
 import { products } from "@/content/products";
-import { site, TECHNOLOGY } from "@/content/site";
+import { site } from "@/content/site";
 import { breadcrumbLd, buildMetadata, organizationLd } from "@/lib/seo";
 
 export const metadata = buildMetadata("/about", about.seo);
 
 const initials = (name: string) => name.split(" ").map((w) => w[0]).join("");
+/** Founder photos are optional: a card shows initials until its file is added to /public. */
+const hasPublicFile = (src?: string) => !!src && existsSync(join(process.cwd(), "public", src));
 
 export default function AboutPage() {
   return (
@@ -82,46 +88,47 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section tone="dark">
-        <div className="grid gap-12 md:grid-cols-2 md:gap-20">
-          <Reveal>
-            <Eyebrow index="03" className="mb-7">
-              Mission
-            </Eyebrow>
-            <p className="font-display text-2xl font-medium leading-snug md:text-[1.75rem]">{about.mission}</p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <Eyebrow index="04" className="mb-7">
-              Vision
-            </Eyebrow>
-            <p className="font-display text-2xl font-medium leading-snug md:text-[1.75rem]">{about.vision}</p>
-          </Reveal>
+      <MissionTypewriter index="03" mission={about.mission} vision={about.vision} accents={["simple", "useful", "affordable", "same", "day"]} />
+
+      <Section>
+        <div className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
+        <div className="lg:sticky lg:top-32 lg:self-start">
+          <SectionHead index="04" eyebrow="Founders" title="The people behind Priinteve" em="behind Priinteve" text={`Priinteve Innovations was founded in ${site.founded} in ${site.location.city} by its two co-founders, who build and run every product and client project themselves.`} className="mb-0 md:mb-0" />
+        </div>
+        <ul className="grid gap-5 sm:grid-cols-2">
+          {site.founders.map((f, i) => {
+            const photo = hasPublicFile(f.photo) ? f.photo : null;
+            return (
+              <li key={f.name}>
+                <Reveal delay={i * 0.08}>
+                  <figure className="group relative aspect-[3/4] overflow-hidden rounded-[1.75rem] border border-line bg-[radial-gradient(80%_70%_at_50%_30%,#2b4f1c,#131c17_70%)]">
+                    {photo ? (
+                      <Image src={photo} alt={`${f.name}, ${f.role} of ${site.name}`} fill sizes="(min-width: 640px) 40vw, 90vw" className="object-cover object-center transition-transform duration-[1400ms] ease-out-expo group-hover:scale-[1.04]" />
+                    ) : (
+                      <span aria-hidden="true" className="absolute inset-0 grid place-items-center font-serif text-[clamp(6rem,14vw,10rem)] italic text-[#9dbd6a]/80">
+                        {initials(f.name)}
+                      </span>
+                    )}
+                    <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                    <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 text-white md:p-7">
+                      <span>
+                        <span className="block font-display text-2xl font-semibold tracking-[-0.02em] md:text-3xl">{f.name}</span>
+                        <span className="mt-1.5 block text-white/80">{f.role}</span>
+                        <span className="block text-[0.85rem] text-white/60">{site.name}</span>
+                      </span>
+                      <span className="font-serif text-3xl italic leading-none text-[#9dbd6a]">{String(i + 1).padStart(2, "0")}</span>
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              </li>
+            );
+          })}
+        </ul>
         </div>
       </Section>
 
-      <Section>
-        <SectionHead index="05" eyebrow="Founders" title="The people behind Priinteve" em="behind Priinteve" text={`Priinteve Innovations was founded in ${site.founded} in ${site.location.city} by its two co-founders.`} />
-        <ul className="grid gap-5 sm:grid-cols-2 lg:max-w-4xl">
-          {site.founders.map((f, i) => (
-            <li key={f.name}>
-              <Reveal delay={i * 0.08}>
-                <div className="card flex items-center gap-5 rounded-[1.75rem] p-6 md:p-7">
-                  <span aria-hidden="true" className="grid size-16 shrink-0 place-items-center rounded-2xl bg-accent-strong font-display text-xl font-semibold text-on-accent shadow-[0_16px_36px_-14px_rgb(107_142_61/0.8)]">
-                    {initials(f.name)}
-                  </span>
-                  <span>
-                    <span className="block font-display text-xl font-semibold">{f.name}</span>
-                    <span className="mt-1 block text-muted">{f.role}, {site.name}</span>
-                  </span>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
       <Section tone="sand">
-        <SectionHead index="06" eyebrow="What we believe" title="What we believe" em="believe" />
+        <SectionHead index="05" eyebrow="What we believe" title="What we believe" em="believe" />
         <div className="grid gap-5 md:grid-cols-3">
           {about.beliefs.map((b, i) => (
             <Reveal key={b.title} delay={i * 0.07} className="h-full">
@@ -135,20 +142,20 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <ProcessSection tone="light" index="07" />
+      <ProcessSection tone="light" index="06" />
 
       <Section tone="dark">
-        <SectionHead index="08" eyebrow="Technology" title="Technology we build with" em="build with" text="The stack behind our own products and our client work." />
-        <Chips items={TECHNOLOGY} />
+        <SectionHead index="07" eyebrow="Technology" title="Technology we build with" em="build with" text="The stack behind our own products and our client work." />
+        <TechStack />
       </Section>
 
       <Section>
-        <SectionHead index="09" eyebrow="Why Priinteve" title="Why businesses work with us" em="work with us" />
+        <SectionHead index="08" eyebrow="Why Priinteve" title="Why businesses work with us" em="work with us" />
         <WhyGrid />
       </Section>
 
       <Section tone="sand">
-        <SectionHead index="10" eyebrow="Our products" title="Products we build and run" em="build and run" />
+        <SectionHead index="09" eyebrow="Our products" title="Products we build and run" em="build and run" />
         <ProductGrid products={products} />
       </Section>
 

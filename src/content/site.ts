@@ -13,9 +13,12 @@ export const site = {
   tagline: "Products and digital solutions that help businesses operate, sell and grow.",
   founded: 2026,
   location: { city: "Ahmedabad", region: "Gujarat", country: "India", line: "Ahmedabad, Gujarat, India" },
+  /** Registered office, as confirmed by the founders (October 2026). */
+  registeredAddress: { street: "417, Mukhi Ne Khadki, Near Amba Maa Temple, Paldi Gam, Paldi", city: "Ahmedabad", region: "Gujarat", postalCode: "380007", line: "417, Mukhi Ne Khadki, Near Amba Maa Temple, Paldi Gam, Paldi, Ahmedabad, Gujarat 380007" },
   founders: [
-    { name: "Tarang Sachaniya", role: "Co-founder" },
-    { name: "Keyush Prajapati", role: "Co-founder" },
+    /* `photo` is used when the file exists in /public; until then the card shows initials */
+    { name: "Tarang Sachaniya", role: "Co-founder", photo: "/media/founders/tarang-sachaniya.webp" },
+    { name: "Keyush Prajapati", role: "Co-founder", photo: "/media/founders/keyush-prajapati.webp" },
   ],
   url: "https://priinteve.com",
   cardsUrl: "https://cards.priinteve.com",
@@ -44,7 +47,14 @@ export const PROCESS = [
 ] as const;
 
 /** Technologies we use across our own products and client builds. */
-export const TECHNOLOGY = ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Tailwind CSS", "Razorpay payments", "Secure hosting and file storage"] as const;
+export const TECH_GROUPS = [
+  { title: "Web", items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js"] },
+  { title: "Mobile & desktop", items: ["React Native", "Kotlin", "Java", "Electron.js"] },
+  { title: "Data & payments", items: ["PostgreSQL", "Razorpay payments", "Secure hosting and file storage"] },
+  { title: "Automation & AI", items: ["WhatsApp Business API", "Telegram Bot API", "AI agents and LLM integrations"] },
+  { title: "Growth", items: ["SEO tools", "Google Search Console", "Analytics and tracking", "Schema and structured data"] },
+] as const;
+export const TECHNOLOGY: readonly string[] = TECH_GROUPS.flatMap((g) => g.items);
 
 /** Contact form: what the enquiry is about. */
 export const PROJECT_TYPES = ["Website", "E-commerce", "Custom Software", "CRM / ERP", "NFC / QR", "WhatsApp Bot", "Telegram Bot", "AI Agent", "Automation", "Other"] as const;
