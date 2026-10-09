@@ -95,7 +95,8 @@ export function Preloader() {
       style={{ WebkitMaskImage: "radial-gradient(circle at 50% 46%, transparent var(--hole), #000 calc(var(--hole) + 1px))", maskImage: "radial-gradient(circle at 50% 46%, transparent var(--hole), #000 calc(var(--hole) + 1px))" }}
     >
       <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-50" />
-      <div aria-hidden="true" className="absolute left-1/2 top-[46%] size-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6b8e3d]/20 blur-[120px]" />
+      {/* radial gradient, not filter: blur(), which iOS Safari draws as a hard square inside the mask */}
+      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_50%_46%,rgb(107_142_61/0.22)_0%,rgb(107_142_61/0.08)_22rem,transparent_34rem)]" />
 
       <div className="absolute inset-0 grid place-items-center px-6">
         <div className="flex flex-col items-center">

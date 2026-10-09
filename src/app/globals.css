@@ -497,3 +497,6 @@ html[data-theme="light"] {
   mask-image: radial-gradient(260px circle at var(--sx, 50%) var(--sy, 50%), #000, transparent 75%);
 }
 html[data-theme="dark"] .spotlight-glow { background: radial-gradient(520px circle at var(--sx, 50%) var(--sy, 50%), rgb(157 189 106 / 0.14), transparent 65%); }
+
+/* intro already played this session (set before first paint in layout.tsx): never paint it */
+html.intro-seen #preloader { display: none !important; }

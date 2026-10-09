@@ -33,9 +33,9 @@ export function LogoStage() {
           <i className="absolute bottom-[14%] right-[6%] size-1.5 rounded-full bg-[#eed89e] shadow-[0_0_12px_3px_rgb(238_216_158/0.6)]" />
         </span>
       </div>
-      {/* glow under the mark */}
-      <span className="absolute left-1/2 top-[58%] h-[18%] w-[52%] -translate-x-1/2 rounded-[50%] bg-black/50 blur-2xl" />
-      <span className="absolute left-1/2 top-1/2 size-[56%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1dc94f]/15 blur-[60px]" />
+      {/* shadow and glow under the mark: gradients, not filter: blur(), so iOS Safari renders them cleanly */}
+      <span className="absolute left-1/2 top-[58%] h-[22%] w-[60%] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(0_0_0/0.5),transparent)]" />
+      <span className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgb(29_201_79/0.18)_0%,rgb(29_201_79/0.06)_22%,transparent_40%)]" />
 
       {/* the mark */}
       <div className="absolute inset-0 grid place-items-center [perspective:1100px]">
