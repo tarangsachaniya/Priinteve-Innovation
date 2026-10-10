@@ -18,7 +18,6 @@ export const site = {
   founders: [
     /* `photo` is used when the file exists in /public; until then the card shows initials */
     { name: "Tarang Sachaniya", role: "Co-founder", photo: "/media/founders/tarang-sachaniya.webp" },
-    { name: "Keyush Prajapati", role: "Co-founder", photo: "/media/founders/keyush-prajapati.webp" },
   ],
   url: "https://priinteve.com",
   cardsUrl: "https://cards.priinteve.com",

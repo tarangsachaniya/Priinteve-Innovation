@@ -4,10 +4,10 @@ import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Heading } from "@/components/motion/heading";
-import { MissionTypewriter } from "@/components/motion/mission-typewriter";
+import { MissionStatement } from "@/components/motion/mission-statement";
 import { Reveal } from "@/components/motion/reveal";
 import { ProductGrid } from "@/components/products/product-card";
-import { ContactCta, ProcessSection, TechStack, WhyGrid } from "@/components/sections/shared";
+import { ContactCta, TechStack, WhyGrid } from "@/components/sections/shared";
 import { JsonLd } from "@/components/ui/json-ld";
 import { PageHero } from "@/components/ui/page-hero";
 import { Button, Eyebrow, Section, SectionHead } from "@/components/ui/primitives";
@@ -71,13 +71,13 @@ export default function AboutPage() {
 
       <Section tone="sand">
         <SectionHead index="02" eyebrow="What we build" title="Two sides, one team" em="one team" />
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-3">
           {about.pillars.map((p, i) => (
             <Reveal key={p.title} delay={i * 0.07} className="h-full">
-              <Link href={p.href} className="card card-hover group flex h-full flex-col rounded-[1.75rem] p-7">
+              <Link href={p.href} className="card card-hover group flex h-full flex-col rounded-2xl p-5">
                 <span className="numeral text-sm text-accent">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="mt-4 text-2xl">{p.title}</h3>
-                <p className="mt-3 text-muted">{p.text}</p>
+                <h3 className="mt-3 text-xl">{p.title}</h3>
+                <p className="mt-2 text-[0.92rem] text-muted">{p.text}</p>
                 <span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-accent">
                   {p.cta}
                   <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
@@ -88,14 +88,14 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <MissionTypewriter index="03" mission={about.mission} vision={about.vision} accents={["simple", "useful", "affordable", "same", "day"]} />
+      <MissionStatement index="03" mission={about.mission} vision={about.vision} accents={["simple", "useful", "affordable", "same", "day"]} />
 
       <Section>
-        <div className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
-        <div className="lg:sticky lg:top-32 lg:self-start">
-          <SectionHead index="04" eyebrow="Founders" title="The people behind Priinteve" em="behind Priinteve" text={`Priinteve Innovations was founded in ${site.founded} in ${site.location.city} by its two co-founders, who build and run every product and client project themselves.`} className="mb-0 md:mb-0" />
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center lg:gap-16">
+        <div>
+          <SectionHead index="04" eyebrow="Founder" title="The person behind Priinteve" em="behind Priinteve" text={`Priinteve Innovations was founded in ${site.founded} in ${site.location.city} by Tarang Sachaniya, who builds and runs every product and client project.`} className="mb-0 md:mb-0" />
         </div>
-        <ul className="grid gap-5 sm:grid-cols-2">
+        <ul className="mx-auto w-full max-w-[22rem] lg:mx-0 lg:justify-self-end">
           {site.founders.map((f, i) => {
             const photo = hasPublicFile(f.photo) ? f.photo : null;
             return (
@@ -129,10 +129,10 @@ export default function AboutPage() {
 
       <Section tone="sand">
         <SectionHead index="05" eyebrow="What we believe" title="What we believe" em="believe" />
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-3">
           {about.beliefs.map((b, i) => (
             <Reveal key={b.title} delay={i * 0.07} className="h-full">
-              <div className="card h-full rounded-[1.75rem] p-7">
+              <div className="card h-full rounded-2xl p-5">
                 <span className="numeral text-sm text-accent">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="mt-4 text-xl">{b.title}</h3>
                 <p className="mt-2 text-muted">{b.text}</p>
@@ -142,20 +142,18 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <ProcessSection tone="light" index="06" />
-
       <Section tone="dark">
-        <SectionHead index="07" eyebrow="Technology" title="Technology we build with" em="build with" text="The stack behind our own products and our client work." />
+        <SectionHead index="06" eyebrow="Technology" title="Technology we build with" em="build with" text="The stack behind our own products and our client work." />
         <TechStack />
       </Section>
 
       <Section>
-        <SectionHead index="08" eyebrow="Why Priinteve" title="Why businesses work with us" em="work with us" />
+        <SectionHead index="07" eyebrow="Why Priinteve" title="Why businesses work with us" em="work with us" />
         <WhyGrid />
       </Section>
 
       <Section tone="sand">
-        <SectionHead index="09" eyebrow="Our products" title="Products we build and run" em="build and run" />
+        <SectionHead index="08" eyebrow="Our products" title="Products we build and run" em="build and run" />
         <ProductGrid products={products} />
       </Section>
 

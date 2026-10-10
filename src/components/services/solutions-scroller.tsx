@@ -116,7 +116,7 @@ export function SolutionsScroller({ items, head }: { items: Solution[]; head?: R
                 href={`/services/${s.slug}`}
                 onFocus={() => reveal(i)}
                 className={cn(
-                  "card group relative flex h-full w-[min(82vw,22rem)] flex-col overflow-hidden rounded-[2rem] p-7 transition-[border-color,box-shadow] duration-700 ease-out-expo sm:w-[24rem] lg:min-h-[27rem] lg:w-[27rem] lg:p-8",
+                  "card group relative flex h-full w-[min(80vw,18rem)] flex-col overflow-hidden rounded-2xl p-5 transition-[border-color,box-shadow] duration-700 ease-out-expo sm:w-[19rem] lg:w-[20rem]",
                   on ? "border-accent/50 opacity-100 shadow-[0_40px_90px_-40px_rgb(107_142_61/0.55)]" : "border-line",
                 )}
               >
@@ -125,21 +125,21 @@ export function SolutionsScroller({ items, head }: { items: Solution[]; head?: R
                 <span aria-hidden="true" className="pointer-events-none absolute -right-6 -top-6 size-36 rounded-full border border-accent/20 transition-transform duration-1000 ease-out-expo group-hover:scale-90" />
                 <span aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-accent/10 blur-3xl" />
                 <span className="flex items-start justify-between">
-                  <span className="numeral text-5xl text-accent/90">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="relative grid size-14 place-items-center rounded-2xl bg-accent-strong text-on-accent shadow-[0_18px_40px_-14px_rgb(107_142_61/0.9)] transition-transform duration-700 ease-out-expo [transform:perspective(600px)_rotateX(10deg)_rotateY(-14deg)] group-hover:[transform:perspective(600px)_rotateX(0)_rotateY(0)_scale(1.06)]">
-                    <Icon name={s.icon} className="size-6" />
+                  <span className="numeral text-3xl text-accent/90">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="relative grid size-11 place-items-center rounded-xl bg-accent-strong text-on-accent shadow-[0_18px_40px_-14px_rgb(107_142_61/0.9)] transition-transform duration-700 ease-out-expo [transform:perspective(600px)_rotateX(10deg)_rotateY(-14deg)] group-hover:[transform:perspective(600px)_rotateX(0)_rotateY(0)_scale(1.06)]">
+                    <Icon name={s.icon} className="size-5" />
                   </span>
                 </span>
-                <h3 className="mt-10 text-[1.7rem] leading-tight">{it.title}</h3>
-                <p className="mt-3 text-[0.98rem] text-muted">{s.card}</p>
-                <ul className="mt-6 flex flex-wrap gap-1.5">
+                <h3 className="mt-6 text-[1.35rem] leading-tight">{it.title}</h3>
+                <p className="mt-2 text-[0.9rem] leading-relaxed text-muted">{s.card}</p>
+                <ul className="mt-4 flex flex-wrap gap-1.5">
                   {s.includes.slice(0, 4).map((x) => (
                     <li key={x} className="rounded-full border border-line px-3 py-1 text-[0.75rem] text-muted">
                       {x}
                     </li>
                   ))}
                 </ul>
-                <span className="mt-auto inline-flex items-center gap-2 pt-8 text-sm font-semibold text-accent">
+                <span className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-semibold text-accent">
                   Explore {it.title}
                   <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
                 </span>

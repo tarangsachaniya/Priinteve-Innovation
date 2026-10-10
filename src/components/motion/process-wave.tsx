@@ -57,7 +57,7 @@ export function ProcessWave({ steps, head }: { steps: readonly Step[]; head: Rea
   return (
     <>
       {/* desktop: pinned horizontal path */}
-      <div ref={wrap} className="relative hidden lg:motion-safe:block" style={{ height: `${n * 55 + 60}vh` }}>
+      <div data-dock-hide ref={wrap} className="relative hidden lg:motion-safe:block" style={{ height: `${n * 55 + 60}vh` }}>
         <div className="sticky top-0 flex h-svh flex-col justify-center gap-[clamp(2rem,6vh,4.5rem)] overflow-hidden pb-8 pt-24">
           <div className="container-x flex items-end justify-between gap-10">
             {head}

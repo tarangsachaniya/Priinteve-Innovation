@@ -28,6 +28,7 @@ export const viewport: Viewport = {
   ],
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 // Runs before first paint: applies the saved theme, and hides the intro when it has already played

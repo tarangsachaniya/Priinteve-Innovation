@@ -65,14 +65,14 @@ export function ServiceGroups() {
               data-panel
               data-tone="dark"
               aria-labelledby={`cat-${cat.anchor}`}
-              className="grain relative isolate origin-top overflow-hidden rounded-[2rem] border border-line bg-bg text-fg shadow-[0_-30px_80px_-40px_rgb(0_0_0/0.6)] lg:min-h-[min(36rem,calc(100svh-9rem))]"
+              className="grain relative isolate origin-top overflow-hidden rounded-3xl border border-line bg-bg text-fg shadow-[0_-30px_80px_-40px_rgb(0_0_0/0.6)] lg:min-h-[min(30rem,calc(100svh-9rem))]"
             >
               <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-32 -z-10 size-[30rem] rounded-full bg-[#6b8e3d]/25 blur-[110px]" />
               <span aria-hidden="true" className="pointer-events-none absolute -bottom-[0.18em] right-6 -z-10 select-none font-display text-[clamp(8rem,18vw,15rem)] font-bold leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1px_rgb(250_248_242/0.08)]">
                 {num(ci)}
               </span>
 
-              <div className="relative z-10 grid gap-10 p-7 sm:p-10 lg:grid-cols-[1fr_1.05fr] lg:gap-16 lg:p-14">
+              <div className="relative z-10 grid gap-10 p-6 sm:p-8 lg:grid-cols-[1fr_1.05fr] lg:gap-12 lg:p-10">
                 {/* story */}
                 <div className="flex flex-col">
                   <p className="label flex items-center gap-3 text-muted">
@@ -97,7 +97,7 @@ export function ServiceGroups() {
                 <ul className="self-center border-t border-line">
                   {items.map((s) => (
                     <li key={s.slug}>
-                      <Link href={`/services/${s.slug}`} className="group relative isolate flex items-center gap-5 overflow-hidden border-b border-line py-5 pr-2">
+                      <Link href={`/services/${s.slug}`} className="group relative isolate flex items-center gap-5 overflow-hidden border-b border-line py-4 pr-2">
                         <span aria-hidden="true" className="absolute inset-0 -z-10 origin-left scale-x-0 bg-accent-soft transition-transform duration-700 ease-out-expo group-hover:scale-x-100" />
                         <span className="grid size-11 shrink-0 place-items-center rounded-full border border-line text-accent transition-all duration-500 group-hover:border-accent group-hover:bg-accent-strong group-hover:text-on-accent">
                           <Icon name={s.icon} className="size-[1.1rem]" />

@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -8,6 +7,7 @@ import { serviceBySlug } from "@/content/services";
 import type { Project } from "@/content/types";
 import { Reveal } from "../motion/reveal";
 import { BrowserFrame, PhoneFrame } from "../ui/media";
+import { Button } from "../ui/primitives";
 import { ProjectArt } from "./project-list";
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
@@ -64,10 +64,10 @@ export function WorkStory({ projects }: { projects: Project[] }) {
       {projects.map((p, i) => {
         const service = serviceBySlug(p.service);
         return (
-          <div key={p.slug} data-slot className="lg:motion-safe:sticky lg:motion-safe:top-24 lg:motion-safe:h-[min(38rem,calc(100svh-7rem))] lg:motion-safe:pb-6" style={{ zIndex: i + 1 }}>
-            <article data-panel aria-labelledby={`work-${p.slug}`} className="card grid h-full origin-top overflow-hidden rounded-[2rem] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:motion-reduce:mb-6">
+          <div key={p.slug} data-slot className="lg:motion-safe:sticky lg:motion-safe:top-24 lg:motion-safe:h-[min(33rem,calc(100svh-7rem))] lg:motion-safe:pb-6" style={{ zIndex: i + 1 }}>
+            <article data-panel aria-labelledby={`work-${p.slug}`} className="card grid h-full origin-top overflow-hidden rounded-3xl lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:motion-reduce:mb-6">
               {/* info */}
-              <div className="flex flex-col p-7 sm:p-10 lg:p-11">
+              <div className="flex flex-col p-6 sm:p-8 lg:p-9">
                 <div className="flex items-center justify-between gap-4">
                   <span className="font-serif text-[clamp(3rem,5vw,4.5rem)] italic leading-none text-accent">{num(i)}</span>
                   <span className="label text-right text-muted">
@@ -88,15 +88,13 @@ export function WorkStory({ projects }: { projects: Project[] }) {
                   </p>
                 )}
                 <div className="mt-8 flex flex-wrap gap-3 lg:mt-auto lg:pt-8">
-                  <Link href={`/work/${p.slug}`} className="group inline-flex items-center gap-2 rounded-full bg-accent-strong px-6 py-3 text-[0.92rem] font-semibold text-on-accent">
+                  <Button href={`/work/${p.slug}`} arrow="up-right">
                     View case study
-                    <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </Link>
+                  </Button>
                   {p.liveUrl && (
-                    <a href={p.liveUrl} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-[0.92rem] font-semibold transition-colors hover:border-accent">
-                      Visit live site
-                      <ArrowUpRight aria-hidden="true" className="size-4" />
-                    </a>
+                    <Button href={p.liveUrl} variant="secondary" arrow="up-right">
+                      Live site
+                    </Button>
                   )}
                 </div>
               </div>

@@ -25,32 +25,41 @@ export function Text({ children }: { children: string }) {
   );
 }
 
-/* ------------------------------------------------------------ Button */
+/* ------------------------------------------------------------ CTA system */
+/*
+ * One CTA family for the whole site:
+ * - primary   : olive pill with a soft glow and an arrow chip (the one main action in a block)
+ * - secondary : hairline pill on the same geometry (alias `ghost`)
+ * - TextLink  : inline action, accent or the blue "explore" accent, with an up-right arrow
+ * Every pill shares height (3.25rem), radius, type, arrow chip and the same 0.45s expo easing.
+ */
 type ButtonProps = {
   href: string;
-  /** primary (and its alias `solid`) = violet pill with glow · ghost = hairline outline */
-  variant?: "primary" | "solid" | "ghost";
+  variant?: "primary" | "solid" | "secondary" | "ghost";
   children: ReactNode;
   arrow?: "right" | "up-right" | false;
 } & Omit<ComponentProps<"a">, "href">;
 
 const BTN = {
-  base: "group/btn relative inline-flex items-center justify-center gap-3 rounded-full py-2 pl-6 pr-2 text-[0.93rem] font-semibold transition-all duration-300 ease-out-expo",
-  plain: "px-6 py-3.5",
-  primary: "bg-accent-strong text-on-accent shadow-[0_0_30px_-8px_rgb(107_142_61/0.85)] hover:shadow-[0_0_44px_-4px_rgb(157_189_106/0.95)]",
-  ghost: "border border-line bg-fg/[0.03] text-fg hover:border-accent hover:bg-accent-soft hover:shadow-[0_0_30px_-10px_rgb(107_142_61/0.8)]",
+  base: "group/btn relative inline-flex h-[3.25rem] items-center justify-center gap-3 whitespace-nowrap rounded-full pl-6 pr-2 text-[0.93rem] font-semibold transition-[background-color,border-color,box-shadow,color,transform] duration-[var(--dur)] ease-[var(--ease)] active:scale-[0.98]",
+  plain: "px-6",
+  primary: "bg-accent-strong text-on-accent shadow-[0_0_30px_-10px_rgb(107_142_61/0.85)] hover:shadow-[0_0_40px_-6px_rgb(157_189_106/0.9)]",
+  secondary: "border border-line bg-fg/[0.03] text-fg hover:border-accent/70 hover:bg-accent-soft",
 };
 
-/** Internal links use next/link; external, tel:, mailto: and #anchors use a plain anchor. Hover lifts, glows and nudges the arrow. */
+const isExternal = (href: string) => href.startsWith("http");
+
+/** Internal links use next/link; external, tel:, mailto: and #anchors use a plain anchor. */
 export function Button({ href, variant = "primary", arrow = "right", children, className, ...rest }: ButtonProps) {
-  const cls = cn(BTN.base, !arrow && BTN.plain, variant === "ghost" ? BTN.ghost : BTN.primary, className);
+  const secondary = variant === "ghost" || variant === "secondary";
+  const cls = cn(BTN.base, !arrow && BTN.plain, secondary ? BTN.secondary : BTN.primary, className);
   const Arrow = arrow === "up-right" ? ArrowUpRight : ArrowRight;
   const inner = (
     <>
       {children}
       {arrow && (
-        <span className={cn("grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-300", variant === "ghost" ? "bg-fg/[0.07] group-hover/btn:bg-accent-strong group-hover/btn:text-on-accent" : "bg-black/15")}>
-          <Arrow aria-hidden="true" className="size-4 transition-transform duration-500 ease-out-expo group-hover/btn:translate-x-0.5" />
+        <span className={cn("grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-[var(--dur)]", secondary ? "bg-fg/[0.07] group-hover/btn:bg-accent-strong group-hover/btn:text-on-accent" : "bg-black/15")}>
+          <Arrow aria-hidden="true" className={cn("size-4 transition-transform duration-[var(--dur)] ease-[var(--ease)]", arrow === "up-right" ? "group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5" : "group-hover/btn:translate-x-0.5")} />
         </span>
       )}
     </>
@@ -60,7 +69,31 @@ export function Button({ href, variant = "primary", arrow = "right", children, c
       {inner}
     </Link>
   ) : (
-    <a href={href} className={cls} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})} {...rest}>
+    <a href={href} className={cls} {...(isExternal(href) ? { target: "_blank", rel: "noopener" } : {})} {...rest}>
+      {inner}
+    </a>
+  );
+}
+
+/** Inline text action. `blue` is the deliberate "explore" accent used for secondary links in lists. */
+export function TextLink({ href, children, tone = "accent", className }: { href: string; children: ReactNode; tone?: "accent" | "blue"; className?: string }) {
+  const cls = cn(
+    "group/tl inline-flex items-center gap-1.5 font-semibold transition-colors duration-[var(--dur)]",
+    tone === "blue" ? "text-link hover:text-link-strong" : "text-accent hover:text-fg",
+    className,
+  );
+  const inner = (
+    <>
+      <span className="link-u">{children}</span>
+      <ArrowUpRight aria-hidden="true" className="size-4 shrink-0 transition-transform duration-[var(--dur)] ease-[var(--ease)] group-hover/tl:-translate-y-0.5 group-hover/tl:translate-x-0.5" />
+    </>
+  );
+  return href.startsWith("/") ? (
+    <Link href={href} className={cls}>
+      {inner}
+    </Link>
+  ) : (
+    <a href={href} className={cls} {...(isExternal(href) ? { target: "_blank", rel: "noopener" } : {})}>
       {inner}
     </a>
   );
@@ -250,7 +283,7 @@ const CTA_ICON = { arrow: ArrowUpRight, phone: Phone, mail: Mail };
  */
 export function CtaBand({ heading, sub, em, eyebrow = "Let's work together", actions }: { heading: string; sub?: string; em?: string; eyebrow?: string; actions: CtaAction[] }) {
   return (
-    <section data-tone="brand" className="grain relative isolate overflow-hidden bg-bg py-24 text-fg md:py-32">
+    <section data-tone="brand" data-dock-stop className="grain relative isolate overflow-hidden bg-bg py-24 text-fg md:py-32">
       <div aria-hidden="true" className="drift pointer-events-none absolute -right-40 -top-48 -z-10 size-[42rem] rounded-full bg-[#6b8e3d]/40 blur-[130px]" />
       <div aria-hidden="true" className="pointer-events-none absolute -bottom-56 -left-40 -z-10 size-[34rem] rounded-full bg-[#eed89e]/10 blur-[120px]" />
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-40" />

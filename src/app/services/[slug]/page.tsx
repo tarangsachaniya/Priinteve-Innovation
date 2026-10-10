@@ -3,12 +3,14 @@ import { notFound } from "next/navigation";
 import { ProjectTiles } from "@/components/case-studies/project-list";
 import { ProductCard } from "@/components/products/product-card";
 import { ServiceVisual } from "@/components/products/product-visual";
-import { ContactCta, ProcessSection } from "@/components/sections/shared";
+import { ContactCta } from "@/components/sections/shared";
+import { BrandWork } from "@/components/services/brand-work";
 import { ServiceCard } from "@/components/services/service-card";
 import { JsonLd } from "@/components/ui/json-ld";
 import { FeatureGrid } from "@/components/ui/media";
 import { PageHero } from "@/components/ui/page-hero";
 import { Button, Checklist, Faq, Section, SectionHead } from "@/components/ui/primitives";
+import { brandWork } from "@/content/brand-work";
 import { products } from "@/content/products";
 import { categoryOf, serviceBySlug, services, servicesIn } from "@/content/services";
 import { site } from "@/content/site";
@@ -37,6 +39,8 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
   const relatedWork = projects.filter((p) => service.relatedWork.includes(p.slug));
   const siblings = servicesIn(service.category).filter((s) => s.slug !== service.slug);
   const others = siblings.length ? siblings : services.filter((s) => s.slug !== service.slug).slice(0, 3);
+  // the Branding page shows its own brand portfolio in place of related web projects
+  const portfolio = service.slug === "branding" ? brandWork : [];
 
   return (
     <>
@@ -92,26 +96,31 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         </div>
       </Section>
 
-      <ProcessSection tone="dark" index="04" />
-
-      {(relatedWork.length > 0 || relatedProducts.length > 0) && (
-        <Section>
-          <SectionHead index="05" eyebrow={relatedWork.length ? "Related work" : "See it in action"} title={relatedWork.length ? "Related projects" : "Built on the same approach"} text={relatedWork.length ? undefined : "Our own products use the same approach we bring to client work."} />
-          {relatedWork.length > 0 && <ProjectTiles projects={relatedWork} />}
-          {relatedProducts.length > 0 && (
-            <div className={`grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${relatedWork.length ? "mt-14" : ""}`}>
-              {relatedProducts.map((p, i) => (
-                <ProductCard key={p.slug} product={p} delay={i * 0.06} />
-              ))}
-            </div>
-          )}
+      {portfolio.length > 0 ? (
+        <Section tone="dark" id="brand-work">
+          <SectionHead index="04" eyebrow="Brand work" title="Identities, packaging and posts we have designed" em="we have designed" text="A selection of recent branding, packaging and social design projects." />
+          <BrandWork projects={portfolio} />
         </Section>
+      ) : (
+        (relatedWork.length > 0 || relatedProducts.length > 0) && (
+          <Section tone="dark">
+            <SectionHead index="04" eyebrow={relatedWork.length ? "Related work" : "See it in action"} title={relatedWork.length ? "Related projects" : "Built on the same approach"} text={relatedWork.length ? undefined : "Our own products use the same approach we bring to client work."} />
+            {relatedWork.length > 0 && <ProjectTiles projects={relatedWork} />}
+            {relatedProducts.length > 0 && (
+              <div className={`grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${relatedWork.length ? "mt-14" : ""}`}>
+                {relatedProducts.map((p, i) => (
+                  <ProductCard key={p.slug} product={p} delay={i * 0.06} />
+                ))}
+              </div>
+            )}
+          </Section>
+        )
       )}
 
       <Section tone="sand">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
-            <SectionHead index="06" eyebrow="FAQ" title={`${service.short ?? service.name} questions`} em="questions" className="mb-8 md:mb-8" />
+            <SectionHead index="05" eyebrow="FAQ" title={`${service.short ?? service.name} questions`} em="questions" className="mb-8 md:mb-8" />
             <Button href="/faq" variant="ghost">
               All questions
             </Button>
@@ -123,8 +132,8 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       <ContactCta />
 
       <Section tone="dark">
-        <SectionHead index="07" eyebrow="More services" title={siblings.length ? `More in ${category.name}` : "Other services"} />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <SectionHead index="06" eyebrow="More services" title={siblings.length ? `More in ${category.name}` : "Other services"} />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {others.slice(0, 3).map((s, i) => (
             <ServiceCard key={s.slug} service={s} index={i} delay={i * 0.06} />
           ))}

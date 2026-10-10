@@ -1,10 +1,6 @@
-"use client";
-
-import { ArrowRight, ArrowUpRight, Mail, Phone } from "lucide-react";
-import Link from "next/link";
-import { useRef, type ReactNode } from "react";
+import { Mail, Phone } from "lucide-react";
 import { site } from "@/content/site";
-import { cn } from "@/lib/utils";
+import { Button } from "../ui/primitives";
 
 const VERBS = /(print|build|automate|launch)/gi;
 
@@ -34,100 +30,30 @@ function Headline({ text, em }: { text: string; em?: string }) {
   );
 }
 
-/** One row of the stack. The text drifts right and a fill sweeps in from the left on hover or focus. */
-function Row({ href, icon, label, children, primary, external }: { href: string; icon: ReactNode; label: string; children: ReactNode; primary?: boolean; external?: boolean }) {
-  const cls = cn(
-    "group/row relative isolate flex min-h-[4.5rem] items-center justify-between gap-4 overflow-hidden px-5 py-4 transition-colors duration-500 md:px-7",
-    primary ? "min-h-[6.5rem] bg-accent-strong text-on-accent md:min-h-[8rem]" : "text-fg",
-  );
-  const inner = (
-    <>
-      {/* fill sweep */}
-      <span
-        aria-hidden="true"
-        className={cn(
-          "absolute inset-0 -z-10 origin-left scale-x-0 transition-transform duration-700 ease-out-expo group-hover/row:scale-x-100 group-focus-visible/row:scale-x-100",
-          primary ? "bg-fg" : "bg-fg/[0.08]",
-        )}
-      />
-      <span className={cn("flex min-w-0 items-center gap-4 transition-transform duration-500 ease-out-expo group-hover/row:translate-x-1.5 group-focus-visible/row:translate-x-1.5", primary && "group-hover/row:text-bg group-focus-visible/row:text-bg")}>
-        <span aria-hidden="true" className={cn("grid size-9 shrink-0 place-items-center rounded-full border", primary ? "border-current" : "border-line text-accent")}>
-          {icon}
-        </span>
-        <span className="min-w-0">
-          <span className={cn("label block text-[0.62rem]", primary ? "opacity-70" : "text-muted")}>{label}</span>
-          <span className={cn("block truncate font-display font-semibold tracking-tight", primary ? "text-2xl md:text-4xl" : "text-lg md:text-xl")}>{children}</span>
-        </span>
-      </span>
-      {external ? (
-        <ArrowUpRight aria-hidden="true" className="size-5 shrink-0 transition-transform duration-500 ease-out-expo group-hover/row:-translate-y-1 group-hover/row:translate-x-1" />
-      ) : (
-        <ArrowRight aria-hidden="true" className={cn("shrink-0 transition-transform duration-500 ease-out-expo group-hover/row:translate-x-2 group-focus-visible/row:translate-x-2", primary ? "size-7 group-hover/row:text-bg" : "size-5")} />
-      )}
-    </>
-  );
-  const focus = "focus-visible:outline-offset-[-4px]";
-  return href.startsWith("/") ? (
-    <Link href={href} className={cn(cls, focus)}>
-      {inner}
-    </Link>
-  ) : (
-    <a href={href} className={cn(cls, focus)}>
-      {inner}
-    </a>
-  );
-}
-
 /**
- * Closing call to action. Headline on the left; on the right a single bordered panel holding the three
- * ways to reach us. One interaction idea: a soft spotlight follows the cursor across the panel
- * (fine pointers, motion allowed), while each row answers with a fill sweep and a nudge.
+ * Closing call to action, kept to the essentials: one short line, the primary action, and the two
+ * direct ways to reach us as quiet pills. No supporting copy; the footer carries the rest.
  */
-export function ContactCtaBand({ heading, sub, em, eyebrow = "Let's work together" }: { heading: string; sub?: string; em?: string; eyebrow?: string }) {
-  const panel = useRef<HTMLDivElement>(null);
-  const move = (e: React.PointerEvent) => {
-    const el = panel.current;
-    if (!el || e.pointerType !== "mouse") return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${(e.clientX - r.left).toFixed(0)}px`);
-    el.style.setProperty("--my", `${(e.clientY - r.top).toFixed(0)}px`);
-  };
-
+export function ContactCtaBand({ heading, em }: { heading: string; em?: string }) {
   return (
-    <section data-tone="brand" aria-label={eyebrow} className="relative isolate overflow-hidden bg-bg py-20 text-fg md:py-28 lg:py-32">
+    <section data-tone="brand" data-dock-stop aria-label="Contact" className="relative isolate overflow-hidden bg-bg py-20 text-fg md:py-28">
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-60" />
-      <div aria-hidden="true" className="pointer-events-none absolute -bottom-56 -left-40 -z-10 size-[34rem] rounded-full bg-[#eed89e]/10 blur-[120px]" />
+      <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-0 -z-10 size-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(238_216_158/0.14),transparent)]" />
 
-      <div className="container-x grid gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-center lg:gap-20">
-        <div>
-          <p className="label mb-8 flex items-center gap-3 text-muted">
-            <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
-            {eyebrow}
-          </p>
-          <h2 className="text-[clamp(2.2rem,6.4vw,5.4rem)] leading-[1.02] tracking-[-0.04em]">
-            <Headline text={heading} em={em} />
-          </h2>
-          {sub && <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted">{sub}</p>}
-        </div>
-
-        <div
-          ref={panel}
-          onPointerMove={move}
-          className="cta-panel relative isolate divide-y divide-line overflow-hidden rounded-[1.75rem] border border-line bg-bg-2/70 backdrop-blur-sm"
-        >
-          <span
-            aria-hidden="true"
-            className="cta-spot pointer-events-none absolute inset-0 z-10"
-          />
-          <Row href="/contact" label="Start here" icon={<ArrowRight className="size-4" />} primary>
-            Start a project
-          </Row>
-          <Row href={site.phoneHref} label="Call us" icon={<Phone className="size-4" />}>
+      <div className="container-x flex flex-col items-center text-center">
+        <h2 className="max-w-[16ch] text-[clamp(2.4rem,6vw,4.8rem)] leading-[1.02] tracking-[-0.04em]">
+          <Headline text={heading} em={em} />
+        </h2>
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <Button href="/contact" className="w-full max-w-xs sm:w-auto sm:max-w-none">Start a project</Button>
+          <Button href={site.phoneHref} variant="secondary" arrow={false} className="w-full max-w-xs sm:w-auto sm:max-w-none">
+            <Phone aria-hidden="true" className="size-4 text-accent" />
             {site.phone}
-          </Row>
-          <Row href={`mailto:${site.email}`} label="Email us" icon={<Mail className="size-4" />}>
+          </Button>
+          <Button href={`mailto:${site.email}`} variant="secondary" arrow={false} className="w-full max-w-xs sm:w-auto sm:max-w-none">
+            <Mail aria-hidden="true" className="size-4 text-accent" />
             {site.email}
-          </Row>
+          </Button>
         </div>
       </div>
     </section>

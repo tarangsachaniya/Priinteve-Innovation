@@ -1,7 +1,6 @@
 import { Bot, Nfc, UtensilsCrossed } from "lucide-react";
 import { Magnetic, PointerParallax } from "../motion/pointer";
 import { home } from "@/content/pages";
-import { products } from "@/content/products";
 import { Heading } from "../motion/heading";
 import { Reveal } from "../motion/reveal";
 import { Spotlight } from "../motion/spotlight";
@@ -34,9 +33,8 @@ function Float({ icon, title, line, className, depth }: { icon: React.ReactNode;
 
 /** Home hero: headline on a faint grid, beside the Priinteve mark as a 3D object with floating product cards. */
 export function HomeHero() {
-  const live = products.filter((p) => p.status === "Live");
   return (
-    <header data-tone="light" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-bg pb-10 pt-28 text-fg md:pt-32">
+    <header data-tone="light" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-bg pb-14 pt-28 text-fg md:pb-20 md:pt-32">
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0" />
       <Spotlight />
       <div aria-hidden="true" className="pointer-events-none absolute -left-40 top-10 size-[38rem] rounded-full bg-accent-strong/20 blur-[130px]" />
@@ -45,64 +43,37 @@ export function HomeHero() {
         <i key={i} aria-hidden="true" className="pointer-events-none absolute rounded-full bg-accent/60" style={{ left: s.left, top: s.top, width: s.size, height: s.size, opacity: 0.5 }} />
       ))}
 
-      <div className="container-x relative grid flex-1 items-center gap-12 lg:grid-cols-12">
-        <div className="lg:col-span-7">
-          <Reveal>
-            <p className="label mb-7 inline-flex items-center gap-2.5 rounded-full border border-line bg-fg/[0.04] py-2 pl-3 pr-4 text-muted">
-              <span aria-hidden="true" className="size-1.5 rounded-full bg-accent shadow-[0_0_10px_2px_rgb(157_189_106/0.8)]" />
-              Products · Solutions · AI &amp; Automation
-            </p>
-          </Reveal>
-          <Heading as="h1" em={TAIL} className="text-[clamp(2.6rem,6vw,5.2rem)] leading-[1.0] tracking-[-0.045em]">
+      {/* the copy column stretches to the visual's height and pushes its CTAs to the visual's lower edge */}
+      <div className="container-x relative grid flex-1 content-center gap-12 lg:grid-cols-12 lg:gap-10">
+        <div className="flex flex-col lg:col-span-7 lg:justify-end lg:pb-6">
+          <Heading as="h1" em={TAIL} className="text-[clamp(2.6rem,min(6vw,8.4svh),5.2rem)] leading-[1.0] tracking-[-0.045em]">
             {home.h1}
           </Heading>
-          <Reveal delay={0.35}>
-            <p className="mt-7 max-w-xl text-lg text-muted md:text-xl md:leading-relaxed">{home.lead}</p>
+          <Reveal delay={0.3}>
+            <p className="mt-6 max-w-xl text-lg text-muted xl:text-xl xl:leading-relaxed">{home.heroLead}</p>
           </Reveal>
-          <Reveal delay={0.45}>
-            <div className="mt-9 flex flex-wrap gap-3">
+          <Reveal delay={0.4}>
+            <div className="mt-9 flex flex-wrap gap-3 lg:mt-10">
               <Magnetic>
                 <Button href="/products">Explore Products</Button>
               </Magnetic>
               <Magnetic strength={5}>
-                <Button href="/services" variant="ghost">
+                <Button href="/services" variant="secondary">
                   Our Services
                 </Button>
               </Magnetic>
             </div>
           </Reveal>
-          <Reveal delay={0.55}>
-            <ul aria-label="Live products" className="mt-10 flex flex-wrap gap-2">
-              {live.map((p) => (
-                <li key={p.slug} className="label rounded-full border border-line bg-fg/[0.04] px-3.5 py-1.5 text-muted">
-                  {p.name}
-                </li>
-              ))}
-            </ul>
+        </div>
+
+        <PointerParallax className="relative mx-auto w-full max-w-md lg:col-span-5 lg:max-w-[min(100%,calc(100svh-12rem))] lg:self-end">
+          <Reveal delay={0.2} variant="scale" className="relative">
+            <LogoStage />
+            <Float icon={<Nfc className="size-4" />} title="Tap to connect" line="Nectcard" className="-left-4 top-8 lg:-left-12" depth={-18} />
+            <Float icon={<UtensilsCrossed className="size-4" />} title="Table 14 · New order" line="VentaDot" className="-right-2 top-1/2 lg:-right-8" depth={26} />
+            <Float icon={<Bot className="size-4" />} title="Bots and AI agents" line="AI & Automation" className="-bottom-3 left-6 lg:left-2" depth={-12} />
           </Reveal>
-        </div>
-
-        <PointerParallax className="relative mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none">
-        <Reveal delay={0.2} variant="scale" className="relative">
-          <LogoStage />
-          <Float icon={<Nfc className="size-4" />} title="Tap to connect" line="Nectcard" className="-left-4 top-8 lg:-left-12" depth={-18} />
-          <Float icon={<UtensilsCrossed className="size-4" />} title="Table 14 · New order" line="VentaDot" className="-right-2 top-1/2 lg:-right-8" depth={26} />
-          <Float icon={<Bot className="size-4" />} title="Bots and AI agents" line="AI & Automation" className="-bottom-3 left-6 lg:left-2" depth={-12} />
-        </Reveal>
         </PointerParallax>
-      </div>
-
-      <div className="container-x relative mt-12">
-        <div className="label flex items-center justify-between gap-6 border-t border-line pt-5 text-muted">
-          <span>Technology & digital solutions · Ahmedabad, India</span>
-          <span aria-hidden="true" className="hidden items-center gap-3 sm:flex">
-            Scroll
-            <span className="relative block h-9 w-px overflow-hidden bg-fg/20">
-              <span className="absolute inset-0 bg-fg [animation:scroll-cue_2.2s_ease-in-out_infinite]" />
-            </span>
-          </span>
-          <span className="hidden md:inline">Products · Websites · Software · AI & Automation</span>
-        </div>
       </div>
     </header>
   );

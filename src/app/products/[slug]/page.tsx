@@ -258,7 +258,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
 
       <Section tone="sand">
         <SectionHead index={idx()} eyebrow="Related services" title="Need something built around it?" text="The same team builds custom solutions for businesses." />
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           {relatedServices.map((s, i) => (
             <ServiceCard key={s.slug} service={s} index={i} delay={i * 0.06} />
           ))}

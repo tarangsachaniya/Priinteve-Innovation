@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 /** Browser-style window chrome shared by every mockup. */
 function Window({ title, children, className }: { title: string; children: ReactNode; className?: string }) {
   return (
-    <div className={cn("overflow-hidden rounded-2xl border border-line bg-[#131c17]/90 text-[#faf8f2] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.85)] backdrop-blur", className)}>
+    <div className={cn("overflow-hidden rounded-2xl border border-white/10 bg-[#131c17] text-[#faf8f2] shadow-[0_30px_60px_-30px_rgb(0_0_0/0.85)]", className)}>
       <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
         <i className="size-2 rounded-full bg-white/25" />
         <i className="size-2 rounded-full bg-white/15" />

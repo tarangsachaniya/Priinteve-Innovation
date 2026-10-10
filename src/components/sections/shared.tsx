@@ -61,8 +61,8 @@ export function WhyGrid() {
 }
 
 /** Final call to action used across the site. */
-export function ContactCta({ heading = "Tell us what you want to print, build, automate or launch.", sub = "Products, websites, software, NFC and QR, bots and AI automation, built by one team in Ahmedabad.", em }: { heading?: string; sub?: string; em?: string }) {
-  return <ContactCtaBand heading={heading} sub={sub} em={em} />;
+export function ContactCta({ heading = "Let's build something together.", em = "together." }: { heading?: string; em?: string }) {
+  return <ContactCtaBand heading={heading} em={em} />;
 }
 
 /** Technology we build with, grouped: one hairline row per group, a serif label and the tools as chips. */

@@ -129,7 +129,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
 
       <NextProject project={next} />
 
-      <ContactCta heading="Want a website or store like this?" em="like this?" sub="Tell us about your business and what it needs to do online." />
+      <ContactCta heading="Want a website or store like this?" em="like this?" />
     </>
   );
 }

@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { ProjectCollage } from "@/components/case-studies/project-collage";
 import { WorkFacts, WorkIndex } from "@/components/case-studies/work-index";
-import { ContactCta, ProcessSection } from "@/components/sections/shared";
+import { ContactCta } from "@/components/sections/shared";
 import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/ui/json-ld";
 import { PageHero } from "@/components/ui/page-hero";
@@ -71,7 +71,6 @@ export default function WorkPage() {
           ))}
         </ol>
       </Section>
-      <ProcessSection tone="dark" index="03" />
       <ContactCta />
     </>
   );

@@ -9,6 +9,7 @@ import { serviceBySlug } from "@/content/services";
 import type { Project } from "@/content/types";
 import { cn } from "@/lib/utils";
 import { BrowserFrame } from "../ui/media";
+import { Button } from "../ui/primitives";
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
 
@@ -104,15 +105,13 @@ export function WorkIndex({ projects }: { projects: Project[] }) {
                       <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
                         <p className="max-w-2xl text-lg leading-relaxed text-muted md:text-xl">{p.summary}</p>
                         <div className="flex flex-wrap gap-3">
-                          <Link href={`/work/${p.slug}`} className="group/l inline-flex items-center gap-2 rounded-full bg-accent-strong px-6 py-3 text-[0.92rem] font-semibold text-on-accent">
+                          <Button href={`/work/${p.slug}`} arrow="up-right">
                             View case study
-                            <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-300 group-hover/l:-translate-y-0.5 group-hover/l:translate-x-0.5" />
-                          </Link>
+                          </Button>
                           {p.liveUrl && (
-                            <a href={p.liveUrl} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-[0.92rem] font-semibold transition-colors hover:border-accent">
+                            <Button href={p.liveUrl} variant="secondary" arrow="up-right">
                               {p.domain ?? "Visit live site"}
-                              <ArrowUpRight aria-hidden="true" className="size-4" />
-                            </a>
+                            </Button>
                           )}
                         </div>
                       </div>

@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useRevealed } from "@/lib/use-revealed";
 
 /**
  * Priinteve motion vocabulary for entrances. Each variant has one job:
@@ -40,6 +41,7 @@ function states(variant: Variant, y: number, x: number, blur: boolean) {
 
 export function Reveal({ delay = 0, y = 24, x = 0, blur = false, variant = "fade", as = "div", children, className, ...rest }: Props) {
   const reduce = useReducedMotion();
+  const [ref, shown] = useRevealed<HTMLElement>(0.08);
   // min-w-0: as a grid/flex item, never let long content stretch the track past the viewport
   const cls = cn("min-w-0", className as string | undefined);
   if (reduce) {
@@ -49,18 +51,17 @@ export function Reveal({ delay = 0, y = 24, x = 0, blur = false, variant = "fade
   const s = states(variant, y, x, blur);
   const motionProps = {
     initial: s.initial,
-    whileInView: s.animate,
-    viewport: { once: true, margin: "-8% 0px" },
+    animate: shown ? s.animate : s.initial,
     transition: { duration: s.duration, delay, ease: EASE },
   };
   if (as === "li")
     return (
-      <motion.li {...motionProps} {...(rest as HTMLMotionProps<"li">)} className={cls}>
+      <motion.li ref={ref as React.Ref<HTMLLIElement>} {...motionProps} {...(rest as HTMLMotionProps<"li">)} className={cls}>
         {children}
       </motion.li>
     );
   return (
-    <motion.div {...motionProps} {...rest} className={cls}>
+    <motion.div ref={ref as React.Ref<HTMLDivElement>} {...motionProps} {...rest} className={cls}>
       {children}
     </motion.div>
   );

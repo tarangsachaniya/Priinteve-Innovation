@@ -1,6 +1,6 @@
 import { WorkStory } from "@/components/case-studies/work-story";
 import { Marquee } from "@/components/motion/marquee";
-import { MissionTypewriter } from "@/components/motion/mission-typewriter";
+import { MissionStatement } from "@/components/motion/mission-statement";
 import { Magnetic } from "@/components/motion/pointer";
 import { Reveal } from "@/components/motion/reveal";
 import { Timeline } from "@/components/motion/timeline";
@@ -12,7 +12,8 @@ import { ContactCta, ProcessSection, WhyGrid } from "@/components/sections/share
 import { ServiceCard } from "@/components/services/service-card";
 import { SolutionsScroller, type Solution } from "@/components/services/solutions-scroller";
 import { JsonLd } from "@/components/ui/json-ld";
-import { Button, Faq, Section, SectionHead } from "@/components/ui/primitives";
+import { Button, Eyebrow, Faq, Section, SectionHead } from "@/components/ui/primitives";
+import { Heading } from "@/components/motion/heading";
 import { homeFaqs } from "@/content/faq";
 import { about, home } from "@/content/pages";
 import { products } from "@/content/products";
@@ -74,22 +75,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 02: one team, many digital systems */}
-      <Section tone="dark" className="overflow-hidden">
+      {/* 02: one team, many digital systems (compact on lg so the whole board fits one laptop viewport) */}
+      <Section tone="dark" className="overflow-hidden lg:py-16">
         <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-30" />
-        <div className="relative mb-14 grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-end">
-          <SectionHead index="02" eyebrow="One ecosystem" title="One team. Many digital systems." em="Many digital systems." className="mb-0 md:mb-0" />
-          <Reveal>
-            <p className="max-w-md text-lg text-muted lg:ml-auto">
-              Our own products on one side, the systems we build for clients on the other, and one team connecting them: the same people, stack and standards behind every line.
-            </p>
-          </Reveal>
+        <div className="relative mb-12 grid gap-6 lg:mb-10 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+          <div>
+            <Eyebrow index="02" className="mb-6">
+              One ecosystem
+            </Eyebrow>
+            <Heading em="Many digital systems." className="text-[clamp(2.1rem,3.4vw,3.1rem)] leading-[1.02]">
+              One team. Many digital systems.
+            </Heading>
+          </div>
+          <p className="max-w-md text-lg text-muted lg:ml-auto">Our own products on one side, what we build for clients on the other, and one team connecting them.</p>
         </div>
         <Ecosystem products={ECO_PRODUCTS} solutions={ECO_SOLUTIONS} />
       </Section>
 
       <Section tone="sand">
-        <Timeline index="03" eyebrow="How our products work" title={home.howHeading} steps={home.how} />
+        <Timeline index="03" eyebrow="How our products work" title={home.howHeading} lead={home.howLead} steps={home.how} />
       </Section>
 
       <section data-tone="light" className="relative bg-bg py-20 text-fg md:py-28" aria-label="Solutions">
@@ -123,7 +127,7 @@ export default function HomePage() {
               </div>
             </Reveal>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             {aiServices.map((s, i) => (
               <ServiceCard key={s.slug} service={s} index={i} delay={(i % 2) * 0.07} className={i === aiServices.length - 1 ? "sm:col-span-2" : undefined} />
             ))}
@@ -172,7 +176,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      <MissionTypewriter index="11" mission={about.mission} vision={about.vision} accents={["simple", "useful", "affordable", "same", "day"]} />
+      <MissionStatement index="11" mission={about.mission} vision={about.vision} accents={["simple", "useful", "affordable", "same", "day"]} />
 
       <ContactCta />
     </>

@@ -45,11 +45,11 @@ export default function ContactPage() {
                 return (
                   <li key={d.label}>
                     {d.href ? (
-                      <a href={d.href} className="card card-hover block h-full rounded-[1.5rem] p-5">
+                      <a href={d.href} className="card card-hover block h-full rounded-2xl p-4">
                         {inner}
                       </a>
                     ) : (
-                      <div className="card h-full rounded-[1.5rem] p-5">{inner}</div>
+                      <div className="card h-full rounded-2xl p-4">{inner}</div>
                     )}
                   </li>
                 );

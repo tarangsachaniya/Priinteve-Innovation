@@ -29,30 +29,9 @@ function Col({ title, links, label }: { title: string; links: FooterLink[]; labe
 
 export function Footer() {
   return (
-    <footer data-tone="dark" className="grain relative overflow-hidden bg-bg pt-24 text-fg md:pt-32">
+    <footer data-tone="dark" data-dock-stop className="grain relative overflow-hidden bg-bg pt-16 text-fg md:pt-20">
       <div className="container-x relative z-10">
-        <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
-          <div>
-            <p className="label mb-6 flex items-center gap-3 text-muted">
-              <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
-              Priinteve Innovations · Ahmedabad
-            </p>
-            <p className="max-w-3xl font-display text-[clamp(2rem,4.6vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.035em] [text-wrap:balance]">
-              We build products, websites, software and <span className="em">automation</span> that help businesses grow.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3 lg:justify-end">
-            <Link href="/contact" className="group inline-flex items-center gap-2 rounded-full bg-accent-strong px-6 py-3 text-[0.92rem] font-semibold text-on-accent transition-transform duration-300 hover:-translate-y-0.5">
-              Start a project
-              <ArrowUpRight aria-hidden="true" className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </Link>
-            <Link href="/products" className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-[0.92rem] font-semibold transition-colors hover:border-accent">
-              Our products
-            </Link>
-          </div>
-        </div>
-
-        <div className="mt-14 grid gap-x-8 gap-y-12 border-t border-line pt-12 sm:grid-cols-2 lg:grid-cols-[1.7fr_repeat(4,minmax(0,1fr))]">
+        <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-[1.7fr_repeat(4,minmax(0,1fr))]">
           {/* brand + contact */}
           <div className="sm:col-span-2 lg:col-span-1 lg:pr-6">
             <div className="mb-5 flex h-[1.15rem] items-center">

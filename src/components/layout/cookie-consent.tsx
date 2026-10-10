@@ -73,7 +73,7 @@ export function CookieConsent() {
           animate={{ opacity: 1, y: 0 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="grain fixed inset-x-3 bottom-3 z-[80] max-h-[calc(100svh-1.5rem)] overflow-y-auto rounded-[1.5rem] border border-line bg-bg/95 p-5 text-fg shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)] backdrop-blur-xl sm:inset-x-auto sm:bottom-5 sm:left-5 sm:w-[26rem] sm:p-6"
+          className="grain fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-[80] max-h-[calc(100svh-1.5rem)] overflow-y-auto rounded-[1.5rem] border border-line bg-bg/95 p-5 text-fg shadow-[0_30px_80px_-20px_rgb(0_0_0/0.7)] backdrop-blur-xl sm:inset-x-auto sm:bottom-5 sm:left-5 sm:w-[26rem] sm:p-6"
         >
           <div className="relative z-10">
             <div className="flex items-start justify-between gap-4">

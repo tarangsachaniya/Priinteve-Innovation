@@ -20,6 +20,8 @@
   --accent-soft: rgb(107 142 61 / 0.12);
   --on-accent: #ffffff;
   --ring: #6b8e3d;
+  --link: #2c58a8;
+  --link-strong: #1d3f80;
 }
 
 [data-tone="sand"] {
@@ -34,6 +36,8 @@
   --accent-soft: rgb(107 142 61 / 0.12);
   --on-accent: #ffffff;
   --ring: #6b8e3d;
+  --link: #2c58a8;
+  --link-strong: #1d3f80;
 }
 
 /* always dark, in both themes: forest green */
@@ -49,6 +53,8 @@
   --accent-soft: rgb(157 189 106 / 0.14);
   --on-accent: #ffffff;
   --ring: #9dbd6a;
+  --link: #8fb3ef;
+  --link-strong: #b5cdf6;
 }
 
 /* brand block (call to action): deep green with a gold accent */
@@ -80,6 +86,8 @@ html[data-theme="dark"] [data-tone="light"] {
   --accent-soft: rgb(157 189 106 / 0.14);
   --on-accent: #ffffff;
   --ring: #9dbd6a;
+  --link: #8fb3ef;
+  --link-strong: #b5cdf6;
 }
 html[data-theme="dark"] [data-tone="sand"] {
   --bg: #131c17;
@@ -93,6 +101,8 @@ html[data-theme="dark"] [data-tone="sand"] {
   --accent-soft: rgb(157 189 106 / 0.14);
   --on-accent: #ffffff;
   --ring: #9dbd6a;
+  --link: #8fb3ef;
+  --link-strong: #b5cdf6;
 }
 html[data-theme="dark"] [data-tone="dark"] {
   --bg: #080b08;
@@ -119,6 +129,8 @@ html[data-theme="light"] {
   --color-accent-soft: var(--accent-soft);
   --color-on-accent: var(--on-accent);
   --color-ring: var(--ring);
+  --color-link: var(--link);
+  --color-link-strong: var(--link-strong);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument), Georgia, serif;
@@ -126,6 +138,14 @@ html[data-theme="light"] {
 
 @theme {
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* motion tokens: one easing and three durations for every hover, state change and entrance */
+:root {
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 0.25s;
+  --dur: 0.45s;
+  --dur-slow: 0.8s;
 }
 
 @layer base {
@@ -285,7 +305,11 @@ html[data-theme="light"] {
     transition: background-size 0.5s var(--ease-out-expo);
   }
   .link-u:hover,
-  .link-u:focus-visible {
+  .link-u:focus-visible,
+  a:hover > .link-u,
+  a:focus-visible > .link-u,
+  a:hover > span > .link-u,
+  a:focus-visible > span > .link-u {
     background-position: 0 100%;
     background-size: 100% 1px;
   }
@@ -415,16 +439,6 @@ html[data-theme="light"] {
   .eco-pulse { display: none; }
 }
 
-/* ---- contact CTA: cursor-following spotlight (fine pointers, motion allowed only) ---- */
-.cta-spot {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgb(238 216 158 / 0.16), transparent 70%);
-}
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .cta-panel:hover .cta-spot { opacity: 1; }
-}
-
 /* ---- spec panel (components/ui/spec-panel.tsx): rows light up in turn, 4 x 2.4s loop ---- */
 @keyframes spec-row { 0%, 22% { background-color: var(--accent-soft); } 28%, 100% { background-color: transparent; } }
 @keyframes spec-dot { 0%, 22% { background-color: var(--accent); box-shadow: 0 0 0 4px rgb(157 189 106 / 0.2); } 28%, 100% { background-color: var(--line); box-shadow: none; } }
@@ -455,9 +469,6 @@ html[data-theme="light"] {
   -webkit-text-stroke: 1.2px color-mix(in srgb, var(--fg) 35%, transparent);
 }
 
-/* typewriter caret */
-@keyframes caret-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
-.caret { animation: caret-blink 1s steps(1) infinite; }
 
 /* slow ambient drift for glows */
 @keyframes drift {

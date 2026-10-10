@@ -1,19 +1,17 @@
 "use client";
 
-import { ArrowUpRight, Check } from "lucide-react";
-import Link from "next/link";
+import { Check } from "lucide-react";
 import type { Product } from "@/content/types";
 import { useRef } from "react";
 import { useScrollSteps } from "@/lib/use-scroll-steps";
 import { cn } from "@/lib/utils";
-import { PointerParallax } from "../motion/pointer";
 import { Reveal } from "../motion/reveal";
-import { Badge, Button } from "../ui/primitives";
+import { Badge, Button, TextLink } from "../ui/primitives";
 import { DeviceDuo } from "../ui/media";
 import { ProductMockup } from "./product-mockups";
 import { hostOf } from "./product-visual";
 
-const STEP_VH = 95; // scroll distance per product (a beat to read, then the change)
+const STEP_VH = 80; // scroll distance per product (a beat to read, then the change)
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
 
@@ -38,22 +36,32 @@ function Ctas({ p, tabbable = true, className }: { p: Product; tabbable?: boolea
   );
 }
 
-/** The product's visual: real website screens for live products; mockup for the one that isn't live. */
-function Visual({ p, active, priority }: { p: Product; active: boolean; priority?: boolean }) {
+/** The product's visual: real website screens for live products; an illustrated stage for the one that isn't live. */
+function Visual({ p, priority }: { p: Product; priority?: boolean }) {
   if (p.media) return <DeviceDuo desktop={p.media.desktop} mobile={p.media.mobile} url={hostOf(p.liveUrl)} priority={priority} />;
   return (
-    <div className="relative grid aspect-[16/11] place-items-center overflow-hidden rounded-[1.5rem] border border-line bg-surface">
-      <ProductMockup product={p} className="relative z-10 w-[78%]" />
-      <span className="label absolute left-5 top-5 rounded-full border border-line bg-bg/80 px-3 py-1.5 backdrop-blur">Coming soon</span>
+    <div className="relative pb-10 pr-6 sm:pb-14 sm:pr-10">
+      <div data-tone="dark" className="relative grid aspect-[16/10.6] place-items-center overflow-hidden rounded-[1.25rem] border border-line bg-[radial-gradient(80%_70%_at_50%_40%,#1f3a14,#0d120d_75%)] shadow-[0_40px_90px_-40px_rgb(0_0_0/0.6)]">
+        <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-60" />
+        <ProductMockup product={p} className="relative z-10 w-[min(78%,26rem)]" />
+        <span className="label absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-line bg-bg px-3 py-1.5 text-muted">
+          <span aria-hidden="true" className="size-1.5 rounded-full bg-accent/60" />
+          Coming soon
+        </span>
+      </div>
     </div>
   );
 }
 
+const RAIL_ROW = "3.75rem"; // one rail entry; the connector runs from the first dot's centre to the last's
+const COLS = "grid-cols-[11rem_minmax(0,0.85fr)_minmax(0,1.3fr)] gap-10 xl:gap-16";
+
 /**
  * OUR PRODUCTS, explored by scrolling.
- * Desktop (motion allowed): the stage pins; scroll moves through the five products. A numbered rail on the
- * left fills with progress and doubles as navigation (click or keyboard). Copy and visuals cross over
- * continuously with the scroll position (scale, blur, opacity, shift, mask), and the visual tilts with the pointer.
+ * Desktop (motion allowed): the stage pins and scroll moves through the five products. The header shares
+ * the body's column grid, so the counter sits directly above the numbered rail it describes. Changes are
+ * a short, crisp hand-over: the outgoing product fades and lifts away in the first half of the change,
+ * the incoming one settles in during the second half, so two products never ghost over each other.
  * Mobile and reduced motion: a plain vertical sequence, one product after another.
  */
 export function ProductStory({ products, eyebrow, title }: { products: Product[]; eyebrow: string; title: string }) {
@@ -61,29 +69,19 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
   const copy = useRef<(HTMLDivElement | null)[]>([]);
   const art = useRef<(HTMLDivElement | null)[]>([]);
 
-  /**
-   * Layered, scroll-synchronised transition. d = step offset from the current scroll position:
-   * the item leaving (d < 0) scales down, blurs and fades while drifting up; the one arriving (d > 0)
-   * comes from the opposite side, slightly larger and blurred, and sharpens into place. Every
-   * product therefore shows partly (e.g. 70 % / 30 %) while the scroll is between two steps.
-   */
+  // d = this product's offset from the scroll position: out over d 0..-0.5, in over d 0.6..0
   const frame = (pos: number) => {
     for (let i = 0; i < n; i++) {
       const d = i - pos;
-      const k = Math.min(1, Math.abs(d));
-      const o = 1 - k;
+      const t = d <= 0 ? Math.min(1, -d / 0.5) : Math.min(1, d / 0.6);
+      const o = 1 - t;
       const eo = o * o * (3 - 2 * o);
-      const scale = d < 0 ? 1 - 0.03 * k : 1 + 0.03 * k;
-      const sign = d < 0 ? -1 : 1;
-      const blur = k * 8;
-      for (const [el, depth, clip] of [[copy.current[i], 1, false], [art.current[i], 1.6, true]] as const) {
+      const dir = d <= 0 ? -1 : 1;
+      for (const [el, shift, scale] of [[copy.current[i], 1.25, 0], [art.current[i], 1.75, 0.02]] as const) {
         if (!el) continue;
         el.style.opacity = eo.toFixed(3);
-        el.style.transform = `translate3d(${(sign * k * 2.5 * depth).toFixed(2)}rem,${(sign * k * 1.5 * depth).toFixed(2)}rem,0) scale(${scale.toFixed(4)})`;
-        el.style.filter = blur < 0.05 ? "none" : `blur(${blur.toFixed(2)}px)`;
-        el.style.visibility = k >= 1 ? "hidden" : "visible";
-        // the visual is also unmasked from the arrival side, so it sweeps in rather than just fading
-        el.style.clipPath = clip && k > 0.001 ? `inset(0 ${d > 0 ? 0 : k * 14}% 0 ${d > 0 ? k * 14 : 0}% round 1.5rem)` : "none";
+        el.style.transform = `translate3d(0,${(dir * t * shift).toFixed(3)}rem,0) scale(${(1 - scale * t).toFixed(4)})`;
+        el.style.visibility = eo <= 0.001 ? "hidden" : "visible";
       }
     }
   };
@@ -101,34 +99,36 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
   return (
     <>
       {/* ---------------- desktop: pinned, scroll-driven ---------------- */}
-      <div ref={track} className="relative hidden lg:motion-safe:block" style={{ height: `calc(100svh + ${(n - 1) * STEP_VH}svh)` }}>
-        <div className="sticky top-0 flex h-[100svh] flex-col justify-center gap-[clamp(2rem,5vh,3.5rem)] overflow-hidden pb-8 pt-24">
-          <div className="container-x flex items-end justify-between gap-8">
-            <div>
+      <div data-dock-hide ref={track} className="relative hidden lg:motion-safe:block" style={{ height: `calc(100svh + ${(n - 1) * STEP_VH}svh)` }}>
+        <div className="sticky top-0 flex h-[100svh] flex-col justify-center gap-[clamp(1.5rem,4.5vh,3rem)] overflow-hidden pb-8 pt-24">
+          {/* header on the body grid: counter over the rail, heading over copy + visual */}
+          <div className={cn("container-x grid items-end", COLS)}>
+            <p aria-hidden="true" className="numeral text-muted">
+              <span className="label mb-3 block text-[0.62rem]">Product</span>
+              <span className="text-[2.75rem] text-fg">{num(active)}</span>
+              <span className="text-lg"> / {num(n - 1)}</span>
+            </p>
+            <div className="col-span-2">
               <p className="label flex items-center gap-3 text-muted">
                 <span className="text-accent">01</span>
                 <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
                 {eyebrow}
               </p>
-              <h2 className="mt-4 max-w-2xl text-[clamp(2.2rem,3.8vw,3.4rem)] leading-[1.02] tracking-[-0.04em]">{title}</h2>
+              <h2 className="mt-4 max-w-[24ch] text-[clamp(2.2rem,3.6vw,3.4rem)] leading-[1.02] tracking-[-0.04em]">{title}</h2>
             </div>
-            <p aria-hidden="true" className="numeral shrink-0 text-right text-muted">
-              <span className="text-[2.6rem] text-fg">{num(active)}</span>
-              <span className="text-xl"> / {num(n - 1)}</span>
-              <span className="label mt-2 block text-[0.6rem]">Keep scrolling</span>
-            </p>
           </div>
 
-          <div className="container-x grid min-h-0 grid-cols-[11.5rem_minmax(0,0.9fr)_minmax(0,1.25fr)] items-center gap-10 xl:gap-14">
+          <div className={cn("container-x grid min-h-0 items-center", COLS)}>
             {/* rail */}
-            <div role="tablist" aria-label="Priinteve products" aria-orientation="vertical" className="relative py-2">
-              <span aria-hidden="true" className="absolute bottom-2 left-[0.55rem] top-2 w-px bg-line" />
-              <span aria-hidden="true" className="absolute left-[0.55rem] top-2 w-px origin-top bg-accent" style={{ height: "calc(100% - 1rem)", transform: "scaleY(var(--progress, 0))" }} />
-              <ol className="space-y-1">
+            <div role="tablist" aria-label="Priinteve products" aria-orientation="vertical" className="relative" style={{ "--row": RAIL_ROW } as React.CSSProperties}>
+              <span aria-hidden="true" className="absolute bottom-[calc(var(--row)/2)] left-[calc(0.575rem-0.5px)] top-[calc(var(--row)/2)] w-px bg-line">
+                <span className="absolute inset-0 origin-top bg-accent" style={{ transform: "scaleY(var(--progress, 0))" }} />
+              </span>
+              <ol>
                 {products.map((p, i) => {
                   const on = i === active;
                   return (
-                    <li key={p.slug}>
+                    <li key={p.slug} className="h-[var(--row)]">
                       <button
                         type="button"
                         role="tab"
@@ -138,12 +138,12 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
                         tabIndex={on ? 0 : -1}
                         onClick={() => go(i)}
                         onKeyDown={(e) => onKey(e, i)}
-                        className="group flex w-full items-center gap-4 rounded-xl py-2.5 pr-2 text-left"
+                        className="group grid h-full w-full grid-cols-[1.15rem_1fr] items-center gap-4 text-left"
                       >
-                        <span aria-hidden="true" className={cn("relative z-10 size-[1.15rem] shrink-0 rounded-full border-2 transition-all duration-500", on ? "border-accent bg-accent shadow-[0_0_0_5px_rgb(107_142_61/0.18)]" : i < active ? "border-accent bg-bg" : "border-line bg-bg group-hover:border-fg/40")} />
-                        <span className="min-w-0">
-                          <span className={cn("numeral block text-xs transition-colors", on ? "text-accent" : "text-muted")}>{num(i)}</span>
-                          <span className={cn("block truncate font-display text-[1.02rem] font-semibold transition-colors duration-500", on ? "text-fg" : "text-fg/45 group-hover:text-fg/80")}>{p.name}</span>
+                        <span aria-hidden="true" className={cn("relative z-10 size-[1.15rem] rounded-full border-2 transition-[background-color,border-color,box-shadow] duration-[var(--dur)]", on ? "border-accent bg-accent shadow-[0_0_0_5px_rgb(107_142_61/0.18)]" : i < active ? "border-accent bg-bg" : "border-line bg-bg group-hover:border-fg/40")} />
+                        <span className="min-w-0 leading-tight">
+                          <span className={cn("numeral block text-xs transition-colors duration-[var(--dur)]", on ? "text-accent" : "text-muted")}>{num(i)}</span>
+                          <span className={cn("mt-1 block truncate font-display text-[1.02rem] font-semibold transition-colors duration-[var(--dur)]", on ? "text-fg" : "text-fg/50 group-hover:text-fg/80")}>{p.name}</span>
                         </span>
                       </button>
                     </li>
@@ -152,44 +152,39 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
               </ol>
             </div>
 
-            {/* copy */}
+            {/* copy: every product stacked in one cell, so the column height never changes */}
             <div className="relative grid">
               {products.map((p, i) => (
-                <div key={p.slug} ref={(el) => void (copy.current[i] = el)} id={`ps-panel-${p.slug}`} role="tabpanel" aria-labelledby={`ps-tab-${p.slug}`} aria-hidden={i !== active} data-state={state(i)} style={i === 0 ? undefined : { opacity: 0, visibility: "hidden" }} className={cn("story-step relative will-change-[transform,opacity,filter] [grid-area:1/1]", i !== active && "pointer-events-none")}>
-                  <span aria-hidden="true" className="numeral pointer-events-none absolute -top-4 right-0 select-none text-[8rem] leading-none text-transparent [-webkit-text-stroke:1px_rgb(107_142_61/0.35)]">
-                    {num(i)}
-                  </span>
-                  <div className="relative flex flex-wrap items-center gap-3">
+                <div key={p.slug} ref={(el) => void (copy.current[i] = el)} id={`ps-panel-${p.slug}`} role="tabpanel" aria-labelledby={`ps-tab-${p.slug}`} aria-hidden={i !== active} data-state={state(i)} style={i === 0 ? undefined : { opacity: 0, visibility: "hidden" }} className={cn("story-step relative self-center will-change-[transform,opacity] [grid-area:1/1]", i !== active && "pointer-events-none")}>
+                  <div className="flex flex-wrap items-center gap-3">
                     <span className="label text-accent">{p.category}</span>
                     {p.status !== "Live" && <Badge status={p.status} className="text-muted" />}
                   </div>
-                  <h3 className="relative mt-4 text-[clamp(2.4rem,4.2vw,4rem)] leading-[1]">{p.name}</h3>
-                  <p className="relative mt-5 max-w-md text-lg text-muted">{p.card}</p>
-                  <ul className="short-hide relative mt-6 space-y-2.5">
+                  <h3 className="mt-4 text-[clamp(2.4rem,4vw,3.75rem)] leading-[1]">{p.name}</h3>
+                  <p className="mt-5 max-w-md text-lg text-muted">{p.card}</p>
+                  <ul className="short-hide mt-6 space-y-2.5">
                     {p.features.slice(0, 3).map((f) => (
                       <li key={f.title} className="flex gap-3 text-[0.95rem]">
-                        <span className="mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
+                        <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
                           <Check aria-hidden="true" className="size-3" strokeWidth={2.5} />
                         </span>
                         {f.title}
                       </li>
                     ))}
                   </ul>
-                  <Ctas p={p} tabbable={i === active} className="relative mt-8" />
+                  <Ctas p={p} tabbable={i === active} className="mt-8" />
                 </div>
               ))}
             </div>
 
             {/* visual */}
-            <PointerParallax className="relative grid [perspective:1400px]">
+            <div className="relative grid">
               {products.map((p, i) => (
-                <div key={p.slug} ref={(el) => void (art.current[i] = el)} aria-hidden={i !== active} data-state={state(i)} style={i === 0 ? undefined : { opacity: 0, visibility: "hidden" }} className={cn("story-step mx-auto w-full max-w-[min(100%,calc((100svh-17rem)*1.45))] will-change-[transform,opacity,filter] [grid-area:1/1]", i !== active && "pointer-events-none")}>
-                  <div className="transition-transform duration-700 ease-out-expo" style={{ transform: "rotateY(calc(var(--px, 0) * 4deg)) rotateX(calc(var(--py, 0) * -3deg))" }}>
-                    <Visual p={p} active={i === active} priority={i === 0} />
-                  </div>
+                <div key={p.slug} ref={(el) => void (art.current[i] = el)} aria-hidden={i !== active} data-state={state(i)} style={i === 0 ? undefined : { opacity: 0, visibility: "hidden" }} className={cn("story-step mx-auto w-full max-w-[min(100%,calc((100svh-19rem)*1.5))] self-center will-change-[transform,opacity] [grid-area:1/1]", i !== active && "pointer-events-none")}>
+                  <Visual p={p} priority={i === 0} />
                 </div>
               ))}
-            </PointerParallax>
+            </div>
           </div>
         </div>
       </div>
@@ -206,7 +201,7 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
         </Reveal>
         <ol className="mt-12 space-y-16 md:space-y-24">
           {products.map((p, i) => (
-            <li key={p.slug} className="grid gap-8 border-t border-line pt-8 md:grid-cols-2 md:items-center md:gap-12">
+            <li key={p.slug} className="grid gap-8 md:grid-cols-2 md:items-center md:gap-12">
               <div>
                 <p className="flex items-baseline gap-4">
                   <span className="numeral text-5xl text-accent">{num(i)}</span>
@@ -218,15 +213,14 @@ export function ProductStory({ products, eyebrow, title }: { products: Product[]
                 <Ctas p={p} className="mt-7" />
               </div>
               <Reveal variant="mask">
-                <Visual p={p} active />
+                <Visual p={p} />
               </Reveal>
             </li>
           ))}
         </ol>
-        <Link href="/products" className="group mt-14 inline-flex items-center gap-2 font-semibold text-accent">
-          <span className="link-u">Compare all products</span>
-          <ArrowUpRight aria-hidden="true" className="size-4" />
-        </Link>
+        <TextLink href="/products" className="mt-14">
+          Compare all products
+        </TextLink>
       </div>
     </>
   );

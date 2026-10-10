@@ -52,7 +52,7 @@ export default function FaqPage() {
           </div>
         </div>
       </Section>
-      <ContactCta heading="Didn't find your answer? Ask us directly." em="Ask us directly." sub="We reply to every enquiry with a clear answer or the right next step." />
+      <ContactCta heading="Didn't find your answer? Ask us directly." em="Ask us directly." />
     </>
   );
 }

@@ -141,7 +141,7 @@ export function Header() {
 
   return (
     <>
-      <header className={cn("pointer-events-none fixed inset-x-0 top-0 z-[60] px-3 pt-3 text-fg transition-transform duration-500 ease-out-expo md:px-6", hidden && !menu && !sheet && "-translate-y-[130%]")}>
+      <header className={cn("pointer-events-none fixed inset-x-0 top-0 z-[60] px-3 pt-[max(0.75rem,env(safe-area-inset-top))] text-fg transition-transform duration-500 ease-out-expo md:px-6", hidden && !menu && !sheet && "-translate-y-[130%]")}>
         <div ref={barRef} data-tone={menu ? "light" : tone} onMouseLeave={() => { setMenu(null); setHover(null); }} className="pointer-events-auto mx-auto max-w-6xl">
           <div
             className={cn(

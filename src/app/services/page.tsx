@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { ProjectTiles } from "@/components/case-studies/project-list";
 import { Reveal } from "@/components/motion/reveal";
-import { ContactCta, ProcessSection, TechStack } from "@/components/sections/shared";
+import { ContactCta, TechStack } from "@/components/sections/shared";
 import { ServiceGroups } from "@/components/services/service-groups";
 import { JsonLd } from "@/components/ui/json-ld";
 import { PageHero } from "@/components/ui/page-hero";
@@ -74,22 +74,20 @@ export default function ServicesPage() {
         </Reveal>
       </Section>
 
-      <ProcessSection tone="dark" index="02" />
-
-      <Section>
-        <SectionHead index="03" eyebrow="Technology" title="Technology we work with" em="Technology" text="The same stack runs our own products, so what we build for you is tested in daily use." />
+      <Section tone="dark">
+        <SectionHead index="02" eyebrow="Technology" title="Technology we work with" em="Technology" text="The same stack runs our own products, so what we build for you is tested in daily use." />
         <TechStack />
       </Section>
 
       <Section tone="sand">
-        <SectionHead index="04" eyebrow="Recent work" title="Recent work" em="work" />
+        <SectionHead index="03" eyebrow="Recent work" title="Recent work" em="work" />
         <ProjectTiles projects={projects} />
       </Section>
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
-            <SectionHead index="05" eyebrow="FAQ" title="Questions about our services" em="our services" className="mb-8 md:mb-8" />
+            <SectionHead index="04" eyebrow="FAQ" title="Questions about our services" em="our services" className="mb-8 md:mb-8" />
             <Button href="/faq" variant="ghost">
               All questions
             </Button>

@@ -49,11 +49,25 @@ export function ComingSoonDock() {
   const [past, setPast] = useState(false);
 
   useEffect(() => {
-    const on = () => setPast(window.scrollY > 700);
+    // shown once the hero is behind you, hidden again where the page has its own call to action
+    const on = () => {
+      const vh = window.innerHeight;
+      const stop = Array.from(document.querySelectorAll("[data-dock-stop]")).some((el) => el.getBoundingClientRect().top < vh - 40);
+      // and while a pinned, full-screen story is on stage (its visual runs to the bottom-right corner)
+      const pinned = Array.from(document.querySelectorAll("[data-dock-hide]")).some((el) => {
+        const r = el.getBoundingClientRect();
+        return r.height > 0 && r.top <= 1 && r.bottom >= vh - 1;
+      });
+      setPast(window.scrollY > 700 && !stop && !pinned);
+    };
     on();
     window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
-  }, []);
+    window.addEventListener("resize", on);
+    return () => {
+      window.removeEventListener("scroll", on);
+      window.removeEventListener("resize", on);
+    };
+  }, [pathname]);
 
   const dismiss = () => {
     const next = [...closed, dockKey];
@@ -66,7 +80,7 @@ export function ComingSoonDock() {
   };
 
   if (!dock || !past || closed.includes(dock.key)) return null;
-  const linkCls = "group flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-accent px-3.5 py-2.5 text-sm font-semibold text-on-accent transition-shadow hover:shadow-[0_0_30px_-6px_rgb(157_189_106/0.9)] sm:px-4";
+  const linkCls = "group flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-accent px-3.5 py-2.5 text-sm font-semibold text-[#0d120d] transition-shadow hover:shadow-[0_0_30px_-6px_rgb(157_189_106/0.9)] sm:px-4";
   const label = (
     <>
       <span className="sm:hidden">{dock.short}</span>
@@ -78,7 +92,7 @@ export function ComingSoonDock() {
     <aside
       aria-label={`${dock.title}: ${dock.kicker}`}
       data-tone="dark"
-      className="fixed inset-x-3 bottom-3 z-40 flex items-center gap-3 rounded-2xl border border-line bg-bg/95 py-2 pl-4 pr-2 text-fg shadow-[0_18px_50px_-18px_rgb(0_0_0/0.6)] backdrop-blur-md sm:inset-x-auto sm:bottom-5 sm:right-5 sm:gap-4 sm:rounded-full sm:pl-6"
+      className="fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 flex items-center gap-3 rounded-2xl border border-line bg-bg/95 py-2 pl-4 pr-2 text-fg shadow-[0_18px_50px_-18px_rgb(0_0_0/0.6)] backdrop-blur-md sm:inset-x-auto sm:bottom-5 sm:right-5 sm:gap-4 sm:rounded-full sm:pl-6"
     >
       <span className="min-w-0 flex-1 sm:flex-none">
         <span className="label flex items-center gap-1.5 text-[0.6rem] text-muted">

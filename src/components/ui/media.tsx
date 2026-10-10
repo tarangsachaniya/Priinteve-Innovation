@@ -88,15 +88,15 @@ export function FeatureGrid({ items, icon = "sparkles", columns = 3 }: { items: 
     <div className={cn("grid gap-4 sm:grid-cols-2", columns === 3 && "lg:grid-cols-3")}>
       {items.map((f, i) => (
         <Reveal key={f.title} delay={(i % 3) * 0.05} y={14} className="h-full">
-          <div className="card flex h-full flex-col rounded-[1.5rem] p-6">
+          <div className="card flex h-full flex-col rounded-2xl p-5">
             <span className="flex items-center justify-between">
               <span className="grid size-9 place-items-center rounded-xl bg-accent-soft text-accent">
                 <Icon name={icon} className="size-4" />
               </span>
               <span className="numeral text-sm text-muted">{String(i + 1).padStart(2, "0")}</span>
             </span>
-            <h3 className="mt-5 text-lg">{f.title}</h3>
-            <p className="mt-2 text-[0.95rem] text-muted">{f.text}</p>
+            <h3 className="mt-4 text-base">{f.title}</h3>
+            <p className="mt-1.5 text-[0.9rem] leading-relaxed text-muted">{f.text}</p>
           </div>
         </Reveal>
       ))}
@@ -110,7 +110,7 @@ export function PricingCards({ plans }: { plans: Plan[] }) {
     <div className={cn("grid gap-5", plans.length === 2 ? "md:grid-cols-2 lg:max-w-4xl" : "md:grid-cols-3")}>
       {plans.map((pl, i) => (
         <Reveal key={pl.name} delay={i * 0.06} className="h-full">
-          <div className={cn("card relative flex h-full flex-col rounded-[1.75rem] p-7", pl.featured && "border-accent/60 shadow-[0_0_60px_-24px_rgb(107_142_61/0.8)]")}>
+          <div className={cn("card relative flex h-full flex-col rounded-2xl p-6", pl.featured && "border-accent/60 shadow-[0_0_60px_-24px_rgb(107_142_61/0.8)]")}>
             {pl.featured && <span className="label absolute right-6 top-6 rounded-full bg-accent-strong px-3 py-1 text-[0.6rem] text-on-accent">Popular</span>}
             <p className="label text-muted">{pl.name}</p>
             <p className="mt-4 flex items-baseline gap-2">

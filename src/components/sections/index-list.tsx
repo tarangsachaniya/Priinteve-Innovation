@@ -38,14 +38,14 @@ export function IndexList({ items }: { items: IndexItem[] }) {
             onPointerEnter={(e) => e.pointerType === "mouse" && setHover(i)}
             onFocus={() => setHover(i)}
             onBlur={() => setHover(null)}
-            className={cn("group grid items-baseline gap-3 border-b border-line py-7 transition-opacity duration-500 md:grid-cols-[4rem_1.2fr_1fr_auto] md:gap-8", hover !== null && hover !== i && "md:opacity-35")}
+            className={cn("group grid items-baseline gap-3 border-b border-line py-7 transition-opacity duration-500 md:grid-cols-[4rem_1.2fr_1fr_15rem] md:gap-8", hover !== null && hover !== i && "md:opacity-35")}
           >
             <span className="numeral text-2xl text-accent">{String(i + 1).padStart(2, "0")}</span>
             <span className="font-display text-[clamp(1.5rem,2.8vw,2.3rem)] font-semibold leading-[1.1] transition-transform duration-500 ease-out-expo group-hover:translate-x-3">{it.label}</span>
             <span className="max-w-md text-base text-muted">{it.text}</span>
-            <span className="label inline-flex items-center gap-2 md:justify-self-end">
-              {it.cta}
-              <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <span className="label inline-flex items-center gap-2 text-link transition-colors duration-[var(--dur)] group-hover:text-link-strong group-focus-visible:text-link-strong md:justify-self-end">
+              <span className="link-u">{it.cta}</span>
+              <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-[var(--dur)] ease-[var(--ease)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </span>
           </Link>
         </li>

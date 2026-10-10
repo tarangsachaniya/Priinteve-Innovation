@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useRevealed } from "@/lib/use-revealed";
 
 type Props = {
   as?: "h1" | "h2" | "h3";
@@ -18,6 +19,7 @@ type Props = {
  */
 export function Heading({ as: Tag = "h2", children, className, em, delay = 0 }: Props) {
   const reduce = useReducedMotion();
+  const [ref, shown] = useRevealed<HTMLHeadingElement>(0.06);
   if (reduce || children.includes("[")) {
     return <Tag className={className}>{children.replace(/\[([^\]]+)\]/g, "$1")}</Tag>;
   }
@@ -33,7 +35,7 @@ export function Heading({ as: Tag = "h2", children, className, em, delay = 0 }: 
 
   let i = 0;
   return (
-    <Tag className={className} aria-label={children}>
+    <Tag ref={ref} className={className} aria-label={children}>
       {runs.flatMap(([text, isEm]) =>
         text
           .split(/\s+/)
@@ -45,8 +47,7 @@ export function Heading({ as: Tag = "h2", children, className, em, delay = 0 }: 
                 <motion.span
                   className={cn("inline-block", isEm && "em")}
                   initial={{ y: "112%" }}
-                  whileInView={{ y: "0%" }}
-                  viewport={{ once: true, margin: "-6% 0px" }}
+                  animate={{ y: shown ? "0%" : "112%" }}
                   transition={{ duration: 0.9, delay: delay + n * 0.045, ease: [0.16, 1, 0.3, 1] }}
                 >
                   {w}

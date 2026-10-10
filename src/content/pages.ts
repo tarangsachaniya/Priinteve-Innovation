@@ -9,12 +9,14 @@ export const home = {
   },
   h1: "Products and digital solutions that help businesses operate, sell and grow",
   lead: "Priinteve Innovations is an India-based technology and digital solutions company. We build our own products for print shops, restaurants, salons and professionals, and we build websites, e-commerce, custom software, NFC and QR, bots and AI automation for businesses like yours.",
+  heroLead: "We build our own products for print shops, restaurants, salons and professionals, plus websites, e-commerce, custom software, NFC and QR, and AI automation for businesses like yours.",
   productsHeading: "Five products. One problem solved well by each.",
   howHeading: "Scan or tap. Use it. Manage it from one dashboard.",
+  howLead: "Every Priinteve product works the same way, so your customers need nothing new and you need nothing extra.",
   how: [
-    { title: "Scan or tap", text: "Your customer scans a QR code or taps an NFC standee or card. A website opens right away. No app to install." },
-    { title: "Use it", text: "They upload a file to print, order a meal, book a slot or save a contact." },
-    { title: "Manage it", text: "You see everything in your dashboard and stay in control." },
+    { title: "Scan or tap", text: "A customer scans a QR code or taps an NFC card or stand. A website opens immediately, with no app to install.", examples: ["QR code", "NFC card", "Table stand"] },
+    { title: "Use it", text: "Depending on the product, they print a file, order a meal, book an appointment or save a contact.", examples: ["Print a file", "Order a meal", "Book a slot", "Save a contact"] },
+    { title: "Manage it", text: "You run everything from the product's dashboard and stay in control of orders, jobs and bookings.", examples: ["Live orders", "Print jobs", "Bookings"] },
   ],
   solutionsHeading: "Solutions we build for your business",
   solutionsLead: "Beyond our own products, we build digital systems for other businesses. Scroll through the main categories of work we take on.",
@@ -42,8 +44,8 @@ export const about = {
   seo: {
     title: "About Priinteve Innovations LLP | Technology Company in Ahmedabad",
     description:
-      "Priinteve Innovations LLP is an India-based technology and digital solutions company founded in 2026 in Ahmedabad by Tarang Sachaniya and Keyush Prajapati.",
-    keywords: "about Priinteve, Priinteve Innovations LLP, technology company Ahmedabad, Tarang Sachaniya, Keyush Prajapati",
+      "Priinteve Innovations LLP is an India-based technology and digital solutions company founded in 2026 in Ahmedabad by Tarang Sachaniya.",
+    keywords: "about Priinteve, Priinteve Innovations LLP, technology company Ahmedabad, Tarang Sachaniya",
   },
   h1: "About Priinteve Innovations",
   lead: "An India-based technology and digital solutions company, founded in 2026 in Ahmedabad. We build our own products, and we build digital solutions for businesses.",
