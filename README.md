@@ -70,7 +70,13 @@ Text in `[square brackets]` is treated as a placeholder awaiting confirmation an
 
 ## Forms
 
-Form submission goes through a single function, `submitForm` in [`src/lib/forms.ts`](src/lib/forms.ts). There is currently no backend: submissions are validated and the user is given a pre-filled `mailto:` link. To deliver submissions directly, POST the fields to a route handler, server action or CRM there and return `delivered: true`.
+Form submission goes through `submitForm` in [`src/lib/forms.ts`](src/lib/forms.ts) and the `/api/forms` route. Enquiries and product waitlist signups are emailed to `tarangsachaniya8@gmail.com` and `naitikhkhaniya@gmail.com` using Gmail SMTP.
+
+To enable delivery, set `GMAIL_USER` to the Gmail account used to send the messages and `GMAIL_APP_PASSWORD` to an app password created for that account. Copy [`.env.example`](.env.example) to `.env.local` for local development, or configure these variables in the production hosting environment. Gmail app passwords require 2-Step Verification; do not use your regular Gmail password or commit `.env.local`.
+
+Spam protection uses Cloudflare Turnstile. Create a free Turnstile widget in the Cloudflare dashboard, allow your local and production hostnames, and set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` to its site key and `TURNSTILE_SECRET_KEY` to its secret key. The site key is public; keep the secret server-side and configure both variables in local and production environments.
+
+When running `next dev` without configured Turnstile keys, the forms use Cloudflare's published test keys so local development and automated checks work without exposing the form. These test keys are never used in production; configure the real keys in the production host before deployment.
 
 ## Deployment
 

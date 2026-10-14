@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { scrollToY } from "@/lib/scroll";
 
 /**
  * Scroll-driven steps for a pinned section. The track (a tall wrapper around a sticky stage) maps its
@@ -56,7 +57,7 @@ export function useScrollSteps(n: number, onFrame?: (pos: number) => void) {
       if (!t) return;
       const dist = t.offsetHeight - window.innerHeight;
       const top = t.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: top + (i / Math.max(1, n - 1)) * dist, behavior: "smooth" });
+      scrollToY(top + (i / Math.max(1, n - 1)) * dist);
     },
     [n],
   );

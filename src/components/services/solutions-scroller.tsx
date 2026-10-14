@@ -7,19 +7,21 @@ import { getService } from "@/content/services";
 import type { ServiceSlug } from "@/content/types";
 import { cn } from "@/lib/utils";
 import { Icon } from "../ui/icon";
+import { scrollToY } from "@/lib/scroll";
 
 export type Solution = { slug: ServiceSlug; title: string };
 
 /**
  * Card-wise solutions rail.
  * Desktop (≥1024px, motion allowed): the section pins and vertical scrolling slides the rail sideways,
- * one large card at a time, with the card nearest the centre highlighted. Focusing a card scrolls the page
- * to bring it into view, so keyboard users can reach every card.
+ * one large card at a time, with the card nearest the centre highlighted. Keyboard focus scrolls the page
+ * to bring the card into view, so pointer clicks do not change the page position.
  * Mobile / reduced motion: a native horizontal rail with scroll-snap, swiped by hand.
  */
 export function SolutionsScroller({ items, head }: { items: Solution[]; head?: ReactNode }) {
   const track = useRef<HTMLDivElement>(null);
   const rail = useRef<HTMLDivElement>(null);
+  const pointerActivation = useRef(false);
   const [pinned, setPinned] = useState(false);
   const [dist, setDist] = useState(0);
   const [active, setActive] = useState(0);
@@ -92,10 +94,16 @@ export function SolutionsScroller({ items, head }: { items: Solution[]; head?: R
       const t = track.current;
       if (!pinned || !dist || !t) return;
       const top = t.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: top + (i / (n - 1)) * dist, behavior: "smooth" });
+      scrollToY(top + (i / (n - 1)) * dist);
     },
     [pinned, dist, n],
   );
+
+  const clearPointerActivation = () => {
+    window.setTimeout(() => {
+      pointerActivation.current = false;
+    }, 0);
+  };
 
   return (
     <div ref={track} style={pinned && dist ? { height: `calc(100svh + ${dist}px)` } : undefined}>
@@ -114,7 +122,16 @@ export function SolutionsScroller({ items, head }: { items: Solution[]; head?: R
               <div key={it.slug} role="listitem" className="shrink-0 snap-start">
               <Link
                 href={`/services/${s.slug}`}
-                onFocus={() => reveal(i)}
+                onPointerDown={() => {
+                  pointerActivation.current = true;
+                }}
+                onPointerUp={clearPointerActivation}
+                onPointerCancel={() => {
+                  pointerActivation.current = false;
+                }}
+                onFocus={() => {
+                  if (!pointerActivation.current) reveal(i);
+                }}
                 className={cn(
                   "card group relative flex h-full w-[min(80vw,18rem)] flex-col overflow-hidden rounded-2xl p-5 transition-[border-color,box-shadow] duration-700 ease-out-expo sm:w-[19rem] lg:w-[20rem]",
                   on ? "border-accent/50 opacity-100 shadow-[0_40px_90px_-40px_rgb(107_142_61/0.55)]" : "border-line",

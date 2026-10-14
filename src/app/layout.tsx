@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 // Runs before first paint: applies the saved theme, and hides the intro when it has already played
 // this session (otherwise the server-rendered intro flashes before React removes it).
 const THEME_SCRIPT =
-  "(function(){try{var t=localStorage.getItem('priinteve-theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='light'}try{if(sessionStorage.getItem('priinteve-intro-seen')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-seen')}catch(e){}})()";
+  "(function(){try{history.scrollRestoration='manual'}catch(e){}try{var t=localStorage.getItem('priinteve-theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='light'}try{if(sessionStorage.getItem('priinteve-intro-seen')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-seen')}catch(e){}})()";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
