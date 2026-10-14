@@ -110,7 +110,13 @@ function Turnstile({ onToken, resetKey }: { onToken: (token: string) => void; re
   }, [resetKey]);
 
   if (!siteKey) {
-    return <p role="alert" className="text-sm text-accent">Spam protection is not configured yet. Please contact us by email.</p>;
+    return (
+      <p role="alert" className="text-sm text-accent">
+        {process.env.NODE_ENV === "development"
+          ? "Spam protection is not configured: NEXT_PUBLIC_TURNSTILE_SITE_KEY is missing. Add it to .env and restart the dev server."
+          : "Spam protection is not configured yet. Please contact us by email."}
+      </p>
+    );
   }
 
   return (

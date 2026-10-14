@@ -125,8 +125,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const gmailUser = process.env.GMAIL_USER;
-  const gmailAppPassword = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, "");
+  const gmailUser = process.env.GMAIL_USER ?? process.env.EMAIL_USER;
+  const gmailAppPassword = (process.env.GMAIL_APP_PASSWORD ?? process.env.EMAIL_PASS)?.replace(/\s/g, "");
   if (!gmailUser || !gmailAppPassword) {
     console.error("Form email delivery is not configured. Set GMAIL_USER and GMAIL_APP_PASSWORD.");
     return Response.json(
