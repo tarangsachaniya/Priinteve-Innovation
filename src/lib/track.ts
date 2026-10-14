@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-/** Pushes a custom event to the GTM data layer. A no-op on the server and when GTM isn't loaded. */
+/** Pushes a custom event to the GTM data layer. A no-op on the server; consent is enforced by Consent Mode in GTM. */
 export function track(event: string, params: Params = {}) {
   if (typeof window === "undefined") return;
   (window.dataLayer ??= []).push({ event, ...params });

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Inter, Space_Grotesk } from "next/font/google";
-import { Gtm } from "@/components/analytics/gtm";
+import { Gtm, GtmNoscript } from "@/components/analytics/gtm";
 import { LinkTracker } from "@/components/analytics/link-tracker";
 import { ComingSoonDock } from "@/components/layout/coming-soon-dock";
 import { CookieConsent } from "@/components/layout/cookie-consent";
@@ -51,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: CONSENT_SCRIPT }} />
       </head>
       <body>
+        <GtmNoscript />
         {/* Reveals start hidden and the intro covers the page; without JS keep everything visible. */}
         <noscript>
           <style>{`[style*="opacity: 0"]{opacity:1!important;transform:none!important;filter:none!important}#preloader{display:none!important}[data-line]>span{transform:none!important}`}</style>
