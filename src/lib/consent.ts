@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import "@/lib/track"; // Window.gtag / dataLayer typings
 
 /**
  * Cookie and storage consent. Necessary storage (theme, intro skip) is always on; everything else waits
@@ -36,6 +37,8 @@ export function saveConsent(choice: ConsentChoice) {
   } catch {
     /* storage blocked: the choice still holds for this page view */
   }
+  // Consent Mode: only analytics storage is ever granted; ads storage stays denied.
+  window.gtag?.("consent", "update", { analytics_storage: next.analytics ? "granted" : "denied" });
   window.dispatchEvent(new Event(CHANGE));
 }
 

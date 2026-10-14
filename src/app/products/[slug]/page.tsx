@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { WaitlistForm } from "@/components/forms/forms";
 import { Heading } from "@/components/motion/heading";
@@ -14,8 +15,8 @@ import { Badge, Button, Checklist, CtaBand, Eyebrow, Faq, LinkCard, Section, Sec
 import { VideoEmbed } from "@/components/ui/video";
 import { getProduct, productBySlug, products } from "@/content/products";
 import { getService } from "@/content/services";
-import { site } from "@/content/site";
-import { abs, breadcrumbLd, buildMetadata, faqLd } from "@/lib/seo";
+import { projects } from "@/content/work";
+import { abs, breadcrumbLd, buildMetadata, faqLd, orgRef, productOffers, webPageLd } from "@/lib/seo";
 
 type Params = { slug: string };
 
@@ -40,20 +41,45 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   let n = 0;
   const idx = () => String(++n).padStart(2, "0");
 
-  return (
-    <>
-      <JsonLd
-        data={[
-          {
+  const usedIn = projects.filter((p) => p.alsoUses?.product === product.slug);
+  const offers = productOffers(product);
+  // Not-yet-launched products get a plain page node: no Product or Offer for something that can't be bought.
+  const productNode =
+    product.status !== "Live"
+      ? webPageLd(path, product.seo.title)
+      : product.slug === "nectcard"
+        ? {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "@id": `${abs(path)}#product`,
+            name: product.name,
+            description: product.seo.description,
+            url: abs(path),
+            category: product.category,
+            brand: { "@type": "Brand", name: product.name },
+            manufacturer: orgRef,
+            ...(offers.length ? { offers } : {}),
+          }
+        : {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
+            "@id": `${abs(path)}#app`,
             name: product.name,
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web browser",
             description: product.seo.description,
-            url: live ?? abs(path),
-            publisher: { "@type": "Organization", name: site.name, url: site.url },
-          },
+            url: abs(path),
+            ...(live ? { sameAs: live } : {}),
+            author: orgRef,
+            publisher: orgRef,
+            ...(offers.length ? { offers } : {}),
+          };
+
+  return (
+    <>
+      <JsonLd
+        data={[
+          productNode,
           faqLd(product.faq),
           breadcrumbLd([{ name: "Products", href: "/products" }, { name: product.name, href: path }]),
         ]}
@@ -251,7 +277,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
         sub={product.cta.sub}
         eyebrow={product.name}
         actions={[
-          { href: product.cta.href ?? "/contact", label: product.cta.href?.startsWith("http") ? "Visit the product" : "Next step", value: product.cta.button, primary: true },
+          { href: product.cta.href ?? "/contact", label: product.cta.href?.startsWith("http") ? "Visit the product" : "Get started", value: product.cta.button, primary: true },
           { href: "/contact", label: "Questions first?", value: "Contact Priinteve", icon: "mail" },
         ]}
       />
@@ -263,6 +289,19 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             <ServiceCard key={s.slug} service={s} index={i} delay={i * 0.06} />
           ))}
         </div>
+        {usedIn.length > 0 && (
+          <p className="mt-8 text-muted">
+            See it in use:{" "}
+            {usedIn.map((p, i) => (
+              <span key={p.slug}>
+                {i > 0 && ", "}
+                <Link href={`/work/${p.slug}`} className="link-u font-semibold text-accent">
+                  {p.name} case study
+                </Link>
+              </span>
+            ))}
+          </p>
+        )}
       </Section>
 
 

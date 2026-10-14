@@ -8,12 +8,12 @@ import { Reveal } from "@/components/motion/reveal";
 import { ProductCard } from "@/components/products/product-card";
 import { ContactCta } from "@/components/sections/shared";
 import { JsonLd } from "@/components/ui/json-ld";
-import { Chips, Eyebrow, Section, SectionHead } from "@/components/ui/primitives";
+import { Chips, Eyebrow, Section, SectionHead, TextLink } from "@/components/ui/primitives";
 import { getProduct } from "@/content/products";
-import { serviceBySlug } from "@/content/services";
+import { serviceBySlug, services } from "@/content/services";
 import { site } from "@/content/site";
 import { projectBySlug, projects } from "@/content/work";
-import { abs, breadcrumbLd, buildMetadata } from "@/lib/seo";
+import { abs, breadcrumbLd, buildMetadata, orgRef } from "@/lib/seo";
 
 type Params = { slug: string };
 
@@ -36,6 +36,8 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
   const path = `/work/${project.slug}`;
   const media = project.media;
   const also = project.alsoUses ? getProduct(project.alsoUses.product) : null;
+  // the project's own service first, then any other service that lists it as related work
+  const relatedServices = [service, ...services.filter((s) => s.slug !== service.slug && s.relatedWork.includes(project.slug))];
 
   return (
     <>
@@ -44,10 +46,11 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           {
             "@context": "https://schema.org",
             "@type": "CreativeWork",
+            "@id": `${abs(path)}#work`,
             name: `${project.name}: ${project.category}`,
             description: project.seo.description,
             url: abs(path),
-            creator: { "@type": "Organization", name: site.name, url: site.url },
+            creator: orgRef,
             ...(project.liveUrl ? { sameAs: project.liveUrl } : {}),
           },
           breadcrumbLd([{ name: "Our Work", href: "/work" }, { name: project.name, href: path }]),
@@ -126,6 +129,17 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           </div>
         </Section>
       )}
+
+      <Section tight>
+        <p className="label mb-5 text-muted">Services behind this project</p>
+        <ul className="flex flex-wrap gap-x-8 gap-y-3">
+          {relatedServices.map((s) => (
+            <li key={s.slug}>
+              <TextLink href={`/services/${s.slug}`}>{s.name}</TextLink>
+            </li>
+          ))}
+        </ul>
+      </Section>
 
       <NextProject project={next} />
 

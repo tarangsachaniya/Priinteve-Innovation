@@ -21,7 +21,7 @@ export const projects: Project[] = [
     liveUrl: "https://www.quantivodigitals.com/",
     domain: "quantivodigitals.com",
     seo: {
-      title: "Quantivo Website | Digital Marketing Studio Case Study | Priinteve",
+      title: "Quantivo Website | Digital Studio Case Study | Priinteve",
       description: "A scroll-driven website for Quantivo Digitals presenting its digital growth, branding, website and 3D visualisation services, portfolio and approach, built by Priinteve.",
     },
     overview: [
@@ -59,7 +59,7 @@ export const projects: Project[] = [
     liveUrl: "https://www.royaltimber.co.in/",
     domain: "royaltimber.co.in",
     seo: {
-      title: "Royal Timber Website | Timber & Plywood Supplier Case Study | Priinteve",
+      title: "Royal Timber Website | Timber Supplier Case Study | Priinteve",
       description:
         "A trilingual website and material library for Royal Timber, a timber, plywood, MDF, veneer and laminate supplier in Lati Bazar, Ahmedabad, designed and built by Priinteve.",
     },
@@ -101,7 +101,7 @@ export const projects: Project[] = [
     liveUrl: "https://earthorafood.com/",
     domain: "earthorafood.com",
     seo: {
-      title: "Premium Cashew E-commerce (EarthOra) | D2C Store Case Study | Priinteve",
+      title: "EarthOra Cashew E-commerce | D2C Store Case Study | Priinteve",
       description:
         "EarthOra, a premium D2C cashew store: product storytelling, flavours, pack sizes, gifting and a mobile-first shopping experience, designed and built by Priinteve.",
     },

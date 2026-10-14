@@ -3,6 +3,7 @@
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { site } from "@/content/site";
+import { track } from "@/lib/track";
 import { submitForm, type FormKind, type SubmitResult } from "@/lib/forms";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -168,6 +169,12 @@ function useFormState(kind: FormKind, fieldNames: Record<string, string>) {
       if (r.ok) {
         setResult(r);
         setStatus("success");
+        // Fired only after the server confirmed delivery, so failed or spam submissions are never counted.
+        if (kind === "enquiry") {
+          track("generate_lead", { form_topic: fields.find(([label]) => label === "Enquiry about")?.[1] || "unspecified", page_path: window.location.pathname });
+        } else {
+          track("waitlist_signup", { product_name: window.location.pathname.split("/").pop() || "unknown" });
+        }
       } else {
         setError(r.error);
         setStatus("error");

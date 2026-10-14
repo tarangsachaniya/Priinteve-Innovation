@@ -16,7 +16,7 @@ type Menu = "products" | "services";
 
 const MOBILE_GROUPS: { title: string; links: NavLink[] }[] = [
   { title: "Products", links: nav.products },
-  { title: "Services", links: nav.serviceMenu.map(({ label, href }) => ({ label, href })) },
+  { title: "Services", links: [...nav.serviceMenu.map(({ label, href }) => ({ label, href })), ...nav.moreServices] },
   { title: "AI & Automation", links: nav.serviceMenu.find((m) => m.children)?.children ?? [] },
   { title: "Explore", links: nav.main },
 ];

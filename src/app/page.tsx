@@ -20,7 +20,7 @@ import { products } from "@/content/products";
 import { getService, servicesIn } from "@/content/services";
 import type { ServiceSlug } from "@/content/types";
 import { projects } from "@/content/work";
-import { buildMetadata, faqLd, organizationLd, websiteLd } from "@/lib/seo";
+import { buildMetadata, faqLd, founderNodes, graph, organizationNode, pageNode, websiteNode } from "@/lib/seo";
 
 export const metadata = buildMetadata("/", home.seo);
 
@@ -36,6 +36,10 @@ const SOLUTIONS: Solution[] = [
   { slug: "ai-agents", title: "AI Agents" },
   { slug: "business-automation", title: "Business Automation" },
   { slug: "custom-software", title: "Custom Software" },
+  { slug: "custom-web-applications", title: "Custom Web Apps" },
+  { slug: "whatsapp-catalog", title: "WhatsApp Catalogue" },
+  { slug: "seo-google-business", title: "SEO & Google Business" },
+  { slug: "branding", title: "Branding" },
 ];
 
 /** Row 1: our products. Row 2: what we build. */
@@ -63,7 +67,7 @@ const ECO_SOLUTIONS: EcoNode[] = (
 export default function HomePage() {
   return (
     <>
-      <JsonLd data={[organizationLd, websiteLd, faqLd(homeFaqs)]} />
+      <JsonLd data={[graph(organizationNode, ...founderNodes, websiteNode, pageNode("WebPage", "/", home.seo.title)), faqLd(homeFaqs)]} />
       <HomeHero />
 
       <Marquee products={MARQUEE_PRODUCTS} solutions={MARQUEE_SOLUTIONS} />
@@ -103,7 +107,7 @@ export default function HomePage() {
             <div className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-12">
               <SectionHead index="04" eyebrow="What we build for clients" title={home.solutionsHeading} em="your business" text={home.solutionsLead} className="mb-0 md:mb-0" />
               <Button href="/services" variant="ghost">
-                All services
+                Explore all services
               </Button>
             </div>
           }
@@ -122,7 +126,7 @@ export default function HomePage() {
                   <Button href="/services#ai-automation">AI &amp; Automation services</Button>
                 </Magnetic>
                 <Button href="/contact" variant="ghost">
-                  Talk to us
+                  Discuss your automation
                 </Button>
               </div>
             </Reveal>
@@ -150,9 +154,9 @@ export default function HomePage() {
         </div>
         <WorkStory projects={projects} />
         <div className="mt-12 flex flex-wrap gap-3">
-          <Button href="/work">All work</Button>
+          <Button href="/work">See all case studies</Button>
           <Button href="/services" variant="ghost">
-            Services
+            Explore our services
           </Button>
         </div>
       </Section>

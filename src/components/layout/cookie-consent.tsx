@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 const CATEGORIES: { key: keyof ConsentChoice | "necessary"; title: string; text: string }[] = [
   { key: "necessary", title: "Necessary", text: "Remembers your light or dark theme and skips the intro after your first visit. Always on." },
   { key: "media", title: "Media", text: "Lets embedded YouTube product videos load. YouTube may set its own cookies once a video plays." },
-  { key: "analytics", title: "Analytics", text: "Helps us understand how the site is used. We run no analytics today; this stays off until we do and you agree." },
+  { key: "analytics", title: "Analytics", text: "Helps us understand how the site is used, through Google Analytics. Off until you allow it, and you can withdraw at any time." },
 ];
 
 function Switch({ on, disabled, onChange, label }: { on: boolean; disabled?: boolean; onChange?: (v: boolean) => void; label: string }) {

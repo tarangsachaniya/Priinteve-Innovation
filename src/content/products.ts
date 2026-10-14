@@ -24,7 +24,7 @@ export const products: Product[] = [
     seo: {
       title: "Nectcard | NFC Business Cards & Digital Visiting Cards",
       description:
-        "One tap or scan opens your full digital profile: call, WhatsApp, email, website, gallery and save-to-contacts. Plastic, wooden and metal NFC cards with a QR backup.",
+        "Nectcard NFC business cards share your contact details in one tap. Your live digital profile opens by tap or QR scan. Plastic, wooden and metal.",
       keywords: "NFC business card, digital visiting card, QR business card, contactless business card India",
     },
     h1: "Nectcard: one card, every way to connect",

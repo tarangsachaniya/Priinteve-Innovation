@@ -1,19 +1,22 @@
 import type { MetadataRoute } from "next";
-import { legalPages } from "@/content/legal";
+import { LEGAL_UPDATED, legalPages } from "@/content/legal";
 import { products } from "@/content/products";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
 import { projects } from "@/content/work";
 
-/** Every public page. */
+/** Bump when page content changes materially. Legal pages carry their own date (LEGAL_UPDATED). */
+const CONTENT_UPDATED = "2026-10-14";
+
+/** Every public page. Google ignores priority and changefreq, so only `lastModified` is set. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const entries: [string, number][] = [
-    ["", 1],
-    ...["/about", "/products", "/services", "/work", "/faq", "/contact"].map<[string, number]>((p) => [p, 0.8]),
-    ...products.map<[string, number]>((p) => [`/products/${p.slug}`, 0.8]),
-    ...services.map<[string, number]>((s) => [`/services/${s.slug}`, 0.7]),
-    ...projects.map<[string, number]>((p) => [`/work/${p.slug}`, 0.6]),
-    ...legalPages.map<[string, number]>((p) => [`/${p.slug}`, 0.3]),
+  const entries: [string, string][] = [
+    ["", CONTENT_UPDATED],
+    ...["/about", "/products", "/services", "/work", "/faq", "/contact"].map<[string, string]>((p) => [p, CONTENT_UPDATED]),
+    ...products.map<[string, string]>((p) => [`/products/${p.slug}`, CONTENT_UPDATED]),
+    ...services.map<[string, string]>((s) => [`/services/${s.slug}`, CONTENT_UPDATED]),
+    ...projects.map<[string, string]>((p) => [`/work/${p.slug}`, CONTENT_UPDATED]),
+    ...legalPages.map<[string, string]>((p) => [`/${p.slug}`, LEGAL_UPDATED]),
   ];
-  return entries.map(([p, priority]) => ({ url: `${site.url}${p}`, priority, lastModified: "2026-10-08" }));
+  return entries.map(([p, lastModified]) => ({ url: `${site.url}${p}`, lastModified }));
 }

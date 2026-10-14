@@ -111,14 +111,9 @@ export function Badge({ status, className }: { status: "Live" | "Coming soon"; c
 }
 
 /** Small-caps label with a rule and optional chapter number: "01 · What we make". */
-export function Eyebrow({ children, className, index }: { children: ReactNode; className?: string; index?: string }) {
-  return (
-    <span className={cn("label inline-flex items-center gap-3 text-muted", className)}>
-      {index && <span className="text-accent">{index}</span>}
-      <span aria-hidden="true" className="size-[5px] shrink-0 rotate-45 bg-accent" />
-      {children}
-    </span>
-  );
+/** The numbered "03 / label" kicker above section headings was removed from the design; kept as a no-op so call sites stay valid. */
+export function Eyebrow(_props: { children?: ReactNode; className?: string; index?: string }) {
+  return null;
 }
 
 /* ------------------------------------------------------------ Section */

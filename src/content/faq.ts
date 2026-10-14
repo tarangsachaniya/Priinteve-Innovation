@@ -16,7 +16,7 @@ export const faqGroups: FaqGroup[] = [
     items: [
       { q: "What does Priinteve Innovations do?", a: "Priinteve Innovations LLP is an India-based technology and digital solutions company. We build our own products (Nectcard, VentaDot, Xerox Buddy, Salonly and the upcoming Priinteve Printing) and we build digital solutions for businesses: websites, e-commerce, custom software, CRM and ERP, NFC and QR, bots, AI agents and automation.", link: { label: "About us", href: "/about" } },
       { q: "Where are you based?", a: "We are based in Ahmedabad, Gujarat, India, and work with businesses remotely as well as in person." },
-      { q: "Who founded Priinteve?", a: "Priinteve Innovations was founded in 2026 by co-founders Tarang Sachaniya and Keyush Prajapati." },
+      { q: "Who founded Priinteve?", a: "Priinteve Innovations was founded in 2026 by Tarang Sachaniya." },
       { q: "Do you only work with businesses in India?", a: "Our products are built for Indian businesses first, with rupee payments and GST-ready features. Our development and automation services are available to businesses outside India too." },
     ],
   },

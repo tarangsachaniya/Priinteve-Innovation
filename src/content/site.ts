@@ -13,13 +13,13 @@ export const site = {
   tagline: "Products and digital solutions that help businesses operate, sell and grow.",
   founded: 2026,
   location: { city: "Ahmedabad", region: "Gujarat", country: "India", line: "Ahmedabad, Gujarat, India" },
-  /** Registered office, as confirmed by the founders (October 2026). */
+  /** Registered office, as confirmed by the founder (October 2026). */
   registeredAddress: { street: "417, Mukhi Ne Khadki, Near Amba Maa Temple, Paldi Gam, Paldi", city: "Ahmedabad", region: "Gujarat", postalCode: "380007", line: "417, Mukhi Ne Khadki, Near Amba Maa Temple, Paldi Gam, Paldi, Ahmedabad, Gujarat 380007" },
   founders: [
     /* `photo` is used when the file exists in /public; until then the card shows initials */
-    { name: "Tarang Sachaniya", role: "Co-founder", photo: "/media/founders/tarang-sachaniya.webp" },
+    { name: "Tarang Sachaniya", role: "Founder", photo: "/media/founders/tarang-sachaniya.webp" },
   ],
-  url: "https://priinteve.com",
+  url: "https://about.priinteve.com",
   cardsUrl: "https://cards.priinteve.com",
   youtube: "https://www.youtube.com/@PriinteveInnovations",
   phone: "+91 96620 70751",

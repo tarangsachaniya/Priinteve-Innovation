@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Inter, Space_Grotesk } from "next/font/google";
+import { Gtm } from "@/components/analytics/gtm";
+import { LinkTracker } from "@/components/analytics/link-tracker";
 import { ComingSoonDock } from "@/components/layout/coming-soon-dock";
 import { CookieConsent } from "@/components/layout/cookie-consent";
 import { Footer } from "@/components/layout/footer";
@@ -36,11 +38,17 @@ export const viewport: Viewport = {
 const THEME_SCRIPT =
   "(function(){try{history.scrollRestoration='manual'}catch(e){}try{var t=localStorage.getItem('priinteve-theme');if(t!=='dark')t='light';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='light'}try{if(sessionStorage.getItem('priinteve-intro-seen')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro-seen')}catch(e){}})()";
 
+// Consent Mode v2 defaults: everything denied until the visitor opts in. A returning visitor who already
+// accepted analytics is restored immediately, before GTM loads. Mirrors the "priinteve-consent" store in lib/consent.ts.
+const CONSENT_SCRIPT =
+  "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});try{var c=JSON.parse(localStorage.getItem('priinteve-consent')||'null');if(c&&c.v===1&&c.analytics===true)gtag('consent','update',{analytics_storage:'granted'})}catch(e){}";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-IN" data-theme="light" suppressHydrationWarning className={`${grotesk.variable} ${inter.variable} ${instrument.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: CONSENT_SCRIPT }} />
       </head>
       <body>
         {/* Reveals start hidden and the intro covers the page; without JS keep everything visible. */}
@@ -57,6 +65,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <ComingSoonDock />
         <CookieConsent />
+        <LinkTracker />
+        <Gtm />
       </body>
     </html>
   );

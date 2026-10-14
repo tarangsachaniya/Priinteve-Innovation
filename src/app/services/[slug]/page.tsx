@@ -13,9 +13,8 @@ import { Button, Checklist, Faq, Section, SectionHead } from "@/components/ui/pr
 import { brandWork } from "@/content/brand-work";
 import { products } from "@/content/products";
 import { categoryOf, serviceBySlug, services, servicesIn } from "@/content/services";
-import { site } from "@/content/site";
 import { projects } from "@/content/work";
-import { abs, breadcrumbLd, buildMetadata, faqLd } from "@/lib/seo";
+import { abs, breadcrumbLd, buildMetadata, faqLd, orgRef } from "@/lib/seo";
 
 type Params = { slug: string };
 
@@ -49,12 +48,13 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
           {
             "@context": "https://schema.org",
             "@type": "Service",
+            "@id": `${abs(path)}#service`,
             name: service.name,
             serviceType: category.name,
             description: service.seo.description,
             url: abs(path),
-            areaServed: "IN",
-            provider: { "@type": "Organization", name: site.name, url: site.url },
+            areaServed: { "@type": "Country", name: "India" },
+            provider: orgRef,
           },
           faqLd(service.faq),
           breadcrumbLd([{ name: "Services", href: "/services" }, { name: service.name, href: path }]),

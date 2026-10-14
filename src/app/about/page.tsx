@@ -14,7 +14,7 @@ import { Button, Eyebrow, Section, SectionHead } from "@/components/ui/primitive
 import { about } from "@/content/pages";
 import { products } from "@/content/products";
 import { site } from "@/content/site";
-import { breadcrumbLd, buildMetadata, organizationLd } from "@/lib/seo";
+import { breadcrumbLd, buildMetadata, founderNodes, graph, organizationNode, pageNode } from "@/lib/seo";
 
 export const metadata = buildMetadata("/about", about.seo);
 
@@ -25,7 +25,7 @@ const hasPublicFile = (src?: string) => !!src && existsSync(join(process.cwd(), 
 export default function AboutPage() {
   return (
     <>
-      <JsonLd data={[organizationLd, breadcrumbLd([{ name: "About", href: "/about" }])]} />
+      <JsonLd data={[graph(pageNode("AboutPage", "/about", about.seo.title), organizationNode, ...founderNodes), breadcrumbLd([{ name: "About", href: "/about" }])]} />
       <PageHero
         trail={[{ name: "About" }]}
         h1={about.h1}

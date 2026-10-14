@@ -8,7 +8,7 @@ import { Section } from "@/components/ui/primitives";
 import { formatDate } from "@/content/blocks";
 import { LEGAL_UPDATED, legalBySlug, legalPages } from "@/content/legal";
 import { site } from "@/content/site";
-import { breadcrumbLd, buildMetadata } from "@/lib/seo";
+import { breadcrumbLd, buildMetadata, webPageLd } from "@/lib/seo";
 
 export function legalMetadata(slug: string): Metadata {
   const page = legalBySlug(slug);
@@ -29,7 +29,7 @@ export function LegalPage({ slug }: { slug: string }) {
   const path = `/${slug}`;
   return (
     <>
-      <JsonLd data={breadcrumbLd([{ name: page.title, href: path }])} />
+      <JsonLd data={[webPageLd(path, page.title), breadcrumbLd([{ name: page.title, href: path }])]} />
       <PageHero trail={[{ name: "Legal" }, { name: page.title }]} h1={page.title} lead={page.intro} badge={<span className="label text-muted">Last updated {formatDate(LEGAL_UPDATED)}</span>} />
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1fr_18rem] lg:gap-16">

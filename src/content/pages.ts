@@ -2,9 +2,9 @@ import type { Feature, IconName } from "./types";
 
 export const home = {
   seo: {
-    title: "Priinteve Innovations | Technology & Digital Solutions Company, Ahmedabad",
+    title: "Priinteve Innovations | Software & Digital Solutions",
     description:
-      "Priinteve builds its own products (Nectcard, VentaDot, Xerox Buddy, Salonly) and digital solutions for businesses: websites, e-commerce, CRM/ERP, NFC & QR, WhatsApp bots, AI agents and automation.",
+      "Ahmedabad tech company. Priinteve builds Nectcard, VentaDot, Xerox Buddy and Salonly, plus websites, CRM/ERP, NFC & QR, bots and AI automation.",
     keywords: "Priinteve Innovations, technology company Ahmedabad, digital solutions company India, website development, AI automation, NFC QR",
   },
   h1: "Products and digital solutions that help businesses operate, sell and grow",
@@ -42,7 +42,7 @@ export const home = {
 
 export const about = {
   seo: {
-    title: "About Priinteve Innovations LLP | Technology Company in Ahmedabad",
+    title: "About Priinteve Innovations | Ahmedabad Technology Company",
     description:
       "Priinteve Innovations LLP is an India-based technology and digital solutions company founded in 2026 in Ahmedabad by Tarang Sachaniya.",
     keywords: "about Priinteve, Priinteve Innovations LLP, technology company Ahmedabad, Tarang Sachaniya",
@@ -95,7 +95,7 @@ export const productsPage = {
 
 export const servicesPage = {
   seo: {
-    title: "Services | Web, E-commerce, CRM/ERP, NFC & QR, AI & Automation | Priinteve",
+    title: "Services | Web, E-commerce, CRM/ERP, NFC & QR, AI | Priinteve",
     description:
       "Website and web development, e-commerce, custom software, CRM and ERP, NFC and QR solutions, WhatsApp and Telegram bots, AI agents and business automation.",
     keywords: "web development company India, ecommerce development, CRM ERP development, NFC QR solutions, WhatsApp bot, AI agents, business automation",
@@ -121,7 +121,7 @@ export const workPage = {
 
 export const contactPage = {
   seo: {
-    title: "Contact Priinteve Innovations | Start a Project or Ask a Question",
+    title: "Contact Priinteve | Start a Project or Ask a Question",
     description: "Tell us what you want to print, build, automate or launch. Call +91 96620 70751 or write to contact@priinteve.com. Based in Ahmedabad, Gujarat, India.",
     keywords: "contact Priinteve, Priinteve phone, Priinteve email, software company Ahmedabad contact",
   },

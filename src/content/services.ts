@@ -124,7 +124,7 @@ export const services: Service[] = [
     short: "E-commerce",
     icon: "bag",
     seo: {
-      title: "E-commerce Website Development: Shopify, WooCommerce & Custom | Priinteve",
+      title: "E-commerce Website Development, Shopify & Custom | Priinteve",
       description:
         "Online stores on Shopify, WooCommerce or a custom build: product catalogues, payments, order management, inventory and customer accounts, designed mobile-first.",
       keywords: "ecommerce website development India, Shopify store setup, WooCommerce development, custom ecommerce, D2C website",
@@ -147,6 +147,7 @@ export const services: Service[] = [
       { q: "Do you handle product photography?", a: "No. We design the store around your product images and can advise on what the pages need." },
     ],
     relatedWork: ["premium-cashew-ecommerce"],
+    relatedProducts: ["priinteve-printing"],
   },
   {
     slug: "whatsapp-catalog",
@@ -155,7 +156,7 @@ export const services: Service[] = [
     short: "WhatsApp Catalog",
     icon: "store",
     seo: {
-      title: "WhatsApp Catalog & WhatsApp Business Setup for Businesses | Priinteve",
+      title: "WhatsApp Catalog & Business Setup | Priinteve",
       description:
         "Set up and improve your WhatsApp Business catalogue and customer journey, and connect it to your website, store and QR codes.",
       keywords: "WhatsApp catalog setup, WhatsApp Business catalogue, WhatsApp commerce India, WhatsApp shop",
@@ -253,7 +254,7 @@ export const services: Service[] = [
     short: "NFC & QR",
     icon: "scan",
     seo: {
-      title: "NFC & QR Solutions for Business: Cards, Menus, Ordering | Priinteve",
+      title: "NFC & QR Solutions: Cards, Menus, Ordering | Priinteve",
       description:
         "NFC business cards, digital profiles, QR menus, QR ordering, NFC product experiences and QR campaigns, from the team behind Nectcard, VentaDot and Xerox Buddy.",
       keywords: "NFC solutions for business, QR code solutions, NFC business card, QR menu, QR ordering, QR campaign",
@@ -276,7 +277,7 @@ export const services: Service[] = [
       { q: "Can the destination change after printing?", a: "Yes, when the code points to a link we manage, the page behind it can be updated without reprinting." },
       { q: "Do you supply printed cards and standees?", a: "Yes. Nectcard offers plastic, wooden and metal NFC cards, and standees and tags are planned per project.", link: { label: "Nectcard", href: "/products/nectcard" } },
     ],
-    relatedWork: [],
+    relatedWork: ["royal-timber"],
     relatedProducts: ["nectcard", "ventadot", "xerox-buddy"],
   },
 
@@ -319,7 +320,7 @@ export const services: Service[] = [
     name: "Telegram Bots",
     icon: "send",
     seo: {
-      title: "Telegram Bot Development for Businesses & Communities | Priinteve",
+      title: "Telegram Bot Development for Businesses | Priinteve",
       description:
         "Custom Telegram bots for communities, businesses and internal teams: bots that respond to messages, send updates and run workflows on request.",
       keywords: "Telegram bot development, custom Telegram bot, Telegram automation, community bot",

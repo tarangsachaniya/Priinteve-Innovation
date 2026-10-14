@@ -14,12 +14,12 @@ import { BUSINESS_TBC as TBC, site } from "./site";
  *   - GSTIN (shown as "in process" on the cards site).
  *   - Designated Grievance Officer name and response timelines.
  *   - Governing law / jurisdiction clause.
- *   - Whether any analytics or marketing cookies will be added (the site currently sets none).
+ *   - Whether any marketing cookies will be added (the site sets only consent-gated analytics cookies).
  * Product-specific policies on each product's own website (VentaDot, Xerox Buddy, Salonly, Nectcard) take
  * precedence for those products.
  */
 
-export const LEGAL_UPDATED = "2026-10-08";
+export const LEGAL_UPDATED = "2026-10-14";
 
 export type LegalSection = { id: string; heading: string; body: Block[] };
 export type LegalPage = { slug: string; title: string; description: string; intro: string; sections: LegalSection[] };
@@ -33,8 +33,8 @@ export const legalPages: LegalPage[] = [
   {
     slug: "privacy-policy",
     title: "Privacy Policy",
-    description: "How Priinteve Innovations LLP collects, uses, stores and protects personal information on priinteve.com and when you contact us.",
-    intro: `This Privacy Policy explains how ${site.name} ("Priinteve", "we", "us") handles personal information when you visit priinteve.com, contact us or enquire about our products and services. Each Priinteve product (Nectcard, VentaDot, Xerox Buddy and Salonly) has its own website and its own privacy policy, which applies when you use that product.`,
+    description: "How Priinteve Innovations LLP collects, uses, stores and protects personal information on about.priinteve.com and when you contact us.",
+    intro: `This Privacy Policy explains how ${site.name} ("Priinteve", "we", "us") handles personal information when you visit about.priinteve.com, contact us or enquire about our products and services. Each Priinteve product (Nectcard, VentaDot, Xerox Buddy and Salonly) has its own website and its own privacy policy, which applies when you use that product.`,
     sections: [
       { id: "information-we-collect", heading: "1. Information we collect", body: [
         { p: "We collect only the information we need to respond to you and to run this website:" },
@@ -60,10 +60,10 @@ export const legalPages: LegalPage[] = [
         { p: "We do not sell your personal information, and we do not use it for advertising profiles." },
       ] },
       { id: "cookies", heading: "4. Cookies and browser storage", body: [
-        { p: "This website does not currently set analytics or marketing cookies. It uses your browser's local storage to remember your light or dark theme choice and your cookie consent choice, and session storage to skip the opening animation after your first visit. On your first visit a consent banner lets you choose which optional categories to allow. See our Cookie Policy for details." },
+        { p: "This website sets no marketing cookies, and analytics cookies only if you allow them in the consent banner. It uses your browser's local storage to remember your light or dark theme choice and your cookie consent choice, and session storage to skip the opening animation after your first visit. On your first visit a consent banner lets you choose which optional categories to allow. See our Cookie Policy for details." },
       ] },
       { id: "analytics", heading: "5. Analytics", body: [
-        { p: "We do not currently run analytics tools on this website. If we add analytics in future, we will update this policy and the Cookie Policy, and ask for consent where required." },
+        { p: "We use Google Tag Manager and Google Analytics 4 to understand how this website is used: which pages are visited, which links and buttons are clicked, and which enquiry forms are submitted. This runs only if you allow analytics in the cookie banner; until then analytics storage is denied. The data collected includes pages viewed, approximate location, device and browser type, and a randomly generated identifier. We do not send your name, email address or the content of your messages to analytics. You can withdraw consent at any time through Cookie settings in the footer. Google processes this data under its own privacy policy." },
       ] },
       { id: "third-parties", heading: "6. Third-party services", body: [
         { p: "Some features rely on third-party providers:" },
@@ -104,8 +104,8 @@ export const legalPages: LegalPage[] = [
   {
     slug: "terms",
     title: "Terms & Conditions",
-    description: "Terms and conditions for using priinteve.com and engaging Priinteve Innovations LLP for products and services.",
-    intro: `These Terms & Conditions govern your use of priinteve.com, operated by ${site.name}. By using this website you agree to these terms. Each Priinteve product has its own terms on its own website, and project work is governed by the proposal or agreement for that project.`,
+    description: "Terms and conditions for using about.priinteve.com and engaging Priinteve Innovations LLP for products and services.",
+    intro: `These Terms & Conditions govern your use of about.priinteve.com, operated by ${site.name}. By using this website you agree to these terms. Each Priinteve product has its own terms on its own website, and project work is governed by the proposal or agreement for that project.`,
     sections: [
       { id: "website-use", heading: "1. Using this website", body: [
         { p: "You may browse and use this website for lawful purposes. You must not attempt to disrupt the website, access it in unauthorised ways, scrape it at scale, or use it to send unlawful or harmful content." },
@@ -160,14 +160,14 @@ export const legalPages: LegalPage[] = [
   {
     slug: "cookie-policy",
     title: "Cookie Policy",
-    description: "Which cookies and browser storage priinteve.com uses, and how you can control them.",
+    description: "Which cookies and browser storage about.priinteve.com uses, and how you can control them.",
     intro: "This Cookie Policy explains what cookies are, what this website currently stores in your browser, and how you can control it.",
     sections: [
       { id: "what-are-cookies", heading: "1. What cookies are", body: [
         { p: "Cookies are small text files a website stores in your browser. Similar technologies, such as local storage and session storage, store small pieces of information in your browser in a similar way." },
       ] },
       { id: "what-we-use", heading: "2. What this website uses today", body: [
-        { p: "This website does not currently set any analytics, advertising or marketing cookies. It uses browser storage only for the following:" },
+        { p: "This website sets no advertising or marketing cookies. Analytics cookies are set only if you allow them. Otherwise it uses browser storage only for the following:" },
         { ul: [
           "Theme preference (local storage, key \"priinteve-theme\"): remembers whether you chose the light or dark theme.",
           "Intro animation (session storage, key \"priinteve-intro-seen\"): skips the opening animation for the rest of your visit. It is cleared when you close the tab.",
@@ -179,7 +179,7 @@ export const legalPages: LegalPage[] = [
           "Necessary: needed for the website to work and to keep it secure. Our hosting provider may use strictly necessary technical cookies or logs for security and performance.",
           "Necessary storage also covers your theme choice, the intro animation and your consent choice. It is always on.",
           "Media: allows embedded YouTube product videos to load. Off until you allow it in the banner or when you press play.",
-          "Analytics: help us understand how the website is used. Not used at present, and off until you allow it.",
+          "Analytics: Google Tag Manager and Google Analytics 4 help us understand how the website is used (the _ga cookies). Off until you allow it in the banner, and you can withdraw consent at any time in Cookie settings.",
           "Marketing: used to personalise advertising. Not used."
         ] },
       ] },
@@ -187,7 +187,7 @@ export const legalPages: LegalPage[] = [
         { p: "Product videos are embedded from YouTube in privacy-enhanced mode and load only when you click to play. Once you play a video, YouTube may set its own cookies under its own policy. Our product websites (VentaDot, Xerox Buddy, Salonly, Nectcard) have their own cookie policies and consent controls." },
       ] },
       { id: "control", heading: "5. Managing cookies and storage", body: [
-        { p: "You can delete or block cookies and site data in your browser settings at any time. Clearing site data for priinteve.com resets your theme choice. Blocking storage does not stop the website from working." },
+        { p: "You can delete or block cookies and site data in your browser settings at any time. Clearing site data for about.priinteve.com resets your theme choice. Blocking storage does not stop the website from working." },
         { p: "On your first visit a cookie banner asks for your choice. You can accept all, reject everything that isn't necessary, or choose category by category. You can change your choice at any time with the \"Cookie settings\" button in the website footer." },
       ] },
       { id: "contact", heading: "6. Contact", body: contactBlock },
@@ -234,8 +234,8 @@ export const legalPages: LegalPage[] = [
   {
     slug: "disclaimer",
     title: "Disclaimer",
-    description: "General disclaimer for information on priinteve.com, including product availability, pricing, third-party links and results.",
-    intro: `The information on priinteve.com is published by ${site.name} for general information about our company, products and services.`,
+    description: "General disclaimer for information on about.priinteve.com, including product availability, pricing, third-party links and results.",
+    intro: `The information on about.priinteve.com is published by ${site.name} for general information about our company, products and services.`,
     sections: [
       { id: "general", heading: "1. General information", body: [
         { p: "Content on this website is general information. It is not professional, legal, financial or tax advice. Consider your own circumstances and take appropriate advice before acting on it." },
@@ -270,7 +270,7 @@ export const legalPages: LegalPage[] = [
     slug: "accessibility",
     title: "Accessibility Statement",
     description: "Priinteve's commitment to an accessible website: keyboard navigation, readable contrast, reduced motion and responsive design.",
-    intro: "We want priinteve.com to be usable by as many people as possible, including people who use assistive technology, navigate by keyboard or prefer less motion.",
+    intro: "We want about.priinteve.com to be usable by as many people as possible, including people who use assistive technology, navigate by keyboard or prefer less motion.",
     sections: [
       { id: "approach", heading: "1. What we aim for", body: [
         { p: "This website is built to support:" },
@@ -288,7 +288,7 @@ export const legalPages: LegalPage[] = [
         { p: "We follow recognised accessibility practices while designing and building, but we have not had this website independently audited or certified against a standard such as WCAG. Some content, such as screenshots of our product websites and embedded videos, may not be fully accessible." },
       ] },
       { id: "products", heading: "3. Our product websites", body: [
-        { p: "Each Priinteve product has its own website. This statement covers priinteve.com. Accessibility feedback about a product is still welcome through the contact details below." },
+        { p: "Each Priinteve product has its own website. This statement covers about.priinteve.com. Accessibility feedback about a product is still welcome through the contact details below." },
       ] },
       { id: "feedback", heading: "4. Feedback and help", body: [
         { p: `If you find a part of this website difficult to use, or need information in a different format, email ${site.email} or call ${site.phone}. Tell us the page and the problem, and we'll work to fix it or provide the information another way.` },

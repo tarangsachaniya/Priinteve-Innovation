@@ -9,7 +9,7 @@ import { faqGroups } from "@/content/faq";
 import { contactPage } from "@/content/pages";
 import { products } from "@/content/products";
 import { CTA_TEXT, PROJECT_TYPES, site } from "@/content/site";
-import { breadcrumbLd, buildMetadata, faqLd, organizationLd } from "@/lib/seo";
+import { breadcrumbLd, buildMetadata, faqLd, graph, ORG_ID, organizationNode, pageNode } from "@/lib/seo";
 
 export const metadata = buildMetadata("/contact", contactPage.seo);
 
@@ -25,7 +25,7 @@ const contactFaqs = faqGroups.find((g) => g.id === "working")!.items;
 export default function ContactPage() {
   return (
     <>
-      <JsonLd data={[organizationLd, breadcrumbLd([{ name: "Contact", href: "/contact" }]), faqLd(contactFaqs)]} />
+      <JsonLd data={[graph(pageNode("ContactPage", "/contact", contactPage.seo.title, { mainEntity: { "@id": ORG_ID } }), organizationNode), breadcrumbLd([{ name: "Contact", href: "/contact" }]), faqLd(contactFaqs)]} />
       <PageHero trail={[{ name: "Contact" }]} h1={contactPage.h1} em="what you want to build" lead={CTA_TEXT} />
 
       <Section>

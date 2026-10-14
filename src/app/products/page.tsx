@@ -9,7 +9,7 @@ import { Badge, Button, DataTable, Faq, Section, SectionHead } from "@/component
 import { faqGroups } from "@/content/faq";
 import { productsPage } from "@/content/pages";
 import { products } from "@/content/products";
-import { breadcrumbLd, buildMetadata, faqLd } from "@/lib/seo";
+import { breadcrumbLd, buildMetadata, collectionPageLd, faqLd } from "@/lib/seo";
 
 export const metadata = buildMetadata("/products", productsPage.seo);
 
@@ -18,7 +18,7 @@ const productFaqs = faqGroups.find((g) => g.id === "products")!.items;
 export default function ProductsPage() {
   return (
     <>
-      <JsonLd data={[breadcrumbLd([{ name: "Products", href: "/products" }]), faqLd(productFaqs)]} />
+      <JsonLd data={[collectionPageLd("/products", productsPage.seo.title, products.map((p) => ({ name: p.name, href: `/products/${p.slug}` }))), breadcrumbLd([{ name: "Products", href: "/products" }]), faqLd(productFaqs)]} />
       <PageHero
         trail={[{ name: "Products" }]}
         h1={productsPage.h1}

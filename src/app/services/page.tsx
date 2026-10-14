@@ -9,9 +9,9 @@ import { PageHero } from "@/components/ui/page-hero";
 import { Button, Faq, Section, SectionHead } from "@/components/ui/primitives";
 import { faqGroups } from "@/content/faq";
 import { servicesPage } from "@/content/pages";
-import { serviceCategories } from "@/content/services";
+import { serviceCategories, services } from "@/content/services";
 import { projects } from "@/content/work";
-import { breadcrumbLd, buildMetadata, faqLd } from "@/lib/seo";
+import { breadcrumbLd, buildMetadata, collectionPageLd, faqLd } from "@/lib/seo";
 
 export const metadata = buildMetadata("/services", servicesPage.seo);
 
@@ -20,7 +20,7 @@ const serviceFaqs = ["websites", "ecommerce", "software", "nfc-qr", "ai"].map((i
 export default function ServicesPage() {
   return (
     <>
-      <JsonLd data={[breadcrumbLd([{ name: "Services", href: "/services" }]), faqLd(serviceFaqs)]} />
+      <JsonLd data={[collectionPageLd("/services", servicesPage.seo.title, services.map((s) => ({ name: s.name, href: `/services/${s.slug}` }))), breadcrumbLd([{ name: "Services", href: "/services" }]), faqLd(serviceFaqs)]} />
       <PageHero
         trail={[{ name: "Services" }]}
         h1={servicesPage.h1}

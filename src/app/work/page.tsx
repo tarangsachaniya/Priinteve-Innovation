@@ -10,7 +10,7 @@ import { Button, Section, SectionHead } from "@/components/ui/primitives";
 import { workPage } from "@/content/pages";
 import { getService } from "@/content/services";
 import { projects } from "@/content/work";
-import { breadcrumbLd, buildMetadata } from "@/lib/seo";
+import { breadcrumbLd, buildMetadata, collectionPageLd } from "@/lib/seo";
 
 export const metadata = buildMetadata("/work", workPage.seo);
 
@@ -25,7 +25,7 @@ const USED = [
 export default function WorkPage() {
   return (
     <>
-      <JsonLd data={breadcrumbLd([{ name: "Our Work", href: "/work" }])} />
+      <JsonLd data={[collectionPageLd("/work", workPage.seo.title, projects.map((p) => ({ name: p.name, href: `/work/${p.slug}` }))), breadcrumbLd([{ name: "Our Work", href: "/work" }])]} />
       <PageHero
         trail={[{ name: "Our Work" }]}
         h1={workPage.h1}
